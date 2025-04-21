@@ -1,47 +1,71 @@
 using UnityEngine;
 
-public class PlayerMove
+public class PlayerMove : MonoBehaviour
 {
-
-    private Rigidbody rb;
+    public Vector2 lastMove;
 
     [SerializeField]
+    private float moveSpeed;
+
+    private Rigidbody2D rb;
+    private Animator animator;
     private Vector2 position;
 
-    [SerializeField]
-    private float speed = 2.0f;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            position.y -= speed;
-        }
+        position = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            position.x += speed;
-        }
-
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            position.y -= speed;
-        }
-
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            position.x += speed;
-        }
-
-
+        Dash();
+        //Animate();
     }
 
+
+
+    private void FixedUpdate()
+    {
+        MovePlayer();
+    }
+
+
+
+    private void MovePlayer()
+    {
+        rb.MovePosition(rb.position + position * moveSpeed);
+    }
+
+    //public void Animate()
+    //{
+    //    if (Mathf.Abs(movement.x) > 0.5f)
+    //    {
+    //        lastMove.x = movement.x;
+    //        lastMove.y = 0;
+    //    }
+    //    if (Mathf.Abs(movement.y) > 0.5f)
+    //    {
+    //        lastMove.y = movement.y;
+    //        lastMove.x = 0;
+    //    }
+
+    //    animator.SetFloat("Dir_X", movement.x);
+    //    animator.SetFloat("Dir_Y", movement.y);
+    //    animator.SetFloat("LastMove_X", lastMove.x);
+    //    animator.SetFloat("LastMove_Y", lastMove.y);
+    //    animator.SetFloat("Input", movement.magnitude);
+    //}
+
+
+    private void Dash()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            moveSpeed = 1;
+        }
+    }
 
 }
