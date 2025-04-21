@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemyscript : MonoBehaviour
+public class Approachingenemy: MonoBehaviour
 {
     public float speed = 5f;            // 突っ込みスピード
     public int maxHP = 2;               // 最大HP
