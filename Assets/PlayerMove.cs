@@ -8,13 +8,13 @@ public class PlayerMove : MonoBehaviour
     private float moveSpeed;
 
     private Rigidbody2D rb;
-    private Animator animator;
+    //private Animator animator;
     private Vector2 position;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
 
     void Update()
