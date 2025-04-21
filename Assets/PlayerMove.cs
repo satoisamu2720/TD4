@@ -5,7 +5,7 @@ public class PlayerMove : MonoBehaviour
     public Vector2 lastMove;
 
     [SerializeField]
-    private float moveSpeed;
+    private float moveSpeed = 0.5f;
 
     private Rigidbody2D rb;
     //private Animator animator;
