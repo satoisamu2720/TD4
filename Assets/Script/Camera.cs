@@ -20,7 +20,7 @@ public class Camera : MonoBehaviour
     {
         cameraPos.x = target.transform.position.x;
         cameraPos.y = target.transform.position.y;
-        cameraPos.z = -10;
+        cameraPos.z = -15;
 
         this.transform.position = cameraPos;
 

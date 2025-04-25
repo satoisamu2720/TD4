@@ -9,9 +9,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private float moveSpeed;
     // リギドボディ2D
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     // 移動用変数
-    private Vector2 posMove;
+    private Vector2 movement;
 
     // ダッシュ機能フラグ
     [SerializeField]
@@ -31,15 +31,11 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        posMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Dash();
-        }
+
         //Animate();
 
-      
 
     }
 
@@ -50,10 +46,17 @@ public class PlayerMove : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (!isDash)
+
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
+
+
+
+        if (Input.GetKey(KeyCode.Space) && !isDash)
         {
-            rb.MovePosition(rb.position + posMove * moveSpeed);
+            StartCoroutine(Dash());
+
         }
+
     }
 
     //public void Animate()
@@ -81,7 +84,9 @@ public class PlayerMove : MonoBehaviour
     {
         isDash = true;
 
-        rb.MovePosition(rb.position + posMove* dashSpeed);
+        rb.MovePosition(rb.position + movement * dashSpeed * Time.deltaTime);
+
+        //rb.GetPointVelocity(movement * dashSpeed * Time.deltaTime);
 
         yield return new WaitForSeconds(dashDuration);
 
