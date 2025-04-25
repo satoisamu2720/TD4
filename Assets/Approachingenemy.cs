@@ -41,7 +41,7 @@ public class Approachingenemy: MonoBehaviour
             Die();
         }
     }
-
+        
     void Die()
     {
         if (itemPrefab != null)
