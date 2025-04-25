@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -18,9 +19,9 @@ public class PlayerMove : MonoBehaviour
     // ダッシュスピード
     [SerializeField]
     private float dashSpeed;
-    // ダッシュタイム
+    // ダッシュの再利用時間
     [SerializeField]
-    private float dashTime;
+    private float dashDuration;
 
     void Start()
     {
@@ -53,10 +54,6 @@ public class PlayerMove : MonoBehaviour
         {
             rb.MovePosition(rb.position + posMove * moveSpeed);
         }
-        else
-        {
-            rb.MovePosition(rb.position + posMove * dashSpeed);
-        }
     }
 
     //public void Animate()
@@ -80,16 +77,15 @@ public class PlayerMove : MonoBehaviour
     //}
 
 
-    private void Dash()
+    IEnumerator Dash()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            isDash = true;
-        }
-        
+        isDash = true;
 
+        rb.MovePosition(rb.position + posMove* dashSpeed);
 
+        yield return new WaitForSeconds(dashDuration);
 
+        isDash = false;
 
     }
 
