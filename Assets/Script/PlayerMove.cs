@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -14,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     private Vector2 posMove;
 
     // ダッシュ機能フラグ
+    [SerializeField]
     private bool isDash;
     // ダッシュスピード
     [SerializeField]
@@ -32,8 +32,14 @@ public class PlayerMove : MonoBehaviour
     {
         posMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        Dash();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Dash();
+        }
         //Animate();
+
+      
+
     }
 
     private void FixedUpdate()
@@ -43,7 +49,14 @@ public class PlayerMove : MonoBehaviour
 
     private void MovePlayer()
     {
-        rb.MovePosition(rb.position + posMove * moveSpeed);
+        if (!isDash)
+        {
+            rb.MovePosition(rb.position + posMove * moveSpeed);
+        }
+        else
+        {
+            rb.MovePosition(rb.position + posMove * dashSpeed);
+        }
     }
 
     //public void Animate()
@@ -73,10 +86,9 @@ public class PlayerMove : MonoBehaviour
         {
             isDash = true;
         }
+        
 
-        if (isDash) {
-            posMove = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        }
+
 
 
     }
