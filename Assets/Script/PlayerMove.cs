@@ -44,6 +44,11 @@ public class PlayerMove : MonoBehaviour
         MovePlayer();
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+    }
+
     private void MovePlayer()
     {
 
