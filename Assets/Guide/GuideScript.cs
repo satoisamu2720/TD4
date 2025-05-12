@@ -30,8 +30,8 @@ public class GuideScript:MonoBehaviour
 
             transform.position = new Vector2(
             //ˆÚ“®”ÍˆÍ‚ğ§ŒÀ‚·‚é
-            Mathf.Clamp(transform.position.x, -8.0f, 8.0f),
-            Mathf.Clamp(transform.position.y, -4.5f, 4.5f)
+            Mathf.Clamp(transform.position.x, -8.3f, 8.3f),
+            Mathf.Clamp(transform.position.y, -4.4f, 4.4f)
             );
         }
     }
