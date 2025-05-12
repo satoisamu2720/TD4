@@ -5,6 +5,10 @@ public class PlayerMove : MonoBehaviour
 {
     public Vector2 lastMove;
 
+    public LayerMask wallLayer;
+
+    private Vector2 dashDirection;
+
     //移動速度
     [SerializeField]
     private float moveSpeed;
@@ -22,6 +26,7 @@ public class PlayerMove : MonoBehaviour
     // ダッシュの再利用時間
     [SerializeField]
     private float dashDuration;
+    // 武器を取るかのフラグ
 
     void Start()
     {
@@ -33,10 +38,7 @@ public class PlayerMove : MonoBehaviour
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-
         //Animate();
-
-
     }
 
     private void FixedUpdate()
@@ -44,22 +46,33 @@ public class PlayerMove : MonoBehaviour
         MovePlayer();
     }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Weapon")
+        {
+            gameObject.SetActive(true);
+
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        if (isDash && collision.gameObject.tag == "block")
+        {
+            StopCoroutine("Dash");
+            rb.MovePosition(Vector2.zero);
+            isDash = false;
+            Debug.Log("壁でダッシュした。");
+        }
     }
 
     private void MovePlayer()
     {
-
         rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
 
-
-
-        if (Input.GetKey(KeyCode.Space) && !isDash)
+        if (Input.GetKeyDown(KeyCode.Space) && !isDash)
         {
             StartCoroutine(Dash());
-
         }
 
     }
@@ -89,9 +102,23 @@ public class PlayerMove : MonoBehaviour
     {
         isDash = true;
 
+        float elapsed = 0f;
+
+        while (elapsed < dashDuration)
+        {
+
+            // 壁が前にあるか確認（Raycast）
+            RaycastHit2D hit = Physics2D.Raycast(rb.position, dashDirection, 0.3f, wallLayer);
+            if (hit.collider != null)
+            {
+                Debug.Log("壁にぶつかってダッシュ停止");
+                break;
+            }
+        }
+
         rb.MovePosition(rb.position + movement * dashSpeed * Time.deltaTime);
 
-        //rb.GetPointVelocity(movement * dashSpeed * Time.deltaTime);
+        elapsed += Time.fixedDeltaTime;
 
         yield return new WaitForSeconds(dashDuration);
 
