@@ -4,6 +4,7 @@ public class GuideScript:MonoBehaviour
 {
     [SerializeField]
     public GameObject target; // 対象のGameObjectへの参照
+    public GameObject Camera; // 稼働領域
     public float speed = 1f;            // 突っ込みスピード
     public int maxHP = 2;               // 最大HP
     private int currentHP;              // 現在のHP
@@ -30,8 +31,8 @@ public class GuideScript:MonoBehaviour
 
             transform.position = new Vector2(
             //移動範囲を制限する
-            Mathf.Clamp(transform.position.x, -8.3f, 8.3f),
-            Mathf.Clamp(transform.position.y, -4.4f, 4.4f)
+            Mathf.Clamp(transform.position.x, Camera.transform.position.x - 8.3f, Camera.transform.position.x + 8.3f),
+            Mathf.Clamp(transform.position.y, Camera.transform.position.y - 4.4f, Camera.transform.position.y + 4.4f)
             );
         }
     }
