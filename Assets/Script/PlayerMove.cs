@@ -38,6 +38,8 @@ public class PlayerMove : MonoBehaviour
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+        Debug.DrawRay(rb.position, dashDirection * 0.1f, Color.red, 0.1f);
+
         //Animate();
     }
 
@@ -102,23 +104,7 @@ public class PlayerMove : MonoBehaviour
     {
         isDash = true;
 
-        float elapsed = 0f;
-
-        while (elapsed < dashDuration)
-        {
-
-            // 壁が前にあるか確認（Raycast）
-            RaycastHit2D hit = Physics2D.Raycast(rb.position, dashDirection, 0.3f, wallLayer);
-            if (hit.collider != null)
-            {
-                Debug.Log("壁にぶつかってダッシュ停止");
-                break;
-            }
-        }
-
         rb.MovePosition(rb.position + movement * dashSpeed * Time.deltaTime);
-
-        elapsed += Time.fixedDeltaTime;
 
         yield return new WaitForSeconds(dashDuration);
 
