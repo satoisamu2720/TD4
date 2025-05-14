@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    [SerializeField]
     public Vector2 lastMove;
 
     public LayerMask wallLayer;
@@ -38,8 +39,6 @@ public class PlayerMove : MonoBehaviour
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        Debug.DrawRay(rb.position, dashDirection * 0.1f, Color.red, 0.1f);
-
         //Animate();
     }
 
@@ -52,7 +51,13 @@ public class PlayerMove : MonoBehaviour
     {
         if (collision.gameObject.name == "Weapon")
         {
-            gameObject.SetActive(true);
+            //gameObject.SetActive(true);
+
+            if(collision.gameObject.tag == "Weapon")
+            {
+
+            }
+
 
         }
     }
@@ -72,10 +77,12 @@ public class PlayerMove : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isDash)
+        if (Input.GetKey(KeyCode.Space) && !isDash)
         {
             StartCoroutine(Dash());
         }
+
+        lastMove = movement;
 
     }
 
