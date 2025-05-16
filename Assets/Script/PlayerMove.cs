@@ -67,13 +67,13 @@ public class PlayerMove : MonoBehaviour
             //gameObject.SetActive(true);
             Debug.Log("G‚ê‚Ä‚¢‚é");
 
-
             // ‘SƒŠƒXƒg‚ğæ“¾
             List<string> myWeapons = WeaponLogger.GetAll();
             foreach (string weapon in myWeapons)
             {
                 Debug.Log("Š’†: " + weapon);
             }
+
 
         }
 
