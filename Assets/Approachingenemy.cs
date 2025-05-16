@@ -4,7 +4,7 @@ public class Approachingenemy : MonoBehaviour
 {
     public float speed = 5f;
     public int maxHP = 2;
-    public float rushDistance = 3f;       // 1‰ñ‚Ì“Ëi‹——£
+    public float rushDistance = 5f;       // 1‰ñ‚Ì“Ëi‹——£
     public float waitTime = 1.5f;         // ‘Ò‹@ŠÔ
     public GameObject itemPrefab;
 

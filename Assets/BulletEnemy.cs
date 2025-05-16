@@ -38,9 +38,12 @@ public class ShootEnemy : MonoBehaviour
         {
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             Vector2 direction = (player.position - transform.position).normalized;
-            bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 5f; 
+            bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 5f;
+
+            Destroy(bullet, 5f);
         }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
