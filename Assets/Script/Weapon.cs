@@ -3,8 +3,8 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
 
-    [SerializeField]
-    public string ID;
+    //[SerializeField]
+    private string ID;
 
     public void SetID(string id)
     {

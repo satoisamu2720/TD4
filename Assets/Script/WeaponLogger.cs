@@ -9,9 +9,10 @@ public class WeaponLogger : MonoBehaviour
     //if文等で使える
     public static int Count => parts.Count;
 
-    public static bool Contains(string CheckStarPieceID)
+    // 指定したIDがリストに含まれているか確認
+    public static bool Contains(string CheckWeaponID)
     {
-        return parts.Contains(CheckStarPieceID);
+        return parts.Contains(CheckWeaponID);
     }
 
     public static void Clear()
@@ -20,15 +21,16 @@ public class WeaponLogger : MonoBehaviour
         parts.Clear();
     }
 
-    public static void Add(string GetStarPieceID)
+    // 新しい武器IDを追加（既にある場合はスキップ）
+    public static void Add(string GetWeaponID)
     {
-        if (Contains(GetStarPieceID))
+        if (Contains(GetWeaponID))
         {
-            //取得状態は追加するタイミングでもチェック!
+            // 既に取得済みの武器IDは追加しない
             return;
         }
         // //ゲットしたアイテムを記録
-        parts.Add(GetStarPieceID);
+        parts.Add(GetWeaponID);
         Debug.Log(parts.Count);
     }
 }

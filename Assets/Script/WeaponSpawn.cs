@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WeaponSpawn : MonoBehaviour
 {
-    [SerializeField] List<ItemCount> enemyCounts;
+    [SerializeField] List<WeaponCount> weaponCounts;
 
     private List<GameObject> spawnedItem = new List<GameObject>();   // 生成済みの敵のリスト
 
@@ -16,36 +16,36 @@ public class WeaponSpawn : MonoBehaviour
         //this.weapon = FindObjectOfType<Weapon>(); // インスタンス化
 
         // 初期配置
-        SpawnItems();
+        SpawnWeapon();
     }
 
-    private void SpawnItems()
+    private void SpawnWeapon()
     {
         for (int i = 0; i < 5; i++)
         {
-            ItemGenerator(enemyCounts[i]);
+            ItemGenerator(weaponCounts[i]);
         }
     }
 
-    private void ItemGenerator(ItemCount data)
+    private void ItemGenerator(WeaponCount data)
     {
         if (data.isSpawn)
         {
-            foreach (Vector3 p in data.pos)
+            foreach (Vector2 p in data.pos)
             {
                 // 敵を生成してリストに追加する
-                GameObject itemObj = Instantiate(data.itemPrefabs, p, data.rot);
-                spawnedItem.Add(itemObj);
+                GameObject weaponObj = Instantiate(data.itemPrefabs, p, data.rot);
+                spawnedItem.Add(weaponObj);
                 this.weapon = GetComponent<Weapon>(); // インスタンス化
                 weapon.SetID(data.ID);
-                itemObj.SetActive(true);
+                weaponObj.SetActive(true);
             }
         }
     }
 
     public void SpawnItem()
     {
-        SpawnItems();
+        SpawnWeapon();
     }
 
     public List<GameObject> GetSpawnedItem()
@@ -54,9 +54,9 @@ public class WeaponSpawn : MonoBehaviour
     }
 
     [System.Serializable]
-    public class ItemCount
+    public class WeaponCount
     {
-        public enum Item
+        public enum Weapon
         {
             Item0,
             Item1,
@@ -67,8 +67,8 @@ public class WeaponSpawn : MonoBehaviour
             // これがラベルになる
         }
 
-        public Item item;
-        public List<Vector3> pos;
+        public Weapon item;
+        public List<Vector2> pos;
         public Quaternion rot;
         public GameObject itemPrefabs;
         public string ID;
