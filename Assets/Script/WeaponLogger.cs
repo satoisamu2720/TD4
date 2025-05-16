@@ -33,4 +33,10 @@ public class WeaponLogger : MonoBehaviour
         parts.Add(GetWeaponID);
         Debug.Log(parts.Count);
     }
+
+    public static List<string> GetAll()
+    {
+        return new List<string>(parts); // 外部からはコピーを渡す（安全）
+    }
+
 }

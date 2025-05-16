@@ -21,13 +21,13 @@ public class WeaponSpawn : MonoBehaviour
 
     private void SpawnWeapon()
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 1; i++)
         {
-            ItemGenerator(weaponCounts[i]);
+            WeaponGenerator(weaponCounts[i]);
         }
     }
 
-    private void ItemGenerator(WeaponCount data)
+    private void WeaponGenerator(WeaponCount data)
     {
         if (data.isSpawn)
         {
@@ -58,12 +58,12 @@ public class WeaponSpawn : MonoBehaviour
     {
         public enum Weapon
         {
-            Item0,
-            Item1,
-            Item2,
-            Item3,
-            Item4,
-            Item5,
+            Weapon0,
+            Weapon1,
+            Weapon2,
+            Weapon3,
+            Weapon4,
+            Weapon5,
             // ‚±‚ê‚ªƒ‰ƒxƒ‹‚É‚È‚é
         }
 

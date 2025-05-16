@@ -1,12 +1,12 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using static WeaponSpawn.WeaponCount;
 
 public class PlayerMove : MonoBehaviour
 {
     [SerializeField]
     public Vector2 lastMove;
-
-    public LayerMask wallLayer;
 
     private Vector2 dashDirection;
 
@@ -49,16 +49,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Weapon")
-        {
-            //gameObject.SetActive(true);
-
-            if(collision.gameObject.tag == "Weapon")
-            {
-
-            }
-
-        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -70,6 +61,22 @@ public class PlayerMove : MonoBehaviour
             isDash = false;
             Debug.Log("壁でダッシュした。");
         }
+
+        if (collision.gameObject.tag == "Weapon")
+        {
+            //gameObject.SetActive(true);
+            Debug.Log("触れている");
+
+
+            // 全リストを取得
+            List<string> myWeapons = WeaponLogger.GetAll();
+            foreach (string weapon in myWeapons)
+            {
+                Debug.Log("所持中: " + weapon);
+            }
+
+        }
+
     }
 
     private void MovePlayer()
@@ -82,6 +89,12 @@ public class PlayerMove : MonoBehaviour
         }
 
         lastMove = movement;
+
+    }
+
+    private void Weapon()
+    {
+
 
     }
 
