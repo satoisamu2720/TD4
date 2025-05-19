@@ -10,13 +10,16 @@ public class Weapon : MonoBehaviour
         ID = id;
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            WeaponLogger.Add(ID);
-            Debug.Log("ç~ÇÍÇΩ");
-            Destroy(this.gameObject);
+            if (Input.GetKey(KeyCode.F))
+            {
+                WeaponLogger.Add(ID);
+                Debug.Log("ç~ÇÍÇΩ");
+                Destroy(this.gameObject);
+            }
         }
     }
 }

@@ -54,13 +54,13 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isDash && collision.gameObject.tag == "block")
-        {
-            StopCoroutine("Dash");
-            rb.MovePosition(Vector2.zero);
-            isDash = false;
-            Debug.Log("壁でダッシュした。");
-        }
+        //if (isDash && collision.gameObject.tag == "block")
+        //{
+        //    StopCoroutine("Dash");
+        //    rb.MovePosition(Vector2.zero);
+        //    isDash = false;
+        //    Debug.Log("壁でダッシュした。");
+        //}
 
         if (collision.gameObject.tag == "Weapon")
         {
