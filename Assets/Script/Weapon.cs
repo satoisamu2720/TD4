@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    //[SerializeField]
+    [SerializeField]
     private string ID;
 
     public void SetID(string id)

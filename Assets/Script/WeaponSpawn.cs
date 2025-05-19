@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class WeaponSpawn : MonoBehaviour
 {
-    [SerializeField] List<WeaponCount> weaponCounts;
+    [SerializeField] List<WeaponCount> weaponCounts ;
 
     private List<GameObject> spawnedItem = new List<GameObject>();   // 生成済みの敵のリスト
 
@@ -25,6 +25,13 @@ public class WeaponSpawn : MonoBehaviour
         {
             WeaponGenerator(weaponCounts[i]);
         }
+
+        if (weaponCounts == null || weaponCounts.Count == 0 || weaponCounts[0] == null)
+        {
+            Debug.LogError("weaponCounts[0] が null または設定されていません。");
+            return;
+        }
+
     }
 
     private void WeaponGenerator(WeaponCount data)
@@ -36,8 +43,8 @@ public class WeaponSpawn : MonoBehaviour
                 // 敵を生成してリストに追加する
                 GameObject weaponObj = Instantiate(data.itemPrefabs, p, data.rot);
                 spawnedItem.Add(weaponObj);
-                this.weapon = GetComponent<Weapon>(); // インスタンス化
-                weapon.SetID(data.ID);
+                //this.weapon = GetComponent<Weapon>(); // インスタンス化
+                //weapon.SetID(data.ID);
                 weaponObj.SetActive(true);
             }
         }

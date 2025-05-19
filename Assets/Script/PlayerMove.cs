@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static WeaponSpawn.WeaponCount;
 
@@ -39,17 +40,14 @@ public class PlayerMove : MonoBehaviour
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+        Weapon();
+
         //Animate();
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
-    }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -62,6 +60,7 @@ public class PlayerMove : MonoBehaviour
         //    Debug.Log("壁でダッシュした。");
         //}
 
+
         if (collision.gameObject.tag == "Weapon")
         {
             //gameObject.SetActive(true);
@@ -73,8 +72,6 @@ public class PlayerMove : MonoBehaviour
             {
                 Debug.Log("所持中: " + weapon);
             }
-
-
         }
 
     }
@@ -94,8 +91,10 @@ public class PlayerMove : MonoBehaviour
 
     private void Weapon()
     {
-
-
+        if (WeaponLogger.Contains("gun"))
+        {
+            Debug.Log("その武器を持っています！");
+        }
     }
 
     //public void Animate()
