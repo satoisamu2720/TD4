@@ -25,13 +25,6 @@ public class WeaponSpawn : MonoBehaviour
         {
             WeaponGenerator(weaponCounts[i]);
         }
-
-        if (weaponCounts == null || weaponCounts.Count == 0 || weaponCounts[0] == null)
-        {
-            Debug.LogError("weaponCounts[0] ‚ª null ‚Ü‚½‚Íİ’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB");
-            return;
-        }
-
     }
 
     private void WeaponGenerator(WeaponCount data)

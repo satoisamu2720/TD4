@@ -924,6 +924,7 @@ GameObject:
   - component: {fileID: 298406287}
   - component: {fileID: 298406288}
   - component: {fileID: 298406289}
+  - component: {fileID: 298406290}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1013,12 +1014,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c7366d22594a66498f8532ecfab17cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastMove: {x: 0, y: 0}
-  moveSpeed: 5
-  rb: {fileID: 298406288}
-  isDash: 0
-  dashSpeed: 90
-  dashDuration: 1
 --- !u!50 &298406288
 Rigidbody2D:
   serializedVersion: 5
@@ -1092,6 +1087,24 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &298406290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298406284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1337398705de7c24584486fbdb98b063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainWeapon: {fileID: 0}
+  moveSpeed: 2
+  rb: {fileID: 298406288}
+  isDash: 0
+  dashSpeed: 8
+  dashDuration: 1
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1401,39 +1414,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponCounts:
-  - item: 0
+  - weapon: 0
     pos:
     - {x: -2, y: -2}
     rot: {x: 0, y: 0, z: 0, w: 0}
-    itemPrefabs: {fileID: 9033882052818525266, guid: 9122d331823252644b357573efed25bd, type: 3}
+    weaponPrefabs: {fileID: 9033882052818525266, guid: 9122d331823252644b357573efed25bd, type: 3}
     ID: gun
     isSpawn: 1
-  - item: 0
+  - weapon: 0
     pos:
     - {x: -2, y: -2}
     rot: {x: 0, y: 0, z: 0, w: 0}
-    itemPrefabs: {fileID: 9033882052818525266, guid: 9122d331823252644b357573efed25bd, type: 3}
+    weaponPrefabs: {fileID: 0}
     ID: gun
     isSpawn: 1
-  - item: 0
+  - weapon: 0
     pos:
     - {x: -2, y: -2}
     rot: {x: 0, y: 0, z: 0, w: 0}
-    itemPrefabs: {fileID: 9033882052818525266, guid: 9122d331823252644b357573efed25bd, type: 3}
+    weaponPrefabs: {fileID: 0}
     ID: gun
     isSpawn: 1
-  - item: 0
+  - weapon: 0
     pos:
     - {x: -2, y: -2}
     rot: {x: 0, y: 0, z: 0, w: 0}
-    itemPrefabs: {fileID: 9033882052818525266, guid: 9122d331823252644b357573efed25bd, type: 3}
+    weaponPrefabs: {fileID: 0}
     ID: gun
     isSpawn: 1
-  - item: 0
+  - weapon: 0
     pos:
     - {x: -2, y: -2}
     rot: {x: 0, y: 0, z: 0, w: 0}
-    itemPrefabs: {fileID: 9033882052818525266, guid: 9122d331823252644b357573efed25bd, type: 3}
+    weaponPrefabs: {fileID: 0}
     ID: gun
     isSpawn: 1
 --- !u!4 &1816194377

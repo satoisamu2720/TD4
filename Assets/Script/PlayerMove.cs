@@ -6,13 +6,11 @@ using static WeaponSpawn.WeaponCount;
 
 public class PlayerMove : MonoBehaviour
 {
-    //[SerializeField]
-    //public Vector2 lastMove;
-
-    private Vector2 dashDirection;
 
     [SerializeField]
-    private WeaponSpawn weaponSpawn;
+    private GameObject mainWeapon;
+    //[SerializeField]
+    //private GameObject subWeapon;
 
     //ˆÚ“®‘¬“x
     [SerializeField]
@@ -103,7 +101,7 @@ public class PlayerMove : MonoBehaviour
 
     public void WeaponObj(GameObject WeaponObj)
     {
-
+        mainWeapon = WeaponObj;
 
 
     }
