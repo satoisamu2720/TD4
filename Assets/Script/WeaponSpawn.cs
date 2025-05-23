@@ -41,7 +41,7 @@ public class WeaponSpawn : MonoBehaviour
             foreach (Vector2 p in data.pos)
             {
                 // 敵を生成してリストに追加する
-                GameObject weaponObj = Instantiate(data.itemPrefabs, p, data.rot);
+                GameObject weaponObj = Instantiate(data.weaponPrefabs, p, data.rot);
                 spawnedItem.Add(weaponObj);
                 //this.weapon = GetComponent<Weapon>(); // インスタンス化
                 //weapon.SetID(data.ID);
@@ -74,10 +74,10 @@ public class WeaponSpawn : MonoBehaviour
             // これがラベルになる
         }
 
-        public Weapon item;
+        public Weapon weapon;
         public List<Vector2> pos;
         public Quaternion rot;
-        public GameObject itemPrefabs;
+        public GameObject weaponPrefabs;
         public string ID;
         public bool isSpawn;
     }

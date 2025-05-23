@@ -17,6 +17,7 @@ public class Weapon : MonoBehaviour
             if (Input.GetKey(KeyCode.F))
             {
                 WeaponLogger.Add(ID);
+                
                 Debug.Log("ç~ÇÍÇΩ");
                 Destroy(this.gameObject);
             }

@@ -6,10 +6,13 @@ using static WeaponSpawn.WeaponCount;
 
 public class PlayerMove : MonoBehaviour
 {
-    [SerializeField]
-    public Vector2 lastMove;
+    //[SerializeField]
+    //public Vector2 lastMove;
 
     private Vector2 dashDirection;
+
+    [SerializeField]
+    private WeaponSpawn weaponSpawn;
 
     //移動速度
     [SerializeField]
@@ -66,12 +69,9 @@ public class PlayerMove : MonoBehaviour
             //gameObject.SetActive(true);
             Debug.Log("触れている");
 
-            // 全リストを取得
-            List<string> myWeapons = WeaponLogger.GetAll();
-            foreach (string weapon in myWeapons)
-            {
-                Debug.Log("所持中: " + weapon);
-            }
+
+
+
         }
 
     }
@@ -85,7 +85,7 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(Dash());
         }
 
-        lastMove = movement;
+        //lastMove = movement;
 
     }
 
@@ -94,7 +94,18 @@ public class PlayerMove : MonoBehaviour
         if (WeaponLogger.Contains("gun"))
         {
             Debug.Log("その武器を持っています！");
+
+
+
+
         }
+    }
+
+    public void WeaponObj(GameObject WeaponObj)
+    {
+
+
+
     }
 
     //public void Animate()
