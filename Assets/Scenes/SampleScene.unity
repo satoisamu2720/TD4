@@ -292,6 +292,8 @@ MonoBehaviour:
       _remainExp: 0
       _minLevel: 0
       _level: 1
+  ExpBox: 0
+  ExpBox2: 0
 --- !u!4 &638211508
 Transform:
   m_ObjectHideFlags: 0
