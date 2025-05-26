@@ -3,25 +3,35 @@ using UnityEngine;
 public class nWayBullet : MonoBehaviour
 {
     public GameObject Bullet;
-    public float _Velocity_0 = 5f;      // 弾の速度
-    public float Degree = 60f;          // 扇状角度
-    public int Angle_Sprite = 5;        // 弾の本数
-    public Transform player;            // プレイヤーのTransform（Inspectorで指定）
-    public float fireCooldown = 1f;     // クールタイム（秒）
+    public float _Velocity_0 = 5f;        // 弾の速度
+    public float Degree = 60f;            // 扇状角度
+    public int Angle_Sprite = 5;          // 弾の本数
+    public Transform player;              // プレイヤーのTransform
+    public float fireCooldown = 1f;       // 発射間隔
+    public float followDistance = 5f;     // プレイヤーとの距離を保つ
+    public float moveSpeed = 2f;          // 敵の移動速度
 
     private float fireTimer = 0f;
 
     void Update()
     {
-        // 自機を左右に動かすテスト用
-        Vector2 pos = transform.position;
-        pos.x += 0.1f * Input.GetAxisRaw("Horizontal");
-        transform.position = pos;
+        if (player == null) return;
 
-        // クールタイム更新
+        // 距離を保ちながらプレイヤーに近づく・離れる
+        Vector2 directionToPlayer = player.position - transform.position;
+        float distance = directionToPlayer.magnitude;
+
+        if (Mathf.Abs(distance - followDistance) > 0.1f) // 距離がズレていたら調整
+        {
+            Vector2 moveDir = directionToPlayer.normalized;
+            float moveStep = moveSpeed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, player.position - (Vector3)(moveDir * followDistance), moveStep);
+        }
+
+        // 発射クールタイムのカウント
         fireTimer -= Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.Space) && fireTimer <= 0f)
+        if (fireTimer <= 0f)
         {
             FireNWays();
             fireTimer = fireCooldown; // クールタイムリセット
@@ -30,13 +40,8 @@ public class nWayBullet : MonoBehaviour
 
     void FireNWays()
     {
-        // プレイヤーの方向ベクトルを取得
         Vector2 direction = (player.position - transform.position).normalized;
-
-        // 角度に変換
         float baseAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        // 左端の弾の発射角を計算
         float startAngle = baseAngle - Degree / 2f;
 
         for (int i = 0; i < Angle_Sprite; i++)
