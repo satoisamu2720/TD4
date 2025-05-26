@@ -9,6 +9,10 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField]
     private GameObject mainWeapon;
+
+    [SerializeField]
+    private Transform mainWeaponPos;
+
     //[SerializeField]
     //private GameObject subWeapon;
 
@@ -53,23 +57,11 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //if (isDash && collision.gameObject.tag == "block")
-        //{
-        //    StopCoroutine("Dash");
-        //    rb.MovePosition(Vector2.zero);
-        //    isDash = false;
-        //    Debug.Log("壁でダッシュした。");
-        //}
-
-
+       
         if (collision.gameObject.tag == "Weapon")
         {
             //gameObject.SetActive(true);
             Debug.Log("触れている");
-
-
-
-
         }
 
     }
@@ -82,9 +74,6 @@ public class PlayerMove : MonoBehaviour
         {
             StartCoroutine(Dash());
         }
-
-        //lastMove = movement;
-
     }
 
     private void Weapon()
@@ -93,16 +82,14 @@ public class PlayerMove : MonoBehaviour
         {
             Debug.Log("その武器を持っています！");
 
-
-
-
         }
     }
 
-    public void WeaponObj(GameObject WeaponObj)
+    public void WeaponObj(GameObject weaponObj)
     {
-        mainWeapon = WeaponObj;
+        //mainWeapon = WeaponObj;
 
+        mainWeapon = Instantiate(weaponObj, mainWeaponPos.position, Quaternion.identity, mainWeaponPos);
 
     }
 
