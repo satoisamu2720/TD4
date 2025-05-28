@@ -29,7 +29,9 @@ public class PlayerMove : MonoBehaviour
     // ダッシュの再利用時間
     [SerializeField]
     private float dashDuration;
-    // 武器を取るかのフラグ
+    // HP
+    [SerializeField]
+    private int HP;
 
     void Start()
     {
@@ -66,8 +68,6 @@ public class PlayerMove : MonoBehaviour
         {
             //gameObject.SetActive(true);
             Debug.Log("触れている");
-
-
 
 
         }
