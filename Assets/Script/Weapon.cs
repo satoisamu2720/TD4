@@ -6,6 +6,8 @@ public class Weapon : MonoBehaviour
     [SerializeField]
     private string ID;
 
+    public GameObject weaponPrefab;
+
     private void Start()
     {
         PlayerMove playerMove = GetComponent<PlayerMove>();

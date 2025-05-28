@@ -1100,6 +1100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainWeapon: {fileID: 0}
+  mainWeaponPos: {fileID: 8315464510357757875, guid: 961ca374b34a61c409d763b79c9e6e29, type: 3}
   moveSpeed: 2
   rb: {fileID: 298406288}
   isDash: 0
