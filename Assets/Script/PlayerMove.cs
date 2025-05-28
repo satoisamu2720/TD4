@@ -9,8 +9,9 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField]
     private GameObject mainWeapon;
-    //[SerializeField]
-    //private GameObject subWeapon;
+
+    [SerializeField]
+    private Transform mainWeaponPos;
 
     //ˆÚ“®‘¬“x
     [SerializeField]
@@ -99,9 +100,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void WeaponObj(GameObject WeaponObj)
+    public void WeaponObj(GameObject weaponObj)
     {
-        mainWeapon = WeaponObj;
+        mainWeapon = Instantiate(weaponObj, mainWeaponPos.position, Quaternion.identity, mainWeaponPos);
 
 
     }
