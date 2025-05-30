@@ -61,6 +61,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Invincible();
         //Animate();
     }
 
@@ -78,19 +79,22 @@ public class PlayerMove : MonoBehaviour
             Debug.Log("êGÇÍÇƒÇ¢ÇÈ");
         }
 
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("EnemyBullet"))
         {
+
             if (!isInvincible)
             {
                 HP--;
+                StartInvincibility();
 
-              
             }
 
+            Debug.Log("ìñÇΩÇ¡ÇΩ");
             //Destroy(collision.gameObject);
         }
     }
@@ -162,24 +166,21 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// ñ≥ìGéûä‘Ç∆ì_ñ≈ÇÃèàóù
-    /// </summary>
     private void Invincible()
     {
         if (isInvincible)
+    {
+        invincibilityTimer -= Time.deltaTime;
+
+        float alpha = Mathf.PingPong(Time.time * 10f, 1f);
+        spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // ê‘ì_ñ≈
+
+        if (invincibilityTimer <= 0f)
         {
-            invincibilityTimer -= Time.deltaTime;
-
-            float alpha = Mathf.PingPong(Time.time * 10f, 1f);
-            spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // ê‘ì_ñ≈
-
-            if (invincibilityTimer <= 0f)
-            {
-                isInvincible = false;
-                spriteRenderer.color = originColor;
-            }
+            isInvincible = false;
+            spriteRenderer.color = originColor;
         }
+    }
     }
 
 }
