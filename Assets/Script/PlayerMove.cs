@@ -39,6 +39,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private int HP;
 
+    private GameObject currentWeapon;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -91,16 +93,21 @@ public class PlayerMove : MonoBehaviour
 
     public void WeaponObj(GameObject weaponObj)
     {
-        if (!isMainWeapon) { 
-        mainWeapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
-        }
+        GameObject weapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
 
-        if (isMainWeapon)
+        if (!isMainWeapon)
         {
-            subWeapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
+            if (mainWeapon != null) Destroy(mainWeapon);
+            mainWeapon = weapon;
+            currentWeapon = mainWeapon;
+        }
+        else
+        {
+            if (subWeapon != null) Destroy(subWeapon);
+            subWeapon = weapon;
         }
 
-
+        ActivateCurrentWeapon();
     }
 
     //public void Animate()
@@ -136,4 +143,27 @@ public class PlayerMove : MonoBehaviour
 
     }
 
+    private void SwitchWeapon()
+    {
+        if (mainWeapon == null || subWeapon == null) return;
+
+        if (currentWeapon == mainWeapon)
+        {
+            currentWeapon = subWeapon;
+        }
+        else
+        {
+            currentWeapon = mainWeapon;
+        }
+
+        ActivateCurrentWeapon();
+    }
+
+    private void ActivateCurrentWeapon()
+    {
+        if (mainWeapon != null) mainWeapon.SetActive(currentWeapon == mainWeapon);
+        if (subWeapon != null) subWeapon.SetActive(currentWeapon == subWeapon);
+    }
+
 }
+
