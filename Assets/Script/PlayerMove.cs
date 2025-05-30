@@ -53,6 +53,11 @@ public class PlayerMove : MonoBehaviour
 
         Weapon();
 
+        if (Input.GetKeyDown(KeyCode.Q)) // Qキーで切り替え
+        {
+            SwitchWeapon();
+        }
+
         //Animate();
     }
 
@@ -107,6 +112,7 @@ public class PlayerMove : MonoBehaviour
             subWeapon = weapon;
         }
 
+        isMainWeapon = !isMainWeapon; // 追加：次は逆のスロットに入れるよう切り替え
         ActivateCurrentWeapon();
     }
 

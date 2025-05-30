@@ -5,9 +5,10 @@ public class WeaponSpawn : MonoBehaviour
 {
     [SerializeField] List<WeaponCount> weaponCounts ;
 
-    private List<GameObject> spawnedItem = new List<GameObject>();   // 生成済みの敵のリスト
 
-    private Weapon weapon;
+    private int weaponCount;
+
+    private List<GameObject> spawnedItem = new List<GameObject>();   // 生成済みの武器のリスト
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,7 @@ public class WeaponSpawn : MonoBehaviour
 
     private void SpawnWeapon()
     {
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < weaponCounts.Count; i++)
         {
             WeaponGenerator(weaponCounts[i]);
         }
