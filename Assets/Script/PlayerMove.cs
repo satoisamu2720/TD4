@@ -39,18 +39,28 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private int HP;
 
+    // 無敵時間の長さ
+    [SerializeField]
+    private float invincibilityDuration = 2f;
+    private bool isInvincible = false;
+    // 無敵時間の残り時間
+    private float invincibilityTimer = 0f;
+
+    private SpriteRenderer spriteRenderer;
+    //　元のカラー
+    private Color originColor;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         //animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originColor = spriteRenderer.color;
     }
 
     void Update()
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-
-        Weapon();
-
         //Animate();
     }
 
@@ -61,13 +71,28 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-       
+
         if (collision.gameObject.tag == "Weapon")
         {
             //gameObject.SetActive(true);
             Debug.Log("触れている");
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("EnemyBullet"))
+        {
+            if (!isInvincible)
+            {
+                HP--;
+
+              
+            }
+
+            //Destroy(collision.gameObject);
+        }
     }
 
     private void MovePlayer()
@@ -80,19 +105,10 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void Weapon()
-    {
-        if (WeaponLogger.Contains("gun"))
-        {
-            Debug.Log("その武器を持っています！");
-
-        }
-    }
-
     public void WeaponObj(GameObject weaponObj)
     {
-        if (!isMainWeapon) { 
-        mainWeapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
+        if (!isMainWeapon) {
+            mainWeapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
         }
 
         if (isMainWeapon)
@@ -134,6 +150,36 @@ public class PlayerMove : MonoBehaviour
 
         isDash = false;
 
+    }
+
+    /// <summary>
+    /// 無敵時間の開始
+    /// </summary>
+    private void StartInvincibility()
+    {
+        isInvincible = true;
+        invincibilityTimer = invincibilityDuration;
+
+    }
+
+    /// <summary>
+    /// 無敵時間と点滅の処理
+    /// </summary>
+    private void Invincible()
+    {
+        if (isInvincible)
+        {
+            invincibilityTimer -= Time.deltaTime;
+
+            float alpha = Mathf.PingPong(Time.time * 10f, 1f);
+            spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // 赤点滅
+
+            if (invincibilityTimer <= 0f)
+            {
+                isInvincible = false;
+                spriteRenderer.color = originColor;
+            }
+        }
     }
 
 }
