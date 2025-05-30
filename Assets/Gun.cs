@@ -19,7 +19,7 @@ public class Gun : MonoBehaviour
         currentAmmo = maxAmmo;
     }
 
-
+    //
 
     void Shoot()
     {
