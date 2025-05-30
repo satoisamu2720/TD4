@@ -1,9 +1,22 @@
 using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static WeaponSpawn.WeaponCount;
 
 public class PlayerMove : MonoBehaviour
 {
-    public Vector2 lastMove;
+
+    [SerializeField]
+    private GameObject mainWeapon;
+
+    [SerializeField]
+    private GameObject subWeapon;
+
+    [SerializeField]
+    private Transform weaponPos;
+
+    private bool isMainWeapon;
 
     //移動速度
     [SerializeField]
@@ -22,6 +35,9 @@ public class PlayerMove : MonoBehaviour
     // ダッシュの再利用時間
     [SerializeField]
     private float dashDuration;
+    // HP
+    [SerializeField]
+    private int HP;
 
     void Start()
     {
@@ -33,10 +49,9 @@ public class PlayerMove : MonoBehaviour
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
+        Weapon();
 
         //Animate();
-
-
     }
 
     private void FixedUpdate()
@@ -44,18 +59,47 @@ public class PlayerMove : MonoBehaviour
         MovePlayer();
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+       
+        if (collision.gameObject.tag == "Weapon")
+        {
+            //gameObject.SetActive(true);
+            Debug.Log("触れている");
+        }
+
+    }
+
     private void MovePlayer()
     {
-
         rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
-
-
 
         if (Input.GetKey(KeyCode.Space) && !isDash)
         {
             StartCoroutine(Dash());
+        }
+    }
+
+    private void Weapon()
+    {
+        if (WeaponLogger.Contains("gun"))
+        {
+            Debug.Log("その武器を持っています！");
 
         }
+    }
+
+    public void WeaponObj(GameObject weaponObj)
+    {
+        if (!isMainWeapon) { 
+        mainWeapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
+        }
+
+        if (isMainWeapon)
+        {
+            subWeapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
+        }
+
 
     }
 
@@ -85,8 +129,6 @@ public class PlayerMove : MonoBehaviour
         isDash = true;
 
         rb.MovePosition(rb.position + movement * dashSpeed * Time.deltaTime);
-
-        //rb.GetPointVelocity(movement * dashSpeed * Time.deltaTime);
 
         yield return new WaitForSeconds(dashDuration);
 
