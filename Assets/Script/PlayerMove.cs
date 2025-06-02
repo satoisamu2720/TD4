@@ -52,7 +52,7 @@ public class PlayerMove : MonoBehaviour
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        Weapon();
+        //Weapon();
 
         if (Input.GetKeyDown(KeyCode.Q)) // Qキーで切り替え
         {
@@ -88,14 +88,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void Weapon()
-    {
-        if (WeaponLogger.Contains("gun"))
-        {
-            Debug.Log("その武器を持っています！");
+    //private void Weapon()
+    //{
+    //    if (WeaponLogger.Contains("gun"))
+    //    {
+    //        Debug.Log("その武器を持っています！");
 
-        }
-    }
+    //    }
+    //}
 
     public void WeaponObj(GameObject weaponObj)
     {
