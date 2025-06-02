@@ -26,6 +26,7 @@ public class PlayerMove : MonoBehaviour
     // 移動用変数
     private Vector2 movement;
 
+
     // ダッシュ機能フラグ
     [SerializeField]
     private bool isDash;
