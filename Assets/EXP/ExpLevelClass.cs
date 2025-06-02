@@ -5,6 +5,7 @@ using UnityEngine;
 
 
 [System.Serializable]
+
 public class ExpLevelClass
 {
     [SerializeField] int _exp;
@@ -46,4 +47,6 @@ public class ExpLevelClass
 
         _remainExp = expArray[minIdx] - _exp;
     }
+
+    
 }

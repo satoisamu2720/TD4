@@ -3,8 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class LevelUp : MonoBehaviour
 {
-    [SerializeField] ExpLevelClass levelClass;
+    public PlayerExp playerExp;
     [SerializeField] int _currentValue = 1;
+    [SerializeField] private string _LoadScene;
 
     public int CurrentValue => _currentValue;
 
@@ -17,13 +18,19 @@ public class LevelUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_currentValue != levelClass.Level)
+        if(_currentValue != playerExp.ExpLevel.Level)
         {
-            if(_currentValue > levelClass.Level)
+            if(_currentValue < playerExp.ExpLevel.Level)
             {
-                //SceneManager.LoadScene();
-                _currentValue = levelClass.Level;
+                ChangeScene();
+                //_currentValue = levelClass.Level;
             }
         }
     }
+
+    public void ChangeScene()
+    {
+        SceneManager.LoadScene(_LoadScene);
+    }
+
 }
