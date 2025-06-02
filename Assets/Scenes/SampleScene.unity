@@ -1100,12 +1100,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainWeapon: {fileID: 0}
-  mainWeaponPos: {fileID: 8315464510357757875, guid: 961ca374b34a61c409d763b79c9e6e29, type: 3}
-  moveSpeed: 2
+  subWeapon: {fileID: 0}
+  weaponPos: {fileID: 8315464510357757875, guid: 961ca374b34a61c409d763b79c9e6e29, type: 3}
+  moveSpeed: 5
   rb: {fileID: 298406288}
   isDash: 0
   dashSpeed: 8
   dashDuration: 1
+  HP: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -1422,33 +1424,12 @@ MonoBehaviour:
     weaponPrefabs: {fileID: 9033882052818525266, guid: 9122d331823252644b357573efed25bd, type: 3}
     ID: gun
     isSpawn: 1
-  - weapon: 0
+  - weapon: 1
     pos:
-    - {x: -2, y: -2}
+    - {x: -5, y: -4}
     rot: {x: 0, y: 0, z: 0, w: 0}
-    weaponPrefabs: {fileID: 0}
-    ID: gun
-    isSpawn: 1
-  - weapon: 0
-    pos:
-    - {x: -2, y: -2}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-    weaponPrefabs: {fileID: 0}
-    ID: gun
-    isSpawn: 1
-  - weapon: 0
-    pos:
-    - {x: -2, y: -2}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-    weaponPrefabs: {fileID: 0}
-    ID: gun
-    isSpawn: 1
-  - weapon: 0
-    pos:
-    - {x: -2, y: -2}
-    rot: {x: 0, y: 0, z: 0, w: 0}
-    weaponPrefabs: {fileID: 0}
-    ID: gun
+    weaponPrefabs: {fileID: 2838782740079102805, guid: ed6434da98e70d34fb500d2f227a3a35, type: 3}
+    ID: bbb
     isSpawn: 1
 --- !u!4 &1816194377
 Transform:
