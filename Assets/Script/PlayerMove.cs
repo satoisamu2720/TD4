@@ -61,7 +61,7 @@ public class PlayerMove : MonoBehaviour
             SwitchWeapon();
         }
 
-        PlayerDirection()
+        PlayerDirection();
 
         //Animate();
     }
