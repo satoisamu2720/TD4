@@ -24,7 +24,7 @@ public class ArrowNavigation : MonoBehaviour
     void Update()
     {
         if (target == null || cam == null)
-            return;
+            return; 
 
         Vector3 worldTarget = target.position + offsetAboveTarget;
 
