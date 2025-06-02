@@ -13,6 +13,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private GameObject subWeapon;
 
+
     [SerializeField]
     private Transform weaponPos;
 
@@ -25,7 +26,6 @@ public class PlayerMove : MonoBehaviour
     public Rigidbody2D rb;
     // 移動用変数
     private Vector2 movement;
-
 
     // ダッシュ機能フラグ
     [SerializeField]
@@ -40,8 +40,6 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private int HP;
 
-    private GameObject currentWeapon;
-
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -52,14 +50,7 @@ public class PlayerMove : MonoBehaviour
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-        //Weapon();
-
-        if (Input.GetKeyDown(KeyCode.Q)) // Qキーで切り替え
-        {
-            SwitchWeapon();
-        }
-
-        Playerdirection();
+        Weapon();
 
         //Animate();
     }
@@ -90,33 +81,27 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    //private void Weapon()
-    //{
-    //    if (WeaponLogger.Contains("gun"))
-    //    {
-    //        Debug.Log("その武器を持っています！");
+    private void Weapon()
+    {
+        if (WeaponLogger.Contains("gun"))
+        {
+            Debug.Log("その武器を持っています！");
 
-    //    }
-    //}
+        }
+    }
 
     public void WeaponObj(GameObject weaponObj)
     {
-        GameObject weapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
-
-        if (!isMainWeapon)
-        {
-            if (mainWeapon != null) Destroy(mainWeapon);
-            mainWeapon = weapon;
-            currentWeapon = mainWeapon;
-        }
-        else
-        {
-            if (subWeapon != null) Destroy(subWeapon);
-            subWeapon = weapon;
+        if (!isMainWeapon) { 
+        mainWeapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
         }
 
-        isMainWeapon = !isMainWeapon; // 追加：次は逆のスロットに入れるよう切り替え
-        ActivateCurrentWeapon();
+        if (isMainWeapon)
+        {
+            subWeapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
+        }
+
+
     }
 
     //public void Animate()
@@ -152,44 +137,4 @@ public class PlayerMove : MonoBehaviour
 
     }
 
-    private void SwitchWeapon()
-    {
-        if (mainWeapon == null || subWeapon == null) return;
-
-        if (currentWeapon == mainWeapon)
-        {
-            currentWeapon = subWeapon;
-        }
-        else
-        {
-            currentWeapon = mainWeapon;
-        }
-
-        ActivateCurrentWeapon();
-    }
-
-    private void ActivateCurrentWeapon()
-    {
-        if (mainWeapon != null) mainWeapon.SetActive(currentWeapon == mainWeapon);
-        if (subWeapon != null) subWeapon.SetActive(currentWeapon == subWeapon);
-    }
-
-    private void Playerdirection()
-    {
-        // マウスのスクリーン座標を取得してワールド座標に変換
-        Vector3 mousePosition = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0f; // 2DなのでZ座標は無視
-
-        // プレイヤーの位置からマウスの位置への方向ベクトルを取得
-        Vector3 direction = mousePosition - transform.position;
-
-        // 角度を計算（atan2はラジアンで返すので、Degに変換）
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        angle -= 90f; // 必要に応じて調整
-
-        // 回転をZ軸に対して適用
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
-    }
-
 }
-
