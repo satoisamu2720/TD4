@@ -18,7 +18,7 @@ public class Gun : MonoBehaviour
     {
         currentAmmo = maxAmmo;
     }
-    //
+    //  
     void Shoot()
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
