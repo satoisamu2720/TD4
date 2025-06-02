@@ -14,7 +14,7 @@ public class ArrowNavigation : MonoBehaviour
     public float snapDistance = 0.05f; // バウンド開始と判断する距離
 
     private Camera cam;
-    private bool isSnapped = false;
+    private bool isSnapped = false; 
 
     void Start()
     {
