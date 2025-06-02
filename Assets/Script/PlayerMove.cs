@@ -152,6 +152,7 @@ public class PlayerMove : MonoBehaviour
 
         isDash = false;
 
+
     }
 
     private void SwitchWeapon()
