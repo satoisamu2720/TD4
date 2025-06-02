@@ -12,7 +12,11 @@ public class nWayBullet : MonoBehaviour
     public int maxShotsBeforeReload = 3;  // 何回撃ったらリロードするか
     public float followDistance = 5f;     // プレイヤーとの距離を保つ
     public float moveSpeed = 2f;          // 敵の移動速度
+    public int maxHP = 2;
+    public GameObject itemPrefab;
 
+
+    private int currentHP;
     private float fireTimer = 0f;
     private int shotCount = 0;
     private bool isReloading = false;
@@ -58,6 +62,25 @@ public class nWayBullet : MonoBehaviour
                 reloadTimer = reloadTime;
             }
         }
+    }
+
+    void TakeDamage(int damage)
+    {
+        currentHP -= damage;
+        if (currentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+
+    void Die()
+    {
+        if (itemPrefab != null)
+        {
+            Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        }
+        Destroy(gameObject);
     }
 
     void FireNWays()
