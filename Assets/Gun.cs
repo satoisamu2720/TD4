@@ -2,13 +2,14 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    public GameObject bulletPrefab;
+    public GameObject bulletPrefab; 
     public Transform firePoint;
     public float bulletSpeed = 5f;
     public float fireInterval = 0f;
 
     public int maxAmmo = 7;
     public float reloadTime = 2f;
+    
 
     private int currentAmmo;
     private float timer;
@@ -18,9 +19,7 @@ public class Gun : MonoBehaviour
     {
         currentAmmo = maxAmmo;
     }
-
     //
-
     void Shoot()
     {
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
