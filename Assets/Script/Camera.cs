@@ -2,31 +2,21 @@ using UnityEngine;
 
 public class Camera : MonoBehaviour
 {
-
-    public GameObject target;
+    [SerializeField]
+    private Transform target;  // 追いかける対象（プレイヤーなど）
 
     [SerializeField]
-    private Vector3 cameraPos;
+    private Vector3 offset = new Vector3(0f, 0f, -15f); // カメラの位置のずれ
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField, Range(0.01f, 1f)]
+    private float smoothSpeed = 0.125f; // 遅延のスピード（小さいとゆっくり追従）
+
+    void LateUpdate()
     {
-        cameraPos = target.transform.position;
-        cameraPos.z = -10;
+        if (target == null) return;
+
+        Vector3 desiredPosition = target.position + offset;
+        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+        transform.position = smoothedPosition;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        cameraPos.x = target.transform.position.x;
-        cameraPos.y = target.transform.position.y;
-        cameraPos.z = -15;
-
-        this.transform.position = cameraPos;
-
-
-    }
-
-
-
 }

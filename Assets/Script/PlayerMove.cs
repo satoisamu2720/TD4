@@ -40,14 +40,23 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private int HP;
 
-    public bool isWeapon = false;
+    // 無敵時間の長さ
+    [SerializeField]
+    private float invincibilityDuration = 2f;
+    private bool isInvincible = false;
+    // 無敵時間の残り時間
+    private float invincibilityTimer = 0f;
 
-    private GameObject currentWeapon;
+    private SpriteRenderer spriteRenderer;
+    //　元のカラー
+    private Color originColor;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         //animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originColor = spriteRenderer.color;
     }
 
     void Update()
@@ -80,6 +89,24 @@ public class PlayerMove : MonoBehaviour
             Debug.Log("触れている");
         }
 
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("EnemyBullet"))
+        {
+
+            if (!isInvincible)
+            {
+                HP--;
+                StartInvincibility();
+
+            }
+
+            Debug.Log("当たった");
+            //Destroy(collision.gameObject);
+        }
     }
 
     private void MovePlayer()
@@ -91,15 +118,6 @@ public class PlayerMove : MonoBehaviour
             StartCoroutine(Dash());
         }
     }
-
-    //private void Weapon()
-    //{
-    //    if (WeaponLogger.Contains("gun"))
-    //    {
-    //        Debug.Log("その武器を持っています！");
-
-    //    }
-    //}
 
     public void WeaponObj(GameObject weaponObj)
     {
@@ -152,7 +170,33 @@ public class PlayerMove : MonoBehaviour
 
         isDash = false;
 
+    }
 
+    /// <summary>
+    /// 無敵時間の開始
+    /// </summary>
+    private void StartInvincibility()
+    {
+        isInvincible = true;
+        invincibilityTimer = invincibilityDuration;
+
+    }
+
+    private void Invincible()
+    {
+        if (isInvincible)
+    {
+        invincibilityTimer -= Time.deltaTime;
+
+        float alpha = Mathf.PingPong(Time.time * 10f, 1f);
+        spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // 赤点滅
+
+        if (invincibilityTimer <= 0f)
+        {
+            isInvincible = false;
+            spriteRenderer.color = originColor;
+        }
+    }
     }
 
     private void SwitchWeapon()
