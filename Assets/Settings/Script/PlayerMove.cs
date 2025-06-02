@@ -12,7 +12,7 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField]
     private GameObject subWeapon;
-
+     
     [SerializeField]
     private Transform weaponPos;
 
