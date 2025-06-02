@@ -40,6 +40,8 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private int HP;
 
+    public bool isWeapon = false;
+
     private GameObject currentWeapon;
 
     void Start()
@@ -59,6 +61,8 @@ public class PlayerMove : MonoBehaviour
             SwitchWeapon();
         }
 
+        PlayerDirection()
+
         //Animate();
     }
 
@@ -69,7 +73,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-       
+
         if (collision.gameObject.tag == "Weapon")
         {
             //gameObject.SetActive(true);
@@ -168,8 +172,32 @@ public class PlayerMove : MonoBehaviour
 
     private void ActivateCurrentWeapon()
     {
-        if (mainWeapon != null) mainWeapon.SetActive(currentWeapon == mainWeapon);
-        if (subWeapon != null) subWeapon.SetActive(currentWeapon == subWeapon);
+        if (mainWeapon != null)
+        {
+            mainWeapon.SetActive(currentWeapon == mainWeapon);
+            isWeapon = true;
+        }
+        if (subWeapon != null)
+        {
+            subWeapon.SetActive(currentWeapon == subWeapon);
+        }
+    }
+
+    private void PlayerDirection()
+    {
+        // マウスのスクリーン座標を取得してワールド座標に変換
+        Vector3 mousePosition = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.z = 0f; // 2DなのでZ座標は無視
+
+        // プレイヤーの位置からマウスの位置への方向ベクトルを取得
+        Vector3 direction = mousePosition - transform.position;
+
+        // 角度を計算（atan2はラジアンで返すので、Degに変換）
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        angle -= 90f; // 必要に応じて調整
+
+        // 回転をZ軸に対して適用
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
 }
