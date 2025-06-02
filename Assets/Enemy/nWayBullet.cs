@@ -8,10 +8,15 @@ public class nWayBullet : MonoBehaviour
     public int Angle_Sprite = 5;          // 弾の本数
     public Transform player;              // プレイヤーのTransform
     public float fireCooldown = 1f;       // 発射間隔
+    public float reloadTime = 3f;         // リロード時間
+    public int maxShotsBeforeReload = 3;  // 何回撃ったらリロードするか
     public float followDistance = 5f;     // プレイヤーとの距離を保つ
     public float moveSpeed = 2f;          // 敵の移動速度
 
     private float fireTimer = 0f;
+    private int shotCount = 0;
+    private bool isReloading = false;
+    private float reloadTimer = 0f;
 
     void Update()
     {
@@ -21,20 +26,37 @@ public class nWayBullet : MonoBehaviour
         Vector2 directionToPlayer = player.position - transform.position;
         float distance = directionToPlayer.magnitude;
 
-        if (Mathf.Abs(distance - followDistance) > 0.1f) // 距離がズレていたら調整
+        if (Mathf.Abs(distance - followDistance) > 0.1f)
         {
             Vector2 moveDir = directionToPlayer.normalized;
             float moveStep = moveSpeed * Time.deltaTime;
             transform.position = Vector3.MoveTowards(transform.position, player.position - (Vector3)(moveDir * followDistance), moveStep);
         }
 
-        // 発射クールタイムのカウント
+        if (isReloading)
+        {
+            reloadTimer -= Time.deltaTime;
+            if (reloadTimer <= 0f)
+            {
+                isReloading = false;
+                shotCount = 0;
+            }
+            return; // リロード中は発射できない
+        }
+
         fireTimer -= Time.deltaTime;
 
         if (fireTimer <= 0f)
         {
             FireNWays();
-            fireTimer = fireCooldown; // クールタイムリセット
+            fireTimer = fireCooldown;
+            shotCount++;
+
+            if (shotCount >= maxShotsBeforeReload)
+            {
+                isReloading = true;
+                reloadTimer = reloadTime;
+            }
         }
     }
 
