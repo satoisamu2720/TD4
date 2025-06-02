@@ -38,7 +38,11 @@ public class PlayerMove : MonoBehaviour
     private float dashDuration;
     // HP
     [SerializeField]
-    private int HP;
+    public int HP;
+
+    private GameObject currentWeapon;
+
+    public bool isWeapon = false;
 
     // –³“GŽžŠÔ‚Ì’·‚³
     [SerializeField]
