@@ -747,10 +747,11 @@ MonoBehaviour:
   weaponPos: {fileID: 8315464510357757875, guid: 961ca374b34a61c409d763b79c9e6e29, type: 3}
   moveSpeed: 4
   rb: {fileID: 1108414624}
-  isDash: 1
+  isDash: 0
   dashSpeed: 90
-  dashDuration: 0
+  dashDuration: 1
   HP: 10
+  isWeapon: 0
 --- !u!1001 &2034663364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -979,9 +980,25 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2030022341567815632, guid: 21481315d725b7548b7e8088cc9c45b9, type: 3}
+      propertyPath: maxHP
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2030022341567815632, guid: 21481315d725b7548b7e8088cc9c45b9, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 1108414627}
+    - target: {fileID: 2030022341567815632, guid: 21481315d725b7548b7e8088cc9c45b9, type: 3}
+      propertyPath: itemPrefab
+      value: 
+      objectReference: {fileID: 8442228131798896307, guid: 978a81747381cc043896e181a9f0fb69, type: 3}
+    - target: {fileID: 2030022341567815632, guid: 21481315d725b7548b7e8088cc9c45b9, type: 3}
+      propertyPath: fireCooldown
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2030022341567815632, guid: 21481315d725b7548b7e8088cc9c45b9, type: 3}
+      propertyPath: maxShotsBeforeReload
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6051433699905526401, guid: 21481315d725b7548b7e8088cc9c45b9, type: 3}
       propertyPath: m_SortingOrder
       value: 2
@@ -1098,6 +1115,10 @@ PrefabInstance:
     - target: {fileID: 7958995097061912362, guid: fe3634488a41c4a4b91367cde8e48dbd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9094282653799586781, guid: fe3634488a41c4a4b91367cde8e48dbd, type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
