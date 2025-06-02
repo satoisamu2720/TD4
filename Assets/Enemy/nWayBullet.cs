@@ -17,7 +17,7 @@ public class nWayBullet : MonoBehaviour
     private int shotCount = 0;
     private bool isReloading = false;
     private float reloadTimer = 0f;
-
+     
     void Update()
     {
         if (player == null) return;
