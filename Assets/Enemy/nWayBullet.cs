@@ -3,15 +3,15 @@ using UnityEngine;
 public class nWayBullet : MonoBehaviour
 {
     public GameObject Bullet;
-    public float _Velocity_0 = 5f;        // 弾の速度
-    public float Degree = 60f;            // 扇状角度
-    public int Angle_Sprite = 5;          // 弾の本数
-    public Transform player;              // プレイヤーのTransform
-    public float fireCooldown = 1f;       // 発射間隔
-    public float reloadTime = 3f;         // リロード時間
-    public int maxShotsBeforeReload = 3;  // 何回撃ったらリロードするか
-    public float followDistance = 5f;     // プレイヤーとの距離を保つ
-    public float moveSpeed = 2f;          // 敵の移動速度
+    public float _Velocity_0 = 5f;        
+    public float Degree = 60f;            
+    public int Angle_Sprite = 5;          
+    public Transform player;              
+    public float fireCooldown = 1f;       
+    public float reloadTime = 3f;         
+    public int maxShotsBeforeReload = 3;  
+    public float followDistance = 5f;     
+    public float moveSpeed = 2f;          
     public int maxHP = 2;
     public GameObject itemPrefab;
 
