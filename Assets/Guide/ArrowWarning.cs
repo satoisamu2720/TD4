@@ -50,8 +50,8 @@ public class ArrowWarning : MonoBehaviour
         Vector2 direction = (target.position - transform.position).normalized;
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         float currentAngle = transform.eulerAngles.z;
-        float angle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        //float angle = Mathf.MoveTowardsAngle(currentAngle, targetAngle, rotationSpeed * Time.deltaTime);
+        transform.rotation = Quaternion.Euler(0, 0, 90f);
 
         // ëOêi
         Vector2 moveDirection = transform.right;
