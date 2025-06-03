@@ -3,15 +3,18 @@ using UnityEngine;
 public class NPCInteraction : MonoBehaviour
 {
     public TextBoxController textBox;
+    private bool TextFlag = false;
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && Input.GetKeyUp(KeyCode.Space))
+        if (other.CompareTag("Player")&& !TextFlag)
         {
+            TextFlag = true;
             string[] lines = {
-                "こんにちは、旅人さん。",
-                "この村には不思議な噂があるんだ。",
-                "気をつけていくんだよ。",                
+                "Fキーで話や物を調べられる",
+                "WSADで移動できる",
+                "矢印の方向にいってみて",
+                "幸運を祈ってる",
             };
             textBox.ShowMessages(lines);
         }
