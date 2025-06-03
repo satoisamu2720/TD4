@@ -23,12 +23,12 @@ public class TutorialStepController : MonoBehaviour
             currentStep++;
             if (currentStep < tutorialTargets.Length)
             {
-                Debug.Log("Switching to target step: " + currentStep);
+                //Debug.Log("Switching to target step: " + currentStep);
                 arrowNavigation.SetTarget(tutorialTargets[currentStep]);
             }
             else
             {
-                Debug.Log("Tutorial completed.");
+                //Debug.Log("Tutorial completed.");
                 arrowNavigation.SetTarget(null); // –îˆó”ñ•\Ž¦
             }
         }

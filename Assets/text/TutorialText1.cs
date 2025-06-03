@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NPCInteraction : MonoBehaviour
+public class TutorialText1 : MonoBehaviour
 {
     public TextBoxController textBox;
     private bool TextFlag = false;
