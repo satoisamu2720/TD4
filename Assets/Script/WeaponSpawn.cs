@@ -40,6 +40,12 @@ public class WeaponSpawn : MonoBehaviour
                 //this.weapon = GetComponent<Weapon>(); // インスタンス化
                 //weapon.SetID(data.ID);
                 weaponObj.SetActive(true);
+                // 描画の順番
+                SpriteRenderer sr = weaponObj.GetComponent<SpriteRenderer>();
+                if (sr != null)
+                {
+                    sr.sortingOrder = data.sortingOrder;
+                }
             }
         }
     }
@@ -72,6 +78,7 @@ public class WeaponSpawn : MonoBehaviour
         public List<Vector2> pos;
         public Quaternion rot;
         public GameObject weaponPrefabs;
+        public int sortingOrder = 0;
         public string ID;
         public bool isSpawn;
     }
