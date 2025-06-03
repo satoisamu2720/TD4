@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class Gun : MonoBehaviour
@@ -15,6 +16,9 @@ public class Gun : MonoBehaviour
     private float timer;
     private bool isReloading = false;
 
+    [SerializeField]
+    private TextMeshProUGUI ammoText;
+
     void Start()
     {
         currentAmmo = maxAmmo;
@@ -22,17 +26,6 @@ public class Gun : MonoBehaviour
         PlayerMove playerMove = GetComponent<PlayerMove>();
 
     }
-    //  
-    void Shoot()
-    {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.linearVelocity = firePoint.right * bulletSpeed;
-
-        currentAmmo--;
-        Debug.Log("écíeêî : " + currentAmmo);
-    }
-
     void Update()
     {
 
@@ -41,8 +34,8 @@ public class Gun : MonoBehaviour
         if (Input.GetKey(KeyCode.T)) {
             Debug.Log("åªç›ÇÃÉtÉâÉOÇÕ: " + playerMove.isWeapon);
         }
-    
 
+        ammoText.text = "écÇËÇÃíeêî: " + maxAmmo;
 
         if(playerMove.isWeapon == true)
         {
@@ -87,6 +80,15 @@ public class Gun : MonoBehaviour
         
     }
 
+    void Shoot()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = firePoint.right * bulletSpeed;
+
+        currentAmmo--;
+        Debug.Log("écíeêî : " + currentAmmo);
+    }
 
     System.Collections.IEnumerator Reload()
     {

@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
-using static WeaponSpawn.WeaponCount;
+//using UnityEngine.UI;
+//using static WeaponSpawn.WeaponCount;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -38,7 +40,10 @@ public class PlayerMove : MonoBehaviour
     private float dashDuration;
     // HP
     [SerializeField]
-    public int HP;
+    private int HP;
+
+    [SerializeField] 
+    private TextMeshProUGUI hpText;
 
     private GameObject currentWeapon;
 
@@ -66,6 +71,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Invincible();
 
         //Weapon();
 
@@ -75,6 +81,8 @@ public class PlayerMove : MonoBehaviour
         }
 
         PlayerDirection();
+
+        hpText.text = "PlayerHP: " + HP;
 
         //Animate();
     }
