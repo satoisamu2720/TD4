@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         // Enemy タグのついたものに当たったらダメージ
         if (other.CompareTag("Enemy"))
         {
-            Enemy enemy = other.GetComponent<Enemy>();
+            Approachingenemy enemy = other.GetComponent<Approachingenemy>();
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);

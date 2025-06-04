@@ -99,16 +99,16 @@ public class Approachingenemy : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Bullet"))
-        {
-            TakeDamage(1);
-            Destroy(collision.gameObject);
-        }
-    }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("Bullet"))
+    //    {
+    //        TakeDamage(1);
+    //        Destroy(collision.gameObject);
+    //    }
+    //}
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currentHP -= damage;
         if (currentHP <= 0)
