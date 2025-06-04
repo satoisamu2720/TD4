@@ -36,7 +36,7 @@ public class Gun : MonoBehaviour
             Debug.Log("現在のフラグは: " + playerMove.isWeapon);
         }
 
-        ammoText.text = "残りの弾数: " + maxAmmo;
+        ammoText.text = "残りの弾数: " + currentAmmo;
 
         if (playerMove.isWeapon == true)
         {

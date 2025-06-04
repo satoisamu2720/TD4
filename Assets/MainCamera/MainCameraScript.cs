@@ -1,8 +1,8 @@
-using System;
 using UnityEngine;
 
-public class MainCameraScript : MonoBehaviour
+public class MainCameraScript: MonoBehaviour
 {
+
     [SerializeField]
     private Transform target;  // 追いかける対象（プレイヤーなど）
 

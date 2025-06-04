@@ -247,7 +247,7 @@ public class PlayerMove : MonoBehaviour
         if (mainWeapon != null)
         {
             mainWeapon.SetActive(currentWeapon == mainWeapon);
-            //isWeapon = true;
+            isWeapon = true;
         }
         if (subWeapon != null)
         {
