@@ -10,13 +10,13 @@ public class StetusScript : MonoBehaviour
     public int PlayerHp = 10;
     public int PlayerSpeed = 1;
     public int Bullet = 1;
-    public int Exp;
-    public int level;
+    //public int Exp;
+    public int level = 1;
 
     private void Update()
     {
-        Exp = playerExp.ExpLevel.Exp;
-        level = playerExp.ExpLevel.Level;
+        //Exp = playerExp.ExpLevel.Exp;
+        //level = playerExp.ExpLevel.Level;
     }
 
     private void Awake()
