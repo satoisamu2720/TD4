@@ -11,7 +11,7 @@ public class StetusScript : MonoBehaviour
     public int PlayerSpeed = 1;
     public int Bullet = 1;
     //public int Exp;
-    public int level;
+    public int level = 1;
 
     private void Update()
     {
