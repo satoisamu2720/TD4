@@ -7,8 +7,7 @@ public class StetusChange : MonoBehaviour
 
     [SerializeField] private string _LoadScene;
 
-    int currentHp = StetusScript.Instance.PlayerHp;
-
+    
     void Update()
     {
         if(Input.GetKey(KeyCode.Alpha1))
@@ -29,6 +28,27 @@ public class StetusChange : MonoBehaviour
             StetusScript.Instance.Bullet += 1;
             ChangeScene();
         }
+    }
+
+    public void OnAlpha1Button()
+    {
+        StetusScript.Instance.level += 1;
+        StetusScript.Instance.PlayerHp += 10;
+        ChangeScene();
+    }
+
+    public void OnAlpha2Button()
+    {
+        StetusScript.Instance.level += 1;
+        StetusScript.Instance.PlayerSpeed += 1;
+        ChangeScene();
+    }
+
+    public void OnAlpha3Button()
+    {
+        StetusScript.Instance.level += 1;
+        StetusScript.Instance.Bullet += 1;
+        ChangeScene();
     }
 
     public void ChangeScene()
