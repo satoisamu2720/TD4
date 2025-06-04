@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -7,6 +6,9 @@ public class Weapon : MonoBehaviour
     private string ID;
 
     public GameObject weaponPrefab;
+
+    // プレイヤーが武器を装備したかどうかのフラグ
+    private bool isWeaponEquipped = false;
 
     private void Start()
     {
@@ -22,13 +24,26 @@ public class Weapon : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (Input.GetKey(KeyCode.F))
+            // Fキーを押すことで武器を装備する
+            if (Input.GetKey(KeyCode.F) && !isWeaponEquipped)
             {
+                // 武器のIDをログに追加
                 WeaponLogger.Add(ID);
+
+                // プレイヤーが武器を装備
                 PlayerMove playerMove = other.GetComponent<PlayerMove>();
                 playerMove.WeaponObj(this.gameObject);
-                Debug.Log("降れた");
+
+                // 武器が装備されたことを記録
+                isWeaponEquipped = true;
+
+                Debug.Log("武器が装備されました");
+
+                // 武器を削除して消す
                 Destroy(this.gameObject);
+
+                // 武器を拾った後にチュートリアルを進める
+                TutorialStepController.Instance.ProgressToNextStep();
             }
         }
     }

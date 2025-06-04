@@ -36,11 +36,11 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private float dashSpeed;
     // ダッシュの再利用時間
-    [SerializeField]
-    private float dashDuration;
+    //[SerializeField]
+    //private float dashDuration;
     // HP
-    [SerializeField]
-    private int HP;
+    //[SerializeField]
+    //private int HP;
 
     [SerializeField]
     private TextMeshProUGUI hpText;
@@ -91,7 +91,8 @@ public class PlayerMove : MonoBehaviour
 
         PlayerDirection();
 
-        hpText.text = "PlayerHP: " + HP;
+        hpText.text = "PlayerHP: " + StetusScript.Instance.PlayerHp;
+
 
         //Animate();
     }
@@ -118,10 +119,11 @@ public class PlayerMove : MonoBehaviour
         {
 
             if (!isInvincible)
-            {
-                HP--;
-                StartInvincibility();
-            }
+{
+    StetusScript.Instance.PlayerHp--;
+    StartInvincibility();
+}
+
 
             Debug.Log("当たった");
             //Destroy(collision.gameObject);
@@ -191,7 +193,7 @@ public class PlayerMove : MonoBehaviour
 
         rb.MovePosition(rb.position + movement * dashSpeed * Time.deltaTime);
 
-        yield return new WaitForSeconds(dashDuration);
+        yield return new WaitForSeconds(StetusScript.Instance.PlayerSpeed);
 
         isDash = false;
 

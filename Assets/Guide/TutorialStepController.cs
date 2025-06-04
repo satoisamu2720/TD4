@@ -8,6 +8,13 @@ public class TutorialStepController : MonoBehaviour
     private int currentStep = 0;
 
     private static TutorialStepController instance;
+    public static TutorialStepController Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
 
     void Start()
     {
@@ -19,20 +26,10 @@ public class TutorialStepController : MonoBehaviour
 
     void Update()
     {
-        // Nキーで次の目的地へ強制的に切り替え
+        // Nキーで次の目的地に進む処理（そのまま残す）
         if (Input.GetKeyDown(KeyCode.N))
         {
-            currentStep++;
-            if (currentStep < tutorialTargets.Length)
-            {
-                Debug.Log("Switching to target step: " + currentStep);
-                arrowNavigation.SetTarget(tutorialTargets[currentStep]);
-            }
-            else
-            {
-                Debug.Log("Tutorial completed.");
-                arrowNavigation.SetTarget(null); // 矢印非表示
-            }
+            ProgressToNextStep();
         }
     }
 
@@ -46,6 +43,22 @@ public class TutorialStepController : MonoBehaviour
         else
         {
             Destroy(gameObject); // 2個目のカメラができたら破棄する
+        }
+    }
+
+    // チュートリアルステップを進めるメソッド
+    public void ProgressToNextStep()
+    {
+        currentStep++;
+        if (currentStep < tutorialTargets.Length)
+        {
+            Debug.Log("Switching to target step: " + currentStep);
+            arrowNavigation.SetTarget(tutorialTargets[currentStep]);
+        }
+        else
+        {
+            Debug.Log("Tutorial completed.");
+            arrowNavigation.SetTarget(null); // 矢印非表示
         }
     }
 }

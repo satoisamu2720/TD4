@@ -19,7 +19,7 @@ public class StetusChange : MonoBehaviour
         if (Input.GetKey(KeyCode.Alpha2))
         {
             StetusScript.Instance.level += 1;
-            StetusScript.Instance.PlayerSpeed += 1;
+            StetusScript.Instance.PlayerSpeed -= 0.1f;
             ChangeScene();
         }
         if (Input.GetKey(KeyCode.Alpha3))
@@ -40,7 +40,7 @@ public class StetusChange : MonoBehaviour
     public void OnAlpha2Button()
     {
         StetusScript.Instance.level += 1;
-        StetusScript.Instance.PlayerSpeed += 1;
+        StetusScript.Instance.PlayerSpeed -= 0.1f;
         ChangeScene();
     }
 

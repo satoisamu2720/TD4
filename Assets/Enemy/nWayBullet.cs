@@ -21,7 +21,8 @@ public class nWayBullet : MonoBehaviour
     private int shotCount = 0;
     private bool isReloading = false;
     private float reloadTimer = 0f;
-     
+
+    private static nWayBullet instance;
     void Update()
     {
         if (player == null) return;
@@ -100,6 +101,19 @@ public class nWayBullet : MonoBehaviour
             bulletCs.Velocity_0 = _Velocity_0;
 
             Destroy(bulletObj, 5f);
+        }
+    }
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); // 2å¬ñ⁄Ç™ê∂ê¨Ç≥ÇÍÇΩÇÁçÌèú
         }
     }
 }

@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("“–‚½‚Á‚½");
         if (other.CompareTag("ExpItem"))
