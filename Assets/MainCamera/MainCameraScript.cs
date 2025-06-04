@@ -35,6 +35,6 @@ public class MainCameraScript: MonoBehaviour
             Destroy(gameObject); // 2ŒÂ–Ú‚ÌƒJƒƒ‰‚ª‚Å‚«‚½‚ç”jŠü‚·‚é
         }
     }
-
+    
 
 }

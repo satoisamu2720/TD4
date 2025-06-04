@@ -1385,6 +1385,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4264673710641899829, guid: 6a57e014d7eb0d04e8df10d3efb631a8, type: 3}
+      propertyPath: _LoadScene
+      value: Stage1
+      objectReference: {fileID: 0}
     - target: {fileID: 6730063058102852705, guid: 6a57e014d7eb0d04e8df10d3efb631a8, type: 3}
       propertyPath: m_Name
       value: Manager

@@ -14,6 +14,7 @@ public class ArrowNavigation : MonoBehaviour
     private Camera cam;
     private bool isSnapped = false;
 
+    private static ArrowNavigation instance;
     void Start()
     {
         cam = Camera.main;
@@ -110,5 +111,18 @@ public class ArrowNavigation : MonoBehaviour
 
         // バウンド中以外のときのみ到達とみなす
         return !isSnapped && Vector3.Distance(transform.position, target.position + offsetAboveTarget) <= snapDistance;
+    }
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // これでシーンをまたいでも残る
+        }
+        else
+        {
+            Destroy(gameObject); // 2個目のカメラができたら破棄する
+        }
     }
 }

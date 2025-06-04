@@ -7,6 +7,8 @@ public class TutorialStepController : MonoBehaviour
 
     private int currentStep = 0;
 
+    private static TutorialStepController instance;
+
     void Start()
     {
         if (tutorialTargets.Length > 0)
@@ -31,6 +33,19 @@ public class TutorialStepController : MonoBehaviour
                 Debug.Log("Tutorial completed.");
                 arrowNavigation.SetTarget(null); // 矢印非表示
             }
+        }
+    }
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // これでシーンをまたいでも残る
+        }
+        else
+        {
+            Destroy(gameObject); // 2個目のカメラができたら破棄する
         }
     }
 }

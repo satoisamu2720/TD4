@@ -30,14 +30,6 @@ public class Player : MonoBehaviour
                 _currentValue = playerExp.ExpLevel.Level;
             }
         }
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            ExpBox += 10;
-            playerExp.AddExp(ExpBox);
-            ExpBox = ExpBox2;
-            ExpBox2 = 0;
-        }
     }
 
     public void ChangeScene()
@@ -46,16 +38,17 @@ public class Player : MonoBehaviour
     }
 
 
-    //public void Update()
-    //{
-    //    if (Input.GetKey(KeyCode.Space))
-    //    {
-    //        ExpBox += 10;
-    //        playerExp.AddExp(ExpBox);
-    //        ExpBox = ExpBox2;
-    //        ExpBox2 = 0;
-    //    }
-
-        
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("ìñÇΩÇ¡ÇΩ");
+        if (other.CompareTag("ExpItem"))
+        {
+            ExpItem item = other.GetComponent<ExpItem>();
+            if (item != null)
+            {
+                playerExp.AddExp(item.expAmount);
+                Destroy(other.gameObject); // ÉAÉCÉeÉÄÇè¡Ç∑
+            }
+        }
+    }
 }
