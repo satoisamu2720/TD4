@@ -11,9 +11,22 @@ public class StetusChange : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.K))
+        if(Input.GetKey(KeyCode.Alpha1))
         {
+            StetusScript.Instance.level += 1;
             StetusScript.Instance.PlayerHp += 10;
+            ChangeScene();
+        }
+        if (Input.GetKey(KeyCode.Alpha2))
+        {
+            StetusScript.Instance.level += 1;
+            StetusScript.Instance.PlayerSpeed += 1;
+            ChangeScene();
+        }
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            StetusScript.Instance.level += 1;
+            StetusScript.Instance.Bullet += 1;
             ChangeScene();
         }
     }
