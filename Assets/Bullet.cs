@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         // カメラのビューポート（0～1）外に出たら削除
-        Vector3 screenPoint = Camera.main.WorldToViewportPoint(transform.position);
+        Vector3 screenPoint = UnityEngine.Camera.main.WorldToViewportPoint(transform.position);
         if (screenPoint.x < 0 || screenPoint.x > 1 || screenPoint.y < 0 || screenPoint.y > 1)
         {
             Destroy(gameObject);

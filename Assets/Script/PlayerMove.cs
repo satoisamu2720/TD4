@@ -42,7 +42,7 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private int HP;
 
-    [SerializeField] 
+    [SerializeField]
     private TextMeshProUGUI hpText;
 
     private GameObject currentWeapon;
@@ -101,7 +101,6 @@ public class PlayerMove : MonoBehaviour
             Debug.Log("触れている");
         }
 
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -113,7 +112,6 @@ public class PlayerMove : MonoBehaviour
             {
                 HP--;
                 StartInvincibility();
-
             }
 
             Debug.Log("当たった");
@@ -137,13 +135,19 @@ public class PlayerMove : MonoBehaviour
 
         if (!isMainWeapon)
         {
-            if (mainWeapon != null) Destroy(mainWeapon);
+            if (mainWeapon != null)
+            {
+                Destroy(mainWeapon);
+            }
             mainWeapon = weapon;
             currentWeapon = mainWeapon;
         }
         else
         {
-            if (subWeapon != null) Destroy(subWeapon);
+            if (subWeapon != null)
+            {
+                Destroy(subWeapon);
+            }
             subWeapon = weapon;
         }
 
@@ -193,27 +197,35 @@ public class PlayerMove : MonoBehaviour
         invincibilityTimer = invincibilityDuration;
 
     }
-
+    /// <summary>
+    /// 無敵時間の処理と点滅の処理
+    /// </summary>
     private void Invincible()
     {
         if (isInvincible)
-    {
-        invincibilityTimer -= Time.deltaTime;
-
-        float alpha = Mathf.PingPong(Time.time * 10f, 1f);
-        spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // 赤点滅
-
-        if (invincibilityTimer <= 0f)
         {
-            isInvincible = false;
-            spriteRenderer.color = originColor;
+            invincibilityTimer -= Time.deltaTime;
+
+            float alpha = Mathf.PingPong(Time.time * 10f, 1f);
+            spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // 赤点滅
+
+            if (invincibilityTimer <= 0f)
+            {
+                isInvincible = false;
+                spriteRenderer.color = originColor;
+            }
         }
     }
-    }
 
+    /// <summary>
+    /// 武器の切り替え処理
+    /// </summary>
     private void SwitchWeapon()
     {
-        if (mainWeapon == null || subWeapon == null) return;
+        if (mainWeapon == null || subWeapon == null)
+        {
+            return;
+        }
 
         if (currentWeapon == mainWeapon)
         {
@@ -227,12 +239,15 @@ public class PlayerMove : MonoBehaviour
         ActivateCurrentWeapon();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     private void ActivateCurrentWeapon()
     {
         if (mainWeapon != null)
         {
             mainWeapon.SetActive(currentWeapon == mainWeapon);
-            isWeapon = true;
+            //isWeapon = true;
         }
         if (subWeapon != null)
         {
@@ -240,6 +255,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// マウスの位置にプレイヤーを向ける
+    /// </summary>
     private void PlayerDirection()
     {
         // マウスのスクリーン座標を取得してワールド座標に変換
