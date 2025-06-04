@@ -60,12 +60,21 @@ public class PlayerMove : MonoBehaviour
     //　元のカラー
     private Color originColor;
 
+    private static PlayerMove instance;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         //animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
+
+        // TextMeshProUGUI を再取得（タグや名前で探す）
+        if (hpText == null)
+        {
+            hpText = GameObject.Find("AmmoText")?.GetComponent<TextMeshProUGUI>();
+        }
+
     }
 
     void Update()
@@ -273,6 +282,19 @@ public class PlayerMove : MonoBehaviour
 
         // 回転をZ軸に対して適用
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); // 2個目が生成されたら削除
+        }
     }
 
 }

@@ -12,6 +12,8 @@ public class MainCameraScript: MonoBehaviour
     [SerializeField, Range(0.01f, 1f)]
     private float smoothSpeed = 0.125f; // 遅延のスピード（小さいとゆっくり追従）
 
+    private static MainCameraScript instance;
+
     void LateUpdate()
     {
         if (target == null) return;
@@ -20,4 +22,19 @@ public class MainCameraScript: MonoBehaviour
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         transform.position = smoothedPosition;
     }
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject); // これでシーンをまたいでも残る
+        }
+        else
+        {
+            Destroy(gameObject); // 2個目のカメラができたら破棄する
+        }
+    }
+
+
 }

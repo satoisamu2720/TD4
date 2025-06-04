@@ -16,6 +16,8 @@ public class Gun : MonoBehaviour
     private float timer;
     private bool isReloading = false;
 
+    private static Gun instance;
+
     [SerializeField]
     private TextMeshProUGUI ammoText;
 
@@ -25,18 +27,36 @@ public class Gun : MonoBehaviour
 
         PlayerMove playerMove = GetComponent<PlayerMove>();
 
+        // TextMeshProUGUI を再取得（タグや名前で探す）
+        if (ammoText == null)
+        {
+            ammoText = GameObject.Find("AmmoText")?.GetComponent<TextMeshProUGUI>();
+        }
+
     }
     void Update()
     {
 
         PlayerMove playerMove = GetComponent<PlayerMove>();
 
+        if (ammoText == null)
+        {
+            GameObject ammoObj = GameObject.Find("AmmoText");
+            if (ammoObj != null)
+            {
+                ammoText = ammoObj.GetComponent<TextMeshProUGUI>();
+            }
+        }
+
+        if (ammoText != null)
+        {
+            ammoText.text = "残りの弾数: " + currentAmmo;
+        }
+
         if (Input.GetKey(KeyCode.T))
         {
             Debug.Log("現在のフラグは: " + playerMove.isWeapon);
         }
-
-        ammoText.text = "残りの弾数: " + currentAmmo;
 
         if (playerMove.isWeapon == true)
         {
@@ -100,4 +120,18 @@ public class Gun : MonoBehaviour
         isReloading = false;
         Debug.Log("リロード完了！残弾数: " + currentAmmo);
     }
+
+    void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject); // 2個目を防ぐ
+        }
+    }
+
 }
