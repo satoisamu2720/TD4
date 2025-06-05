@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     [SerializeField] private string _LoadScene;
 
     public int CurrentValue => _currentValue;
+    public static bool IsNotMove { get; set; } = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,7 +35,9 @@ public class Player : MonoBehaviour
 
     public void ChangeScene()
     {
-        SceneManager.LoadScene(_LoadScene);
+        IsNotMove = true;
+        SceneManager.LoadScene(_LoadScene, LoadSceneMode.Additive);
+
     }
 
 

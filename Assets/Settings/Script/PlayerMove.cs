@@ -81,6 +81,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         if (TextBoxController.IsTalking) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
+        if (Player.IsNotMove) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Invincible();
 
@@ -93,9 +94,10 @@ public class PlayerMove : MonoBehaviour
 
         PlayerDirection();
 
-        hpText.text = "PlayerHP: " + StetusScript.Instance.PlayerHp;
+       
 
-        if (StetusScript.Instance.PlayerHp < 0) {
+        if (StetusScript.Instance.PlayerHp <= 0) {
+            StetusScript.Instance.PlayerHp = 10;
             SceneManager.LoadScene("GameOver");
         }
        

@@ -22,7 +22,7 @@ public class Approachingenemy : MonoBehaviour
     private Camera mainCamera;
     private RectTransform arrowInstance;
 
-    private static Approachingenemy instance;
+    //private static Approachingenemy instance;
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
@@ -41,6 +41,7 @@ public class Approachingenemy : MonoBehaviour
     void Update()
     {
         if (TextBoxController.IsTalking) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
+        if (Player.IsNotMove) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
         HandleStateMachine();
         HandleArrow();
     }
@@ -134,16 +135,16 @@ public class Approachingenemy : MonoBehaviour
         Destroy(gameObject);
     }
 
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject); // 2ŒÂ–Ú‚ª¶¬‚³‚ê‚½‚çíœ
-        }
-    }
+    //void Awake()
+    //{
+    //    if (instance == null)
+    //    {
+    //        instance = this;
+    //        DontDestroyOnLoad(gameObject);
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject); // 2ŒÂ–Ú‚ª¶¬‚³‚ê‚½‚çíœ
+    //    }
+    //}
 }

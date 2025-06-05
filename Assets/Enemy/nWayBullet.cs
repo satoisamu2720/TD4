@@ -27,6 +27,7 @@ public class nWayBullet : MonoBehaviour
     void Update()
     {
         if (TextBoxController.IsTalking) return; // 会話中は入力無効
+        if (Player.IsNotMove) return; // 会話中は入力無効
         if (player == null) return;
 
         // 距離を保ちながらプレイヤーに近づく・離れる
@@ -66,10 +67,7 @@ public class nWayBullet : MonoBehaviour
             }
         }
 
-        if (maxHP < 0)
-        {
-            SceneManager.LoadScene("GameClear");
-        }
+       
     }
 
     public void TakeDamage(int damage)
@@ -77,6 +75,7 @@ public class nWayBullet : MonoBehaviour
         currentHP -= damage;
         if (currentHP <= 0)
         {
+            SceneManager.LoadScene("GameClear");
             Die();
         }
     }

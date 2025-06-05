@@ -9,43 +9,53 @@ public class ObjectManager : MonoBehaviour
     // オブジェクトのリスト化
     [SerializeField]
     private GameObject[] objectKeep;
-
+    [SerializeField]
+    private GameObject[] sceneSpecificDestroyObjects;
     private bool isKeep;
+    private Dictionary<GameObject, bool> destroyedFlags = new();
 
     private void Awake()
     {
-
         if (!isKeep)
         {
-
             foreach (GameObject obj in objectKeep)
             {
                 DontDestroyOnLoad(obj);
             }
 
+            foreach (GameObject obj in sceneSpecificDestroyObjects)
+            {
+                DontDestroyOnLoad(obj);
+                destroyedFlags[obj] = false; // 初期化
+            }
+
             DontDestroyOnLoad(gameObject);
             isKeep = true;
+
+            SceneManager.sceneLoaded += SceneTransition;
         }
         else
         {
             Destroy(gameObject);
         }
-
-        // シーン切り替えのイベントに関数登録
-        SceneManager.sceneLoaded += SceneTransition;
-
     }
-
-    /// <summary>
-    /// シーン移動時
-    /// </summary>
+        /// <summary>
+        /// シーン移動時
+        /// </summary>
     private void SceneTransition(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Title") 
         {
             ResetObjects();
+        }else if (scene.name == "Stage1")// 
+        {
+            DestroySceneSpecificObjects();
         }
+    
     }
+
+
+
 
     /// <summary>
     /// オブジェクトのリセット
@@ -60,9 +70,17 @@ public class ObjectManager : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
-        isKeep = false;
+        foreach (var obj in sceneSpecificDestroyObjects)
+        {
+            if (obj != null)
+            {
+                Destroy(obj);
+            }
+        }
 
+        destroyedFlags.Clear();
+        isKeep = false;
+        Destroy(gameObject);
     }
 
     /// <summary>
@@ -71,6 +89,19 @@ public class ObjectManager : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= SceneTransition;
+       
+    }
+
+    private void DestroySceneSpecificObjects()
+    {
+        foreach (var obj in sceneSpecificDestroyObjects)
+        {
+            if (obj != null && !destroyedFlags[obj])
+            {
+                Destroy(obj);
+                destroyedFlags[obj] = true;
+            }
+        }
     }
 
 }

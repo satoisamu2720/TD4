@@ -53,6 +53,9 @@ public class StetusChange : MonoBehaviour
 
     public void ChangeScene()
     {
-        SceneManager.LoadScene(_LoadScene);
+        SceneTransitionManager.Instance.ReturnToStageScene();
+        Player.IsNotMove = false;
     }
+
+
 }

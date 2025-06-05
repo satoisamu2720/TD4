@@ -1,3 +1,4 @@
+Ôªøusing System;
 using UnityEngine;
 
 public class StetusScript : MonoBehaviour
@@ -6,10 +7,10 @@ public class StetusScript : MonoBehaviour
 
     public PlayerExp playerExp;
 
-    //ÉXÉeÅ[É^ÉX
+    //„Çπ„ÉÜ„Éº„Çø„Çπ
     public int PlayerHp = 10;
     public float PlayerSpeed = 1.0f;
-    public int Bullet = 1;
+    public int Bullet = 7;
     //public int Exp;
     public int level = 1;
 
@@ -21,15 +22,19 @@ public class StetusScript : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);//ÉVÅ[ÉìÇ‹ÇΩÇ¢Ç≈Ç‡ëÂè‰ïv
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
-            Destroy(gameObject);//èdï°ñhé~
+            Destroy(this.gameObject); 
         }
-        
+    }
+
+    internal void ResetStatus()
+    {
+        throw new NotImplementedException();
     }
 }
