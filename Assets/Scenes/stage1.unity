@@ -33414,6 +33414,10 @@ PrefabInstance:
       propertyPath: hpText
       value: 
       objectReference: {fileID: 159266129}
+    - target: {fileID: 7152787354794048994, guid: fe3634488a41c4a4b91367cde8e48dbd, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8865023692612586125, guid: fe3634488a41c4a4b91367cde8e48dbd, type: 3}
       propertyPath: ammoText
       value: 
