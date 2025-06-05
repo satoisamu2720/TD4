@@ -12,7 +12,8 @@ public class TutorialText1 : MonoBehaviour
             TextFlag = false;
             string[] lines = {
                 "Fキーで話や物を調べられる",
-                "WSADで移動できる",
+                "WSADで移動ができて",
+                "Spaceでダッシュができる",
                 "矢印の方向にいってみて",
                 "幸運を祈ってる",
             };
