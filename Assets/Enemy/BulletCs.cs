@@ -13,6 +13,6 @@ public class BulletCs : MonoBehaviour
         Vector2 bulletV;
         bulletV.x = Velocity_0 * Mathf.Cos(theta);
         bulletV.y = Velocity_0 * Mathf.Sin(theta);
-        rid2d.linearVelocity = bulletV; // linearVelocity → velocity に変更（Rigidbody2Dでは通常これを使う）
+        //rid2d.linearVelocity = bulletV; // linearVelocity → velocity に変更（Rigidbody2Dでは通常これを使う）
     }
 }
