@@ -11,6 +11,7 @@ public class ShootEnemy : MonoBehaviour
 
     public GameObject itemPrefab;    
     private Transform player;
+  
 
     void Start()
     {

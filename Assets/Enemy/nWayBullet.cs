@@ -4,33 +4,52 @@ using UnityEngine.SceneManagement;
 public class nWayBullet : MonoBehaviour
 {
     public GameObject Bullet;
-    public float _Velocity_0 = 5f;        // 弾の速度
-    public float Degree = 60f;            // 扇状角度
-    public int Angle_Sprite = 5;          // 弾の本数
-    public Transform player;              // プレイヤーのTransform
-    public float fireCooldown = 1f;       // 発射間隔
-    public float reloadTime = 3f;         // リロード時間
-    public int maxShotsBeforeReload = 3;  // 何回撃ったらリロードするか
-    public float followDistance = 5f;     // プレイヤーとの距離を保つ
-    public float moveSpeed = 2f;          // 敵の移動速度
+    public float _Velocity_0 = 5f;
+    public float Degree = 60f;
+    public int Angle_Sprite = 5;
+    public Transform player;
+    public float fireCooldown = 1f;
+    public float reloadTime = 3f;
+    public int maxShotsBeforeReload = 3;
+    public float followDistance = 5f;
+    public float moveSpeed = 2f;
     public int maxHP = 2;
     public GameObject itemPrefab;
-
+    public float delayBeforeFire = 1f; // 追加：スポーンしてから撃ち始めるまでの待機時間
 
     private int currentHP;
     private float fireTimer = 0f;
     private int shotCount = 0;
     private bool isReloading = false;
     private float reloadTimer = 0f;
+    private bool canFire = false; // 弾を撃ち始めてよいかどうか
+
+    void Start()
+    {
+        currentHP = maxHP;
+    }
+
+    void OnEnable()
+    {
+        // 撃ち始めを遅らせる
+        fireTimer = fireCooldown;
+        canFire = false;
+        Invoke(nameof(EnableFire), delayBeforeFire);
+    }
+
+    void EnableFire()
+    {
+        canFire = true;
+    }
+
 
     private static nWayBullet instance;
     void Update()
     {
+        if (!canFire || player == null) return;
         if (TextBoxController.IsTalking) return; // 会話中は入力無効
         if (Player.IsNotMove) return; // 会話中は入力無効
-        if (player == null) return;
 
-        // 距離を保ちながらプレイヤーに近づく・離れる
         Vector2 directionToPlayer = player.position - transform.position;
         float distance = directionToPlayer.magnitude;
 
@@ -49,7 +68,7 @@ public class nWayBullet : MonoBehaviour
                 isReloading = false;
                 shotCount = 0;
             }
-            return; // リロード中は発射できない
+            return;
         }
 
         fireTimer -= Time.deltaTime;
@@ -79,7 +98,6 @@ public class nWayBullet : MonoBehaviour
             Die();
         }
     }
-
 
     void Die()
     {

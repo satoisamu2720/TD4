@@ -26,6 +26,28 @@ public class ArrowNavigation : MonoBehaviour
         if (target == null || cam == null) return;
 
         Vector3 worldTarget = target.position + offsetAboveTarget;
+
+        //// 距離でUI表示制御
+        //float worldDistance = Vector3.Distance(transform.position, target.position);
+        //if (uiObject != null)
+        //    uiObject.SetActive(worldDistance > arriveDistance);
+
+        // 目的地が画面内か
+        //float worldDistance = Vector3.Distance(transform.position, target.position);
+        //if (uiObject != null)
+        //    uiObject.SetActive(worldDistance > arriveDistance);
+
+        // 目的地が画面内か
+        //float worldDistance = Vector3.Distance(transform.position, target.position);
+        //if (uiObject != null)
+                // 到達していない、または新しいターゲットに切り替えたばかりの時は移動
+
+        // 目的地が画面内か
+        //float worldDistance = Vector3.Distance(transform.position, target.position);
+        //if (uiObject != null)
+        //    uiObject.SetActive(worldDistance > arriveDistance);
+
+        // 目的地が画面内か
         Vector3 viewportPos = cam.WorldToViewportPoint(target.position);
 
         bool targetIsOnScreen = viewportPos.x >= 0 && viewportPos.x <= 1 &&
@@ -33,44 +55,52 @@ public class ArrowNavigation : MonoBehaviour
                                 viewportPos.z >= 0;
 
         if (targetIsOnScreen)
-        {
-            float dist = Vector3.Distance(transform.position, worldTarget);
+               
+                isSnapped = true;
+                // 到達後バウンド処理
 
             if (dist > snapDistance || !isSnapped)
             {
-                // 到達していない、または新しいターゲットに切り替えたばかりの時は移動
+                // 「少し上」へ移動（スムーズに近づく）
                 transform.position = Vector3.MoveTowards(transform.position, worldTarget, speed * Time.deltaTime);
-
-                // 到達チェック（次のフレームからバウンド可）
+           
+            transform.rotation = Quaternion.Euler(0, 0, -90f);
                 if (Vector3.Distance(transform.position, worldTarget) <= snapDistance)
                 {
                     isSnapped = true;
                 }
                 else
-                {
+           
                     isSnapped = false;
                 }
             }
             else
-            {
-                // 到達後バウンド処理
+           
+            Vector2 moveDirection = transform.right;
+            Vector3 moveDelta = (Vector3)(moveDirection * speed * Time.deltaTime);
                 float bounceY = Mathf.Sin(Time.time * bounceSpeed) * bounceAmplitude;
                 transform.position = worldTarget + new Vector3(0, bounceY, 0);
-                transform.rotation = Quaternion.Euler(0, 0, -90f);
+           
             }
 
+            // 向きは下向きに固定
+            transform.rotation = Quaternion.Euler(0, 0, -90f);
         }
         else
         {
             isSnapped = false;
 
+            // 方向ベクトルと回転
             Vector2 direction = (target.position - transform.position).normalized;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle);
 
-            Vector3 moveDelta = (Vector3)(transform.right * speed * Time.deltaTime);
+            // 移動処理
+            Vector2 moveDirection = transform.right;
+            Vector3 moveDelta = (Vector3)(moveDirection * speed * Time.deltaTime);
             Vector3 nextPosition = transform.position + moveDelta;
 
+            // 画面端制限
             Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
             Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1, 1, cam.nearClipPlane));
             bottomLeft += new Vector3(screenMargin.x, screenMargin.y, 0);
