@@ -22,6 +22,7 @@ public class ArrowNavigation : MonoBehaviour
 
     void Update()
     {
+        if (TextBoxController.IsTalking) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
         if (target == null || cam == null) return;
 
         Vector3 worldTarget = target.position + offsetAboveTarget;

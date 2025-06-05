@@ -40,6 +40,7 @@ public class Approachingenemy : MonoBehaviour
 
     void Update()
     {
+        if (TextBoxController.IsTalking) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
         HandleStateMachine();
         HandleArrow();
     }

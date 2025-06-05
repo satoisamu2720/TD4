@@ -2,15 +2,38 @@ using UnityEngine;
 
 public class TutorialText2 : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public TextBoxController textBox;
+    private bool TextFlag = true;
+
+    private bool isWeaponEquipped = false;
+
+    private void OnEnable()
     {
-        
+        Weapon.OnWeaponPickedUp += OnWeaponPickedUpHandler;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        Weapon.OnWeaponPickedUp -= OnWeaponPickedUpHandler;
+    }
+
+    private void OnWeaponPickedUpHandler()
+    {
+        isWeaponEquipped = true;
+    }
+
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("Player") && isWeaponEquipped && TextFlag)
+        {
+            TextFlag = false;
+            string[] lines = {
+                "ハンドガンを拾った",
+                "これでゾンビを倒すことができる",
+                "倒すと経験値が落ちて自信を強化できる",
+                "万全だと思ったら矢印の方へいこう",
+            };
+            textBox.ShowMessages(lines);
+        }
     }
 }

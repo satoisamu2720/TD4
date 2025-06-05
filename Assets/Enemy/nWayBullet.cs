@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class nWayBullet : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class nWayBullet : MonoBehaviour
     private static nWayBullet instance;
     void Update()
     {
+        if (TextBoxController.IsTalking) return; // 会話中は入力無効
         if (player == null) return;
 
         // 距離を保ちながらプレイヤーに近づく・離れる
@@ -62,6 +64,11 @@ public class nWayBullet : MonoBehaviour
                 isReloading = true;
                 reloadTimer = reloadTime;
             }
+        }
+
+        if (maxHP < 0)
+        {
+            SceneManager.LoadScene("GameClear");
         }
     }
 
@@ -116,4 +123,6 @@ public class nWayBullet : MonoBehaviour
             Destroy(gameObject); // 2個目が生成されたら削除
         }
     }
+
+
 }

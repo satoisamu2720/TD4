@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class Weapon : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class Weapon : MonoBehaviour
 
     // プレイヤーが武器を装備したかどうかのフラグ
     private bool isWeaponEquipped = false;
+
+    public static event Action OnWeaponPickedUp;
+
 
     private void Start()
     {
@@ -39,6 +43,7 @@ public class Weapon : MonoBehaviour
 
                 Debug.Log("武器が装備されました");
 
+                OnWeaponPickedUp?.Invoke();
                 // 武器を削除して消す
                 Destroy(this.gameObject);
 

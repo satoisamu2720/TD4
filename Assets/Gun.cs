@@ -36,7 +36,7 @@ public class Gun : MonoBehaviour
     }
     void Update()
     {
-
+        if (TextBoxController.IsTalking) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
         PlayerMove playerMove = GetComponent<PlayerMove>();
 
         if (ammoText == null)
@@ -50,7 +50,7 @@ public class Gun : MonoBehaviour
 
         if (ammoText != null)
         {
-            ammoText.text = "c‚è‚Ì’e”: " + currentAmmo;
+            ammoText.text = "’e”: " + currentAmmo;
         }
 
         if (Input.GetKey(KeyCode.T))

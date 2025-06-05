@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 //using UnityEngine.UI;
 //using static WeaponSpawn.WeaponCount;
 
@@ -79,6 +80,7 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        if (TextBoxController.IsTalking) return; // 会話中は入力無効
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Invincible();
 
@@ -93,12 +95,16 @@ public class PlayerMove : MonoBehaviour
 
         hpText.text = "PlayerHP: " + StetusScript.Instance.PlayerHp;
 
-
+        if (StetusScript.Instance.PlayerHp < 0) {
+            SceneManager.LoadScene("GameOver");
+        }
+       
         //Animate();
     }
 
     private void FixedUpdate()
     {
+        if (TextBoxController.IsTalking) return; // 会話中は移動も無効
         MovePlayer();
     }
 
@@ -162,7 +168,7 @@ public class PlayerMove : MonoBehaviour
             subWeapon = weapon;
         }
 
-        isMainWeapon = !isMainWeapon; // 追加：次は逆のスロットに入れるよう切り替え
+        isMainWeapon = !isMainWeapon; //次は逆のスロットに入れるよう切り替え
         ActivateCurrentWeapon();
     }
 
@@ -285,7 +291,7 @@ public class PlayerMove : MonoBehaviour
         // 回転をZ軸に対して適用
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
-
+    
     void Awake()
     {
         if (instance == null)
@@ -298,6 +304,6 @@ public class PlayerMove : MonoBehaviour
             Destroy(gameObject); // 2個目が生成されたら削除
         }
     }
-
+    
 }
 
