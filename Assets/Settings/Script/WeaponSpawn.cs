@@ -8,15 +8,11 @@ public class WeaponSpawn : MonoBehaviour
 
     private int weaponCount;
 
-    private List<GameObject> spawnedItem = new List<GameObject>();   // 生成済みの武器のリスト
+    private List<GameObject> spawnedItem = new List<GameObject>();   
 
-    // Start is called before the first frame update
+   
     void Start()
     {
-
-        //this.weapon = FindObjectOfType<Weapon>(); // インスタンス化
-
-        // 初期配置
         SpawnWeapon();
     }
 
@@ -34,11 +30,10 @@ public class WeaponSpawn : MonoBehaviour
         {
             foreach (Vector2 p in data.pos)
             {
-                // 敵を生成してリストに追加する
+               
                 GameObject weaponObj = Instantiate(data.weaponPrefabs, p, data.rot);
                 spawnedItem.Add(weaponObj);
-                //this.weapon = GetComponent<Weapon>(); // インスタンス化
-                //weapon.SetID(data.ID);
+               
                 weaponObj.SetActive(true);
             }
         }
@@ -65,7 +60,7 @@ public class WeaponSpawn : MonoBehaviour
             Weapon3,
             Weapon4,
             Weapon5,
-            // これがラベルになる
+          
         }
 
         public Weapon weapon;

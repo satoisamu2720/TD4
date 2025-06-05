@@ -21,7 +21,7 @@ public class Approachingenemy : MonoBehaviour
 
     private Camera mainCamera;
     private RectTransform arrowInstance;
-
+   
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
@@ -29,7 +29,7 @@ public class Approachingenemy : MonoBehaviour
         waitTimer = waitTime;
         mainCamera = Camera.main;
 
-        // 矢印インスタンスを生成して非表示に
+       
         if (arrowUIPrefab != null)
         {
             GameObject arrowObj = Instantiate(arrowUIPrefab, GameObject.Find("Canvas").transform);
