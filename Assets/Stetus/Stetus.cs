@@ -8,7 +8,7 @@ public class StetusScript : MonoBehaviour
     public PlayerExp playerExp;
 
     //ステータス
-    public int PlayerHp = 10;
+    public int PlayerHp = 5;
     public float PlayerSpeed = 1.0f;
     public int Bullet = 7;
     //public int Exp;

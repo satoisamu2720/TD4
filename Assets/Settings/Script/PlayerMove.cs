@@ -107,6 +107,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         if (TextBoxController.IsTalking) return; // ‰ï˜b’†‚ÍˆÚ“®‚à–³Œø
+        if (Player.IsNotMove) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
         MovePlayer();
     }
 

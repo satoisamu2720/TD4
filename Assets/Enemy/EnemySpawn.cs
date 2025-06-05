@@ -9,7 +9,7 @@ public class EnemySpawn : MonoBehaviour
 
     void Start()
     {
-        SpawnEnemies();
+        //SpawnEnemies();
     }
 
     private void SpawnEnemies()

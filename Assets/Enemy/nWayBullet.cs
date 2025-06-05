@@ -7,7 +7,8 @@ public class nWayBullet : MonoBehaviour
     public float _Velocity_0 = 5f;
     public float Degree = 60f;
     public int Angle_Sprite = 5;
-    public Transform player;
+    public string playerTag = "Player";
+    private Transform player;
     public float fireCooldown = 1f;
     public float reloadTime = 3f;
     public int maxShotsBeforeReload = 3;
@@ -23,10 +24,30 @@ public class nWayBullet : MonoBehaviour
     private bool isReloading = false;
     private float reloadTimer = 0f;
     private bool canFire = false; // 弾を撃ち始めてよいかどうか
+    private static nWayBullet instance;
+
+    // 無敵時間の長さ
+    [SerializeField]
+    private float invincibilityDuration = 2f;
+    private bool isInvincible = false;
+    // 無敵時間の残り時間
+    private float invincibilityTimer = 0f;
+
+    private SpriteRenderer spriteRenderer;
+
+    //　元のカラー
+    private Color originColor;
 
     void Start()
     {
         currentHP = maxHP;
+        GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+        }
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originColor = spriteRenderer.color;
     }
 
     void OnEnable()
@@ -43,12 +64,11 @@ public class nWayBullet : MonoBehaviour
     }
 
 
-    private static nWayBullet instance;
     void Update()
     {
-        if (!canFire || player == null) return;
         if (TextBoxController.IsTalking) return; // 会話中は入力無効
         if (Player.IsNotMove) return; // 会話中は入力無効
+        if (!canFire || player == null) return;
 
         Vector2 directionToPlayer = player.position - transform.position;
         float distance = directionToPlayer.magnitude;
@@ -85,12 +105,17 @@ public class nWayBullet : MonoBehaviour
                 reloadTimer = reloadTime;
             }
         }
+        Invincible();
 
-       
     }
 
     public void TakeDamage(int damage)
     {
+        if (!isInvincible)
+        {
+            StartInvincibility();
+
+        }
         currentHP -= damage;
         if (currentHP <= 0)
         {
@@ -141,5 +166,29 @@ public class nWayBullet : MonoBehaviour
         }
     }
 
+    private void StartInvincibility()
+    {
+        isInvincible = true;
+        invincibilityTimer = invincibilityDuration;
 
+    }
+    /// <summary>
+    /// 無敵時間の処理と点滅の処理
+    /// </summary>
+    private void Invincible()
+    {
+        if (isInvincible)
+        {
+            invincibilityTimer -= Time.deltaTime;
+
+            float alpha = Mathf.PingPong(Time.time * 10f, 1f);
+            spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // 赤点滅
+
+            if (invincibilityTimer <= 0f)
+            {
+                isInvincible = false;
+                spriteRenderer.color = originColor;
+            }
+        }
+    }
 }

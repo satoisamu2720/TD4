@@ -33,7 +33,7 @@ public class StetusChange : MonoBehaviour
     public void OnAlpha1Button()
     {
         StetusScript.Instance.level += 1;
-        StetusScript.Instance.PlayerHp += 10;
+        StetusScript.Instance.PlayerHp += 2;
         ChangeScene();
     }
 

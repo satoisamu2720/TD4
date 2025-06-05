@@ -11,13 +11,24 @@ public class ShootEnemy : MonoBehaviour
 
     public GameObject itemPrefab;    
     private Transform player;
-  
 
+    // 無敵時間の長さ
+    [SerializeField]
+    private float invincibilityDuration = 2f;
+    private bool isInvincible = false;
+    // 無敵時間の残り時間
+    private float invincibilityTimer = 0f;
+
+    private SpriteRenderer spriteRenderer;
+    //　元のカラー
+    private Color originColor;
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
         currentHP = maxHP;
         shootTimer = shootInterval;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originColor = spriteRenderer.color;
     }
 
     void Update()
@@ -33,6 +44,7 @@ public class ShootEnemy : MonoBehaviour
                 shootTimer = shootInterval; 
             }
         }
+        Invincible();
     }
 
     void Shoot()
@@ -59,6 +71,11 @@ public class ShootEnemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (!isInvincible)
+        {
+            StartInvincibility();
+
+        }
         currentHP -= damage;
         if (currentHP <= 0)
         {
@@ -73,5 +90,30 @@ public class ShootEnemy : MonoBehaviour
             Instantiate(itemPrefab, transform.position, Quaternion.identity);
         }
         Destroy(gameObject);
+    }
+    private void StartInvincibility()
+    {
+        isInvincible = true;
+        invincibilityTimer = invincibilityDuration;
+
+    }
+    /// <summary>
+    /// 無敵時間の処理と点滅の処理
+    /// </summary>
+    private void Invincible()
+    {
+        if (isInvincible)
+        {
+            invincibilityTimer -= Time.deltaTime;
+
+            float alpha = Mathf.PingPong(Time.time * 10f, 1f);
+            spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // 赤点滅
+
+            if (invincibilityTimer <= 0f)
+            {
+                isInvincible = false;
+                spriteRenderer.color = originColor;
+            }
+        }
     }
 }

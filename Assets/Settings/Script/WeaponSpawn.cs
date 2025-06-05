@@ -3,16 +3,20 @@ using UnityEngine;
 
 public class WeaponSpawn : MonoBehaviour
 {
-    [SerializeField] List<WeaponCount> weaponCounts ;
+    [SerializeField] List<WeaponCount> weaponCounts;
 
 
     private int weaponCount;
 
     private List<GameObject> spawnedWeapon = new List<GameObject>();   // 生成済みの武器のリスト
 
-   
+    // Start is called before the first frame update
     void Start()
     {
+
+        //this.weapon = FindObjectOfType<Weapon>(); // インスタンス化
+
+        // 初期配置
         SpawnWeapon();
     }
 
@@ -30,17 +34,9 @@ public class WeaponSpawn : MonoBehaviour
         {
             foreach (Vector2 p in data.pos)
             {
-               
+                // 敵を生成してリストに追加する
                 GameObject weaponObj = Instantiate(data.weaponPrefabs, p, data.rot);
-                spawnedItem.Add(weaponObj);
-               
-                //weapon.SetID(data.ID);
-                //weapon.SetID(data.ID);
-                //weapon.SetID(data.ID);
-                //weapon.SetID(data.ID);
-                //weapon.SetID(data.ID);
-                //weapon.SetID(data.ID);
-                //weapon.SetID(data.ID);
+                spawnedWeapon.Add(weaponObj);
                 weaponObj.SetActive(true);
                 // 描画の順番
                 SpriteRenderer sr = weaponObj.GetComponent<SpriteRenderer>();
@@ -73,7 +69,7 @@ public class WeaponSpawn : MonoBehaviour
             Weapon3,
             Weapon4,
             Weapon5,
-          
+            // これがラベルになる
         }
 
         public Weapon weapon;

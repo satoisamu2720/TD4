@@ -1,14 +1,25 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class TitleSceneController : MonoBehaviour
 {
+    private AudioSource bgmSource;
+
+    void Start()
+    {
+        bgmSource = GetComponent<AudioSource>();
+
+        if (bgmSource != null)
+        {
+            bgmSource.loop = true;
+            bgmSource.Play();
+        }
+    }
+
     void Update()
     {
-   
         if (Input.GetKeyDown(KeyCode.F))
         {
-            // Stage1Scene �ɑJ��
             SceneManager.LoadScene("Stage1");
         }
     }
@@ -16,5 +27,14 @@ public class TitleSceneController : MonoBehaviour
     public void OnAlpha1Button()
     {
         SceneManager.LoadScene("Stage1");
+    }
+
+    // 音量を設定（0.0f〜1.0fの範囲）
+    public void SetBgmVolume(float volume)
+    {
+        if (bgmSource != null)
+        {
+            bgmSource.volume = Mathf.Clamp01(volume);
+        }
     }
 }
