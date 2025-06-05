@@ -70,11 +70,11 @@ public class PlayerMove : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
 
-        // TextMeshProUGUI を再取得（タグや名前で探す）
-        if (hpText == null)
-        {
-            hpText = GameObject.Find("AmmoText")?.GetComponent<TextMeshProUGUI>();
-        }
+        //// TextMeshProUGUI を再取得（タグや名前で探す）
+        //if (hpText == null)
+        //{
+        //    hpText = GameObject.Find("AmmoText")?.GetComponent<TextMeshProUGUI>();
+        //}
 
     }
 
@@ -108,20 +108,9 @@ public class PlayerMove : MonoBehaviour
         MovePlayer();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-
-        if (collision.gameObject.tag == "Weapon")
-        {
-            //gameObject.SetActive(true);
-            Debug.Log("触れている");
-        }
-
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("EnemyBullet"))
+        if (collision.CompareTag("EnemyBullet") || collision.CompareTag("Enemy"))
         {
 
             if (!isInvincible)
@@ -301,7 +290,7 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject); // 2個目が生成されたら削除
+            Destroy(gameObject); 
         }
     }
     

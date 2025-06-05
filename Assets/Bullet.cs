@@ -29,9 +29,22 @@ public class Bullet : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             Approachingenemy enemy = other.GetComponent<Approachingenemy>();
+            nWayBullet Boss = other.GetComponent<nWayBullet>();
+            ShootEnemy shootEnemy = other.GetComponent<ShootEnemy>();
+
             if (enemy != null)
             {
                 enemy.TakeDamage(damage);
+            }
+
+            if (Boss != null)
+            {
+                Boss.TakeDamage(damage);
+            }
+
+            if (shootEnemy != null)
+            {
+                shootEnemy.TakeDamage(damage);
             }
 
             // 弾を消す（1ヒット制）

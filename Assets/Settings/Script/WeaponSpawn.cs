@@ -8,7 +8,7 @@ public class WeaponSpawn : MonoBehaviour
 
     private int weaponCount;
 
-    private List<GameObject> spawnedItem = new List<GameObject>();   // 生成済みの武器のリスト
+    private List<GameObject> spawnedWeapon = new List<GameObject>();   // 生成済みの武器のリスト
 
     // Start is called before the first frame update
     void Start()
@@ -36,9 +36,7 @@ public class WeaponSpawn : MonoBehaviour
             {
                 // 敵を生成してリストに追加する
                 GameObject weaponObj = Instantiate(data.weaponPrefabs, p, data.rot);
-                spawnedItem.Add(weaponObj);
-                //this.weapon = GetComponent<Weapon>(); // インスタンス化
-                //weapon.SetID(data.ID);
+                spawnedWeapon.Add(weaponObj);
                 weaponObj.SetActive(true);
                 // 描画の順番
                 SpriteRenderer sr = weaponObj.GetComponent<SpriteRenderer>();
@@ -57,7 +55,7 @@ public class WeaponSpawn : MonoBehaviour
 
     public List<GameObject> GetSpawnedItem()
     {
-        return spawnedItem;
+        return spawnedWeapon;
     }
 
     [System.Serializable]
@@ -79,7 +77,6 @@ public class WeaponSpawn : MonoBehaviour
         public Quaternion rot;
         public GameObject weaponPrefabs;
         public int sortingOrder = 0;
-        public string ID;
         public bool isSpawn;
     }
 }
