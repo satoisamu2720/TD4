@@ -12,6 +12,8 @@ public class Gun : MonoBehaviour
     
     public float reloadTime = 2f;
 
+
+    private int MaxAmmo = 0;
     private int currentAmmo;
     private float timer;
     private bool isReloading = false;
@@ -36,6 +38,7 @@ public class Gun : MonoBehaviour
     }
     void Update()
     {
+        MaxAmmo = StetusScript.Instance.Bullet;
         if (TextBoxController.IsTalking) return; // 会話中は入力無効
         if (Player.IsNotMove) return; // 会話中は入力無効
         PlayerMove playerMove = GetComponent<PlayerMove>();
@@ -49,10 +52,10 @@ public class Gun : MonoBehaviour
             }
         }
 
-        //if (ammoText != null)
-        //{
-        //    ammoText.text = "弾数: " + currentAmmo;
-        //}
+        if (ammoText != null)
+        {
+            ammoText.text = "弾数: " + currentAmmo;
+        }
 
         if (Input.GetKey(KeyCode.T))
         {
@@ -73,7 +76,7 @@ public class Gun : MonoBehaviour
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
             // Rキーで手動リロード（残弾が満タンじゃないときだけ）
-            if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < StetusScript.Instance.Bullet)
+            if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < MaxAmmo)
             {
                 StartCoroutine(Reload());
                 return; 
@@ -116,7 +119,7 @@ public class Gun : MonoBehaviour
         isReloading = true;
         Debug.Log("リロード中...");
         yield return new WaitForSeconds(reloadTime);
-        currentAmmo = StetusScript.Instance.Bullet;
+        currentAmmo = MaxAmmo;
         isReloading = false;
         Debug.Log("リロード完了！残弾数: " + currentAmmo);
     }
