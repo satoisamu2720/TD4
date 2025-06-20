@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DevisionEnemy : MonoBehaviour
+public class DivisionEnemy : MonoBehaviour
 {
     public float speed = 5f;
     public int maxHP = 2;
@@ -10,9 +10,9 @@ public class DevisionEnemy : MonoBehaviour
     public GameObject itemPrefab;
     public GameObject arrowUIPrefab;
 
-    public GameObject miniEnemyPrefab; 
-    public int numberOfSplits = 2;     
-    public float splitSpreadAngle = 90f; 
+    public GameObject miniEnemyPrefab;
+    public int numberOfSplits = 2;
+    public float splitSpreadAngle = 90f;
 
     private int currentHP;
     private Transform player;
@@ -46,6 +46,7 @@ public class DevisionEnemy : MonoBehaviour
             GameObject arrowObj = Instantiate(arrowUIPrefab, GameObject.Find("Canvas").transform);
             arrowInstance = arrowObj.GetComponent<RectTransform>();
         }
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
     }
@@ -57,7 +58,7 @@ public class DevisionEnemy : MonoBehaviour
 
         HandleStateMachine();
         HandleArrow();
-        Invincible();
+        HandleInvincibility();
     }
 
     void HandleStateMachine()
@@ -112,13 +113,22 @@ public class DevisionEnemy : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+            if (!isInvincible)
+            {
+                TakeDamage(1);
+                StartInvincibility();
+            }
+
+            Destroy(collision.gameObject);
+        }
+    }
+
     public void TakeDamage(int damage)
     {
-        if (!isInvincible)
-        {
-            StartInvincibility();
-        }
-
         currentHP -= damage;
         if (currentHP <= 0)
         {
@@ -138,8 +148,7 @@ public class DevisionEnemy : MonoBehaviour
             Destroy(arrowInstance.gameObject);
         }
 
-        Split(); // © •ª—ôˆ—‚ð‚±‚±‚ÅŒÄ‚Ô
-
+        Split();
         Destroy(gameObject);
     }
 
@@ -149,14 +158,14 @@ public class DevisionEnemy : MonoBehaviour
         invincibilityTimer = invincibilityDuration;
     }
 
-    void Invincible()
+    void HandleInvincibility()
     {
         if (isInvincible)
         {
             invincibilityTimer -= Time.deltaTime;
 
-            float alpha = Mathf.PingPong(Time.time * 10f, 1f);
-            spriteRenderer.color = new Color(1f, 0f, 0f, alpha);
+            float alpha = Mathf.PingPong(Time.time * 10f, 0.5f) + 0.5f; // “§–¾“x 0.5`1.0
+            spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // Ô‚­“_–Å
 
             if (invincibilityTimer <= 0f)
             {
@@ -165,8 +174,6 @@ public class DevisionEnemy : MonoBehaviour
             }
         }
     }
-
-  
 
     void Split()
     {
