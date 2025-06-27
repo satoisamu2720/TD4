@@ -66,43 +66,45 @@ public class nWayBullet : MonoBehaviour
 
     void Update()
     {
-        if (TextBoxController.IsTalking) return; // 会話中は入力無効
-        if (Player.IsNotMove) return; // 会話中は入力無効
-        if (!canFire || player == null) return;
-
-        Vector2 directionToPlayer = player.position - transform.position;
-        float distance = directionToPlayer.magnitude;
-
-        if (Mathf.Abs(distance - followDistance) > 0.1f)
+        if (!TextBoxController.IsTalking &&
+        !Player.IsNotMove &&
+        canFire && player != null)
         {
-            Vector2 moveDir = directionToPlayer.normalized;
-            float moveStep = moveSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, player.position - (Vector3)(moveDir * followDistance), moveStep);
-        }
 
-        if (isReloading)
-        {
-            reloadTimer -= Time.deltaTime;
-            if (reloadTimer <= 0f)
+            Vector2 directionToPlayer = player.position - transform.position;
+            float distance = directionToPlayer.magnitude;
+
+            if (Mathf.Abs(distance - followDistance) > 0.1f)
             {
-                isReloading = false;
-                shotCount = 0;
+                Vector2 moveDir = directionToPlayer.normalized;
+                float moveStep = moveSpeed * Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, player.position - (Vector3)(moveDir * followDistance), moveStep);
             }
-            return;
-        }
 
-        fireTimer -= Time.deltaTime;
-
-        if (fireTimer <= 0f)
-        {
-            FireNWays();
-            fireTimer = fireCooldown;
-            shotCount++;
-
-            if (shotCount >= maxShotsBeforeReload)
+            if (isReloading)
             {
-                isReloading = true;
-                reloadTimer = reloadTime;
+                reloadTimer -= Time.deltaTime;
+                if (reloadTimer <= 0f)
+                {
+                    isReloading = false;
+                    shotCount = 0;
+                }
+                return;
+            }
+
+            fireTimer -= Time.deltaTime;
+
+            if (fireTimer <= 0f)
+            {
+                FireNWays();
+                fireTimer = fireCooldown;
+                shotCount++;
+
+                if (shotCount >= maxShotsBeforeReload)
+                {
+                    isReloading = true;
+                    reloadTimer = reloadTime;
+                }
             }
         }
         Invincible();
@@ -115,8 +117,8 @@ public class nWayBullet : MonoBehaviour
         {
             StartInvincibility();
 
+            currentHP -= damage;
         }
-        currentHP -= damage;
         if (currentHP <= 0)
         {
             SceneManager.LoadScene("GameClear");
@@ -180,6 +182,8 @@ public class nWayBullet : MonoBehaviour
         if (isInvincible)
         {
             invincibilityTimer -= Time.deltaTime;
+
+            Debug.Log("敵：点滅中 " + invincibilityTimer);
 
             float alpha = Mathf.PingPong(Time.time * 10f, 1f);
             spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // 赤点滅

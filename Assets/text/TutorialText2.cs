@@ -29,8 +29,9 @@ public class TutorialText2 : MonoBehaviour
             TextFlag = false;
             string[] lines = {
                 "ハンドガンを拾った",
+                "カーソルで狙って左クリックで打てる",
                 "これでゾンビを倒すことができる",
-                "倒すと経験値が落ちて自信を強化できる",
+                "倒すと経験値が落ちて自身を強化できる",
                 "万全だと思ったら矢印の方へいこう",
             };
             textBox.ShowMessages(lines);

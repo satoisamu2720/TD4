@@ -75,8 +75,8 @@ public class ShootEnemy : MonoBehaviour
         {
             StartInvincibility();
 
+            currentHP -= damage;
         }
-        currentHP -= damage;
         if (currentHP <= 0)
         {
             Die();
