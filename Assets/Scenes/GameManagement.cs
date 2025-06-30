@@ -3,9 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManagement: MonoBehaviour
 {
-    public int PlayerHP = 0;
-
-    public int BossEnemyHP = 0;
+    
 
     void Start()
     {
@@ -15,20 +13,21 @@ public class GameManagement: MonoBehaviour
     
     void Update()
     {
-        PlayerHP = StetusScript.Instance.PlayerHp;
-        BossEnemyHP = nWayBullet.Instance.currentHP;
-        if (PlayerHP <= 0)
+       
+        if (StetusScript.Instance.PlayerHp <= 0)
         {
-            PlayerHP = 10;
+            StetusScript.Instance.PlayerHp = 10;
+
+            nWayBullet.Instance.Die();
 
             SceneManager.LoadScene("GameOver");
         }
 
-        if (BossEnemyHP <= 0)
-        {
-          nWayBullet.Instance.Die();
+        //if (nWayBullet.Instance.currentHP <= 0)
+        //{
+           
 
-          SceneManager.LoadScene("GameClear");
-        }
+        //    SceneManager.LoadScene("GameClear");
+        //}
     }
 }

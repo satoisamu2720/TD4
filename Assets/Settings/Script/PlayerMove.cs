@@ -95,6 +95,14 @@ public class PlayerMove : MonoBehaviour
         }
 
         PlayerDirection();
+
+       
+
+        if (StetusScript.Instance.PlayerHp <= 0) {
+            StetusScript.Instance.PlayerHp = 10;
+            
+            SceneManager.LoadScene("GameOver");
+        }
        
         //Animate();
     }
