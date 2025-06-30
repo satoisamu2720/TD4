@@ -33664,6 +33664,14 @@ PrefabInstance:
       propertyPath: Bullet
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8086026494372616274, guid: af359be250d84cd459c77ac4d2b7fd11, type: 3}
+      propertyPath: PlayerHp
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8086026494372616274, guid: af359be250d84cd459c77ac4d2b7fd11, type: 3}
+      propertyPath: BossEnemyHp
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33759,8 +33767,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1498a5904a0d1cd43815f178d808827f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerHP: 0
-  BossEnemyHP: 0
 --- !u!1001 &6827280356582079318
 PrefabInstance:
   m_ObjectHideFlags: 0
