@@ -126,7 +126,7 @@ public class PlayerMove : MonoBehaviour
             }
 
 
-            Debug.Log("“–‚½‚Á‚½");
+            //Debug.Log("“–‚½‚Á‚½");
             //Destroy(collision.gameObject);
         }
     }

@@ -7,12 +7,16 @@ public class SceneTransitionManager : MonoBehaviour
     
     public static SceneTransitionManager Instance;
 
-    private void Awake()
+    void Awake()
     {
-        if (Instance == null)
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
         {
-            Instance = this;
-            
+            Instance = null;
         }
     }
 

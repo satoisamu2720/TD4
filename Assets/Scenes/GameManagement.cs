@@ -3,11 +3,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManagement: MonoBehaviour
 {
-    
+    private int PlayerHP = 0;
 
     void Start()
     {
-        
+        PlayerHP = StetusScript.Instance.PlayerHp;
     }
 
     
@@ -16,18 +16,11 @@ public class GameManagement: MonoBehaviour
        
         if (StetusScript.Instance.PlayerHp <= 0)
         {
-            StetusScript.Instance.PlayerHp = 10;
-
-            nWayBullet.Instance.Die();
-
             SceneManager.LoadScene("GameOver");
         }
-
-        //if (nWayBullet.Instance.currentHP <= 0)
-        //{
-           
-
-        //    SceneManager.LoadScene("GameClear");
-        //}
+        if (nWayBullet.Instance != null && nWayBullet.Instance.currentHP <= 0)
+        {
+            SceneManager.LoadScene("GameClear");
+        }
     }
 }

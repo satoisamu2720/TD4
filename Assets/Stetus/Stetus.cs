@@ -7,15 +7,19 @@ public class StetusScript : MonoBehaviour
 
     public PlayerExp playerExp;
 
-    //ステータス
+    [Header("プレイヤーステータス")]
     public int PlayerHp = 5;
     public float PlayerSpeed = 1.0f;
     public int Bullet = 7;
     //public int Exp;
     public int level = 1;
 
+    [Header("ボスステータス")]
+    public int BossEnemyHp = 0;
+
     private void Update()
     {
+        
         //Exp = playerExp.ExpLevel.Exp;
         //level = playerExp.ExpLevel.Level;
     }

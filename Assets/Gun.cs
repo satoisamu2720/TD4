@@ -59,7 +59,7 @@ public class Gun : MonoBehaviour
 
         if (Input.GetKey(KeyCode.T))
         {
-            Debug.Log("現在のフラグは: " + playerMove.isWeapon);
+            //Debug.Log("現在のフラグは: " + playerMove.isWeapon);
         }
 
         if (playerMove.isWeapon == true)
@@ -111,17 +111,17 @@ public class Gun : MonoBehaviour
         rb.linearVelocity = firePoint.right * bulletSpeed;
 
         currentAmmo--;
-        Debug.Log("残弾数 : " + currentAmmo);
+        //Debug.Log("残弾数 : " + currentAmmo);
     }
 
     System.Collections.IEnumerator Reload()
     {
         isReloading = true;
-        Debug.Log("リロード中...");
+        //Debug.Log("リロード中...");
         yield return new WaitForSeconds(reloadTime);
         currentAmmo = MaxAmmo;
         isReloading = false;
-        Debug.Log("リロード完了！残弾数: " + currentAmmo);
+        //Debug.Log("リロード完了！残弾数: " + currentAmmo);
     }
 
     void Awake()

@@ -16,7 +16,6 @@ public class nWayBullet : MonoBehaviour
     public int maxShotsBeforeReload = 3;
     public float followDistance = 5f;
     public float moveSpeed = 2f;
-    public int maxHP = 2;
     public GameObject itemPrefab;
     public float delayBeforeFire = 1f; // 追加：スポーンしてから撃ち始めるまでの待機時間
 
@@ -41,7 +40,7 @@ public class nWayBullet : MonoBehaviour
 
     void Start()
     {
-        currentHP = maxHP;
+        currentHP = StetusScript.Instance.BossEnemyHp;
         GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
         if (playerObj != null)
         {
@@ -166,7 +165,7 @@ public class nWayBullet : MonoBehaviour
         {
             invincibilityTimer -= Time.deltaTime;
 
-            Debug.Log("敵：点滅中 " + invincibilityTimer);
+            //Debug.Log("敵：点滅中 " + invincibilityTimer);
 
             float alpha = Mathf.PingPong(Time.time * 10f, 1f);
             spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // 赤点滅
@@ -176,6 +175,19 @@ public class nWayBullet : MonoBehaviour
                 isInvincible = false;
                 spriteRenderer.color = originColor;
             }
+        }
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
         }
     }
 }
