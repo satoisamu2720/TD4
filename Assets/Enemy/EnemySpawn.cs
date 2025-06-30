@@ -5,6 +5,8 @@ public class EnemySpawn : MonoBehaviour
 {
     [SerializeField] List<EnemyCount> enemyCounts;
 
+ 
+
     private List<GameObject> spawnedEnemies = new List<GameObject>(); // ¶¬‚³‚ê‚½“G‚ÌƒŠƒXƒg
 
     void Start()
@@ -62,4 +64,6 @@ public class EnemySpawn : MonoBehaviour
         public string ID;                      // ”CˆÓ‚ÌID
         public bool isSpawn;                   // ‚±‚Ì“G‚ğ¶¬‚·‚é‚©‚Ç‚¤‚©
     }
+
+   
 }

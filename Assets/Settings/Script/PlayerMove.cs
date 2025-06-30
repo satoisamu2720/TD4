@@ -63,6 +63,8 @@ public class PlayerMove : MonoBehaviour
 
     private static PlayerMove instance;
 
+
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -93,13 +95,6 @@ public class PlayerMove : MonoBehaviour
         }
 
         PlayerDirection();
-
-       
-
-        if (StetusScript.Instance.PlayerHp <= 0) {
-            StetusScript.Instance.PlayerHp = 10;
-            SceneManager.LoadScene("GameOver");
-        }
        
         //Animate();
     }
@@ -117,10 +112,10 @@ public class PlayerMove : MonoBehaviour
         {
 
             if (!isInvincible)
-{
-    StetusScript.Instance.PlayerHp--;
-    StartInvincibility();
-}
+            {
+                StetusScript.Instance.PlayerHp--;
+                StartInvincibility();
+            }
 
 
             Debug.Log("“–‚½‚Á‚½");

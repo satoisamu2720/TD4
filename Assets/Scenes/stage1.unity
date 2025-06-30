@@ -542,10 +542,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1078011576}
     m_Modifications:
-    - target: {fileID: 1793941757319842844, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2715993595453863822, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
       propertyPath: itemPrefab
       value: 
@@ -675,10 +671,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1078011576}
     m_Modifications:
-    - target: {fileID: 1793941757319842844, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2715993595453863822, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
       propertyPath: itemPrefab
       value: 
@@ -754,10 +746,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1078011576}
     m_Modifications:
-    - target: {fileID: 1793941757319842844, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2715993595453863822, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
       propertyPath: itemPrefab
       value: 
@@ -833,10 +821,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1078011576}
     m_Modifications:
-    - target: {fileID: 1793941757319842844, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2715993595453863822, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
       propertyPath: itemPrefab
       value: 
@@ -917,10 +901,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1078011576}
     m_Modifications:
-    - target: {fileID: 1793941757319842844, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2715993595453863822, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
       propertyPath: itemPrefab
       value: 
@@ -996,10 +976,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1078011576}
     m_Modifications:
-    - target: {fileID: 1793941757319842844, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2715993595453863822, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
       propertyPath: itemPrefab
       value: 
@@ -1178,10 +1154,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1078011576}
     m_Modifications:
-    - target: {fileID: 1793941757319842844, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2715993595453863822, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
       propertyPath: itemPrefab
       value: 
@@ -1830,10 +1802,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1078011576}
     m_Modifications:
-    - target: {fileID: 1793941757319842844, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2715993595453863822, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
       propertyPath: itemPrefab
       value: 
@@ -2455,10 +2423,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1078011576}
     m_Modifications:
-    - target: {fileID: 1793941757319842844, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2715993595453863822, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
       propertyPath: itemPrefab
       value: 
@@ -33465,6 +33429,14 @@ PrefabInstance:
       propertyPath: hpText
       value: 
       objectReference: {fileID: 159266129}
+    - target: {fileID: 5759040082183008230, guid: fe3634488a41c4a4b91367cde8e48dbd, type: 3}
+      propertyPath: BossEnemy
+      value: 
+      objectReference: {fileID: 8860817663685525557, guid: 21481315d725b7548b7e8088cc9c45b9, type: 3}
+    - target: {fileID: 5759040082183008230, guid: fe3634488a41c4a4b91367cde8e48dbd, type: 3}
+      propertyPath: BossEnemyPrefab
+      value: 
+      objectReference: {fileID: 8860817663685525557, guid: 21481315d725b7548b7e8088cc9c45b9, type: 3}
     - target: {fileID: 7152787354794048994, guid: fe3634488a41c4a4b91367cde8e48dbd, type: 3}
       propertyPath: m_CollisionDetection
       value: 1
@@ -33705,6 +33677,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8071006967396892140, guid: af359be250d84cd459c77ac4d2b7fd11, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6763146552793844096}
+    - targetCorrespondingSourceObject: {fileID: 8071006967396892140, guid: af359be250d84cd459c77ac4d2b7fd11, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6763146552793844099}
   m_SourcePrefab: {fileID: 100100000, guid: af359be250d84cd459c77ac4d2b7fd11, type: 3}
 --- !u!1 &6763146552793844088 stripped
 GameObject:
@@ -33734,8 +33709,7 @@ MonoBehaviour:
   - {fileID: 2066536015}
   - {fileID: 1398934020}
   - {fileID: 2107891404}
-  sceneSpecificDestroyObjects:
-  - {fileID: 724091632}
+  sceneSpecificDestroyObjects: []
 --- !u!4 &6763146552793844092 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2779038558752387468, guid: af359be250d84cd459c77ac4d2b7fd11, type: 3}
@@ -33771,8 +33745,22 @@ MonoBehaviour:
     - {x: 20, y: 35}
     rot: {x: 0, y: 0, z: 0, w: 1}
     enemyPrefab: {fileID: 8860817663685525557, guid: 21481315d725b7548b7e8088cc9c45b9, type: 3}
-    ID: 
+    ID: 2
     isSpawn: 1
+--- !u!114 &6763146552793844099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763146552793844088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1498a5904a0d1cd43815f178d808827f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerHP: 0
+  BossEnemyHP: 0
 --- !u!1001 &6827280356582079318
 PrefabInstance:
   m_ObjectHideFlags: 0

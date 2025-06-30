@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class nWayBullet : MonoBehaviour
 {
+    public static nWayBullet Instance { get; private set; }
+
     public GameObject Bullet;
     public float _Velocity_0 = 5f;
     public float Degree = 60f;
@@ -18,14 +20,13 @@ public class nWayBullet : MonoBehaviour
     public GameObject itemPrefab;
     public float delayBeforeFire = 1f; // 追加：スポーンしてから撃ち始めるまでの待機時間
 
-    private int currentHP;
+    public int currentHP;
     private float fireTimer = 0f;
     private int shotCount = 0;
     private bool isReloading = false;
     private float reloadTimer = 0f;
     private bool canFire = false; // 弾を撃ち始めてよいかどうか
-    private static nWayBullet instance;
-
+    
     // 無敵時間の長さ
     [SerializeField]
     private float invincibilityDuration = 2f;
@@ -66,6 +67,7 @@ public class nWayBullet : MonoBehaviour
 
     void Update()
     {
+        Invincible();
         if (!TextBoxController.IsTalking &&
         !Player.IsNotMove &&
         canFire && player != null)
@@ -107,7 +109,6 @@ public class nWayBullet : MonoBehaviour
                 }
             }
         }
-        Invincible();
 
     }
 
@@ -119,15 +120,10 @@ public class nWayBullet : MonoBehaviour
 
             currentHP -= damage;
         }
-        if (currentHP <= 0)
-        {
-            SceneManager.LoadScene("GameClear");
-            Die();
-        }
     }
 
-    void Die()
-    {
+    public void Die()
+    { 
         if (itemPrefab != null)
         {
             Instantiate(itemPrefab, transform.position, Quaternion.identity);
@@ -152,19 +148,6 @@ public class nWayBullet : MonoBehaviour
             bulletCs.Velocity_0 = _Velocity_0;
 
             Destroy(bulletObj, 5f);
-        }
-    }
-
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject); // 2個目が生成されたら削除
         }
     }
 
