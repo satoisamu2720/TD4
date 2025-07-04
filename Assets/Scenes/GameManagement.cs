@@ -14,7 +14,7 @@ public class GameManagement: MonoBehaviour
     void Update()
     {
        
-        if (StetusScript.Instance.PlayerHp <= 0)
+        if (StetusScript.Instance != null && StetusScript.Instance.PlayerHp <= 0)
         {
             SceneManager.LoadScene("GameOver");
         }
