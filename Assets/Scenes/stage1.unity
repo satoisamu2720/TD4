@@ -1239,7 +1239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1308882052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u65E5\u672C\u8A9E"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 86a5694a793f29b49a852e012080ec62, type: 2}
   m_sharedMaterial: {fileID: 2617330520444294484, guid: 86a5694a793f29b49a852e012080ec62, type: 2}
@@ -393419,11 +393419,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2384160074305010861, guid: fe3634488a41c4a4b91367cde8e48dbd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -117.6
+      value: -12.78
       objectReference: {fileID: 0}
     - target: {fileID: 2384160074305010861, guid: fe3634488a41c4a4b91367cde8e48dbd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -24.1
+      value: -22.8
       objectReference: {fileID: 0}
     - target: {fileID: 2384160074305010861, guid: fe3634488a41c4a4b91367cde8e48dbd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -393712,6 +393712,10 @@ PrefabInstance:
       propertyPath: BossEnemyHp
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8086026494372616274, guid: af359be250d84cd459c77ac4d2b7fd11, type: 3}
+      propertyPath: weaponPrefab
+      value: 
+      objectReference: {fileID: 3245072080698827588, guid: ed489c06e5f6ed54598ac2cb3ada7cd8, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -393728,6 +393732,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8071006967396892140, guid: af359be250d84cd459c77ac4d2b7fd11, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6763146552793844099}
+    - targetCorrespondingSourceObject: {fileID: 8071006967396892140, guid: af359be250d84cd459c77ac4d2b7fd11, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6763146552793844102}
   m_SourcePrefab: {fileID: 100100000, guid: af359be250d84cd459c77ac4d2b7fd11, type: 3}
 --- !u!1 &6763146552793844088 stripped
 GameObject:
@@ -393807,6 +393814,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1498a5904a0d1cd43815f178d808827f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6763146552793844102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6763146552793844088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b23959fb7548e934da8bbae4bfbf5632, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapons:
+  - id: gun
+    prefab: {fileID: 3245072080698827588, guid: ed489c06e5f6ed54598ac2cb3ada7cd8, type: 3}
 --- !u!1001 &6827280356582079318
 PrefabInstance:
   m_ObjectHideFlags: 0

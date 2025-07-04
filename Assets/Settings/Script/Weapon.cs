@@ -3,8 +3,11 @@ using System;
 
 public class Weapon : MonoBehaviour
 {
+
+    public static Weapon Instance { get; private set; }
+
     [SerializeField]
-    private string ID;
+    public string ID;
 
     public GameObject weaponPrefab;
 
@@ -23,7 +26,7 @@ public class Weapon : MonoBehaviour
     {
         ID = id;
     }
-
+    
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -51,5 +54,23 @@ public class Weapon : MonoBehaviour
                 TutorialStepController.Instance.ProgressToNextStep();
             }
         }
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
+    public string GetID()
+    {
+        return ID;
     }
 }

@@ -119,6 +119,7 @@ public class nWayBullet : MonoBehaviour
 
             currentHP -= damage;
         }
+        
     }
 
     public void Die()

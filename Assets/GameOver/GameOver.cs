@@ -15,5 +15,13 @@ public class GameOver : MonoBehaviour
     public void OnAlpha1Button()
     {
         SceneTransitionManager.Instance.GoToTitleScene();
+        PlayerPrefs.DeleteKey("PlayerUserData");
+        PlayerPrefs.Save();
+    }
+    public void OnAlpha2Button()
+    {
+
+        PlayerPrefs.SetInt("ShouldLoad", 1);
+        SceneManager.LoadScene("Stage1");
     }
 }

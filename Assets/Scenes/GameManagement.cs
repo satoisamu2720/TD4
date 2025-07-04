@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManagement: MonoBehaviour
 {
     private int PlayerHP = 0;
+    private bool oneBoss = false;
 
     void Start()
     {
@@ -18,9 +19,14 @@ public class GameManagement: MonoBehaviour
         {
             SceneManager.LoadScene("GameOver");
         }
-        if (nWayBullet.Instance != null && nWayBullet.Instance.currentHP <= 0)
+        if (nWayBullet.Instance != null && nWayBullet.Instance.currentHP <= 0 && !oneBoss)
         {
-            SceneManager.LoadScene("GameClear");
+            PlayerMove.Instance.transform.position = new Vector3(-160,-20,0);
+
+            StetusScript.Instance.Save();
+            oneBoss = true;
+            nWayBullet.Instance.Die();
+
         }
     }
 }

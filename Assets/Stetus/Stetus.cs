@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class StetusScript : MonoBehaviour
 {
-   public static StetusScript Instance { get; private set; }
+    public static StetusScript Instance { get; private set; }
 
     public PlayerExp playerExp;
 
@@ -14,6 +14,21 @@ public class StetusScript : MonoBehaviour
     //public int Exp;
     public int level = 1;
 
+
+
+    [System.Serializable]
+    public class UserData
+    {
+        public Vector3 position;
+        public int health;
+        public float speed;
+        public int bullet;
+        public int playerLevel;
+        public bool mainWeapon;
+        public string mainWeaponID;
+        public string subWeaponID;
+    }
+
     [Header("ボスステータス")]
     public int BossEnemyHp = 0;
 
@@ -22,27 +37,168 @@ public class StetusScript : MonoBehaviour
     public float LevelUpDashCoolTime = 0.05f;
     public int LevelUpGunMagazine = 1;
 
+    void Start()
+    {
+        if (PlayerPrefs.HasKey("ShouldLoad") && PlayerPrefs.GetInt("ShouldLoad") == 1)
+        {
+            StetusScript.Instance.Load(); 
+            PlayerPrefs.DeleteKey("ShouldLoad"); 
+        }
+    }
 
     private void Update()
     {
-        
-        //Exp = playerExp.ExpLevel.Exp;
-        //level = playerExp.ExpLevel.Level;
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("セーブされました");
+            UserData data = new UserData()
+            {
+                position = PlayerMove.Instance.transform.position,
+                health = PlayerHp,
+                speed = PlayerSpeed,
+                bullet = Bullet,
+                playerLevel = level,
+                mainWeaponID = PlayerMove.Instance.GetWeaponID(true), 
+                subWeaponID = PlayerMove.Instance.GetWeaponID(false),
+                mainWeapon = PlayerMove.Instance.isMainWeapon,
+            };
+            string json = JsonUtility.ToJson(data, true);
+            Debug.Log(json);
+
+            PlayerPrefs.SetString("PlayerUserData", json);
+            PlayerPrefs.Save();
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("ロードされました");
+            if (PlayerPrefs.HasKey("PlayerUserData"))
+            {
+                string json = PlayerPrefs.GetString("PlayerUserData");
+                UserData data = JsonUtility.FromJson<UserData>(json);
+                PlayerMove.Instance.transform.position = data.position;
+                PlayerHp = data.health;
+                PlayerSpeed = data.speed;
+                Bullet = data.bullet;
+                level = data.playerLevel;
+                if (data.mainWeapon)
+                {
+                    PlayerMove.Instance.isMainWeapon = true;
+
+                    if (!string.IsNullOrEmpty(data.mainWeaponID))
+                    {
+                        GameObject mainPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.mainWeaponID);
+                        if (mainPrefab != null)
+                        {
+                            mainPrefab.GetComponent<Weapon>().SetID(data.mainWeaponID);
+                            PlayerMove.Instance.EquipWeaponAsSlot(mainPrefab, true); // true = main
+                        }
+                    }
+
+                    if (!string.IsNullOrEmpty(data.subWeaponID))
+                    {
+                        GameObject subPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.subWeaponID);
+                        if (subPrefab != null)
+                        {
+                            subPrefab.GetComponent<Weapon>().SetID(data.subWeaponID);
+                            PlayerMove.Instance.EquipWeaponAsSlot(subPrefab, false); // false = sub
+                        }
+                    }
+                }
+
+                Debug.Log(json);
+            }
+            else
+            {
+                Debug.Log("PlayerUserDataが存在しません");
+            }
+        }
+
+
+    }
+    public void Save()
+    {
+
+        Debug.Log("セーブされました");
+        UserData data = new UserData()
+        {
+            position = PlayerMove.Instance.transform.position,
+            health = PlayerHp,
+            speed = PlayerSpeed,
+            bullet = Bullet,
+            playerLevel = level,
+            mainWeaponID = PlayerMove.Instance.GetWeaponID(true),
+            subWeaponID = PlayerMove.Instance.GetWeaponID(false),
+            mainWeapon = PlayerMove.Instance.isMainWeapon,
+        };
+        string json = JsonUtility.ToJson(data, true);
+        Debug.Log(json);
+
+        PlayerPrefs.SetString("PlayerUserData", json);
+        PlayerPrefs.Save();
+
     }
 
-    private void Awake()
+    public void Load()
     {
-        if (Instance == null)
+
+        Debug.Log("ロードされました");
+        if (PlayerPrefs.HasKey("PlayerUserData"))
         {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
+            string json = PlayerPrefs.GetString("PlayerUserData");
+            UserData data = JsonUtility.FromJson<UserData>(json);
+            PlayerMove.Instance.transform.position = data.position;
+            PlayerHp = data.health;
+            PlayerSpeed = data.speed;
+            Bullet = data.bullet;
+            level = data.playerLevel;
+            if (data.mainWeapon)
+            {
+                PlayerMove.Instance.isMainWeapon = true;
+
+                if (!string.IsNullOrEmpty(data.mainWeaponID))
+                {
+                    GameObject mainPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.mainWeaponID);
+                    if (mainPrefab != null)
+                    {
+                        mainPrefab.GetComponent<Weapon>().SetID(data.mainWeaponID);
+                        PlayerMove.Instance.EquipWeaponAsSlot(mainPrefab, true); // true = main
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(data.subWeaponID))
+                {
+                    GameObject subPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.subWeaponID);
+                    if (subPrefab != null)
+                    {
+                        subPrefab.GetComponent<Weapon>().SetID(data.subWeaponID);
+                        PlayerMove.Instance.EquipWeaponAsSlot(subPrefab, false); // false = sub
+                    }
+                }
+            }
+
+            Debug.Log(json);
         }
         else
         {
-            Destroy(this.gameObject); 
+            Debug.Log("PlayerUserDataが存在しません");
         }
+
+
     }
 
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
     internal void ResetStatus()
     {
         throw new NotImplementedException();
