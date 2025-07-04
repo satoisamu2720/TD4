@@ -1,3 +1,4 @@
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,17 +28,20 @@ public class Player : MonoBehaviour
         {
             if (_currentValue < playerExp.ExpLevel.Level)
             {
-                ChangeScene();
+                StopScene();
+                Debug.Log("“ü‚Á‚½");
                 _currentValue = playerExp.ExpLevel.Level;
             }
         }
     }
 
-    public void ChangeScene()
+    public void StopScene()
     {
-        IsNotMove = true;
-        SceneManager.LoadScene(_LoadScene, LoadSceneMode.Additive);
-
+        //IsNotMove = true;
+        //SceneManager.LoadScene(_LoadScene, LoadSceneMode.Additive);
+        Debug.Log("Ž~‚ß‚½");
+        
+        StopManager.Instance.Pause();
     }
 
 
