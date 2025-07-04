@@ -17,6 +17,12 @@ public class StetusScript : MonoBehaviour
     [Header("ボスステータス")]
     public int BossEnemyHp = 0;
 
+    [Header("レベルアップステータス")]
+    public int LevelUpPlayerHp = 2;
+    public float LevelUpDashCoolTime = 0.05f;
+    public int LevelUpGunMagazine = 1;
+
+
     private void Update()
     {
         
