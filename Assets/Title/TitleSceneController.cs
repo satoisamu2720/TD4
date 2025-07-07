@@ -21,12 +21,20 @@ public class TitleSceneController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             SceneManager.LoadScene("Stage1");
+            bgmSource.Stop();
         }
     }
 
     public void OnAlpha1Button()
     {
         SceneManager.LoadScene("Stage1");
+        bgmSource.Stop();
+    }
+    public void OnAlpha2Button()
+    {
+        PlayerPrefs.SetInt("StartLoad", 1);
+        SceneManager.LoadScene("Stage1");
+        bgmSource.Stop();
     }
 
     // 音量を設定（0.0f〜1.0fの範囲）

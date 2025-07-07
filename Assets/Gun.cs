@@ -1,9 +1,14 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SocialPlatforms.Impl;
+using Unity.VisualScripting;
+using UnityEngine.Audio;
 
 public class Gun : MonoBehaviour
 {
+    public AudioClip SE;
+    AudioSource audioSource;
+
     public GameObject bulletPrefab;
     public Transform firePoint;
     public float bulletSpeed = 5f;
@@ -25,6 +30,8 @@ public class Gun : MonoBehaviour
 
     void Start()
     {
+
+        audioSource = GetComponent<AudioSource>();
         currentAmmo = StetusScript.Instance.Bullet;
 
         PlayerMove playerMove = GetComponent<PlayerMove>();
@@ -91,6 +98,7 @@ public class Gun : MonoBehaviour
             
             if (Input.GetMouseButtonDown(0) && timer >= fireInterval && currentAmmo > 0)
             {
+                audioSource.PlayOneShot(SE);
                 Shoot();
                 timer = 0f;
             }
@@ -134,6 +142,14 @@ public class Gun : MonoBehaviour
         else
         {
             Destroy(gameObject); // 2ŒÂ–Ú‚ð–h‚®
+        }
+    }
+
+    public void SetBgmVolume(float volume)
+    {
+        if (audioSource != null)
+        {
+            audioSource.volume = Mathf.Clamp01(volume);
         }
     }
 
