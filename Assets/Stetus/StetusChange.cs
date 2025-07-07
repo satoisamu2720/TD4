@@ -14,19 +14,19 @@ public class StetusChange : MonoBehaviour
         {
             StetusScript.Instance.level += 1;
             StetusScript.Instance.PlayerHp += 10;
-            ChangeScene();
+            RsumeScene();
         }
         if (Input.GetKey(KeyCode.Alpha2))
         {
             StetusScript.Instance.level += 1;
             StetusScript.Instance.PlayerSpeed -= 0.1f;
-            ChangeScene();
+            RsumeScene();
         }
         if (Input.GetKey(KeyCode.Alpha3))
         {
             StetusScript.Instance.level += 1;
             StetusScript.Instance.Bullet += 1;
-            ChangeScene();
+            RsumeScene();
         }
     }
 
@@ -34,27 +34,30 @@ public class StetusChange : MonoBehaviour
     {
         StetusScript.Instance.level += 1;
         StetusScript.Instance.PlayerHp += 2;
-        ChangeScene();
+        RsumeScene();
     }
 
     public void OnAlpha2Button()
     {
         StetusScript.Instance.level += 1;
         StetusScript.Instance.PlayerSpeed -= 0.1f;
-        ChangeScene();
+        RsumeScene();
     }
 
     public void OnAlpha3Button()
     {
         StetusScript.Instance.level += 1;
         StetusScript.Instance.Bullet += 1;
-        ChangeScene();
+        RsumeScene();
     }
 
-    public void ChangeScene()
+    public void RsumeScene()
     {
-        SceneTransitionManager.Instance.ReturnToStageScene();
-        Player.IsNotMove = false;
+        //SceneTransitionManager.Instance.ReturnToStageScene();
+        //Player.IsNotMove = false;
+
+        StopManager.Instance.Resume();
+
     }
 
 
