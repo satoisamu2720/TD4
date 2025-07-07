@@ -41,8 +41,8 @@ public class StetusScript : MonoBehaviour
     {
         if (PlayerPrefs.HasKey("ShouldLoad") && PlayerPrefs.GetInt("ShouldLoad") == 1)
         {
-            StetusScript.Instance.Load(); 
-            PlayerPrefs.DeleteKey("ShouldLoad"); 
+            StetusScript.Instance.Load();
+            PlayerPrefs.DeleteKey("ShouldLoad");
         }
     }
 
@@ -76,37 +76,39 @@ public class StetusScript : MonoBehaviour
             {
                 string json = PlayerPrefs.GetString("PlayerUserData");
                 UserData data = JsonUtility.FromJson<UserData>(json);
+
                 PlayerMove.Instance.transform.position = data.position;
                 PlayerHp = data.health;
                 PlayerSpeed = data.speed;
                 Bullet = data.bullet;
                 level = data.playerLevel;
-                if (data.mainWeapon)
+
+                PlayerMove.Instance.isMainWeapon = data.mainWeapon;
+
+                // メイン武器ロード
+                if (!string.IsNullOrEmpty(data.mainWeaponID))
                 {
-                    PlayerMove.Instance.isMainWeapon = true;
-
-                    if (!string.IsNullOrEmpty(data.mainWeaponID))
+                    GameObject mainPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.mainWeaponID);
+                    if (mainPrefab != null)
                     {
-                        GameObject mainPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.mainWeaponID);
-                        if (mainPrefab != null)
-                        {
-                            mainPrefab.GetComponent<Weapon>().SetID(data.mainWeaponID);
-                            PlayerMove.Instance.EquipWeaponAsSlot(mainPrefab, true); // true = main
-                        }
+                        mainPrefab.GetComponent<Weapon>().SetID(data.mainWeaponID);
+                        PlayerMove.Instance.EquipWeaponAsSlot(mainPrefab, true); // true = main
                     }
+                }
 
-                    if (!string.IsNullOrEmpty(data.subWeaponID))
+                // サブ武器ロード
+                if (!string.IsNullOrEmpty(data.subWeaponID))
+                {
+                    GameObject subPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.subWeaponID);
+                    if (subPrefab != null)
                     {
-                        GameObject subPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.subWeaponID);
-                        if (subPrefab != null)
-                        {
-                            subPrefab.GetComponent<Weapon>().SetID(data.subWeaponID);
-                            PlayerMove.Instance.EquipWeaponAsSlot(subPrefab, false); // false = sub
-                        }
+                        subPrefab.GetComponent<Weapon>().SetID(data.subWeaponID);
+                        PlayerMove.Instance.EquipWeaponAsSlot(subPrefab, false); // false = sub
                     }
                 }
 
                 Debug.Log(json);
+                Debug.Log($"メイン: {PlayerMove.Instance.GetWeaponID(true)}, サブ: {PlayerMove.Instance.GetWeaponID(false)}");
             }
             else
             {
@@ -141,39 +143,39 @@ public class StetusScript : MonoBehaviour
 
     public void Load()
     {
-
         Debug.Log("ロードされました");
         if (PlayerPrefs.HasKey("PlayerUserData"))
         {
             string json = PlayerPrefs.GetString("PlayerUserData");
             UserData data = JsonUtility.FromJson<UserData>(json);
+
             PlayerMove.Instance.transform.position = data.position;
             PlayerHp = data.health;
             PlayerSpeed = data.speed;
             Bullet = data.bullet;
             level = data.playerLevel;
-            if (data.mainWeapon)
+
+            PlayerMove.Instance.isMainWeapon = data.mainWeapon;
+
+            // メイン武器ロード
+            if (!string.IsNullOrEmpty(data.mainWeaponID))
             {
-                PlayerMove.Instance.isMainWeapon = true;
-
-                if (!string.IsNullOrEmpty(data.mainWeaponID))
+                GameObject mainPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.mainWeaponID);
+                if (mainPrefab != null)
                 {
-                    GameObject mainPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.mainWeaponID);
-                    if (mainPrefab != null)
-                    {
-                        mainPrefab.GetComponent<Weapon>().SetID(data.mainWeaponID);
-                        PlayerMove.Instance.EquipWeaponAsSlot(mainPrefab, true); // true = main
-                    }
+                    mainPrefab.GetComponent<Weapon>().SetID(data.mainWeaponID);
+                    PlayerMove.Instance.EquipWeaponAsSlot(mainPrefab, true); // true = main
                 }
+            }
 
-                if (!string.IsNullOrEmpty(data.subWeaponID))
+            // サブ武器ロード
+            if (!string.IsNullOrEmpty(data.subWeaponID))
+            {
+                GameObject subPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.subWeaponID);
+                if (subPrefab != null)
                 {
-                    GameObject subPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.subWeaponID);
-                    if (subPrefab != null)
-                    {
-                        subPrefab.GetComponent<Weapon>().SetID(data.subWeaponID);
-                        PlayerMove.Instance.EquipWeaponAsSlot(subPrefab, false); // false = sub
-                    }
+                    subPrefab.GetComponent<Weapon>().SetID(data.subWeaponID);
+                    PlayerMove.Instance.EquipWeaponAsSlot(subPrefab, false); // false = sub
                 }
             }
 
@@ -183,10 +185,7 @@ public class StetusScript : MonoBehaviour
         {
             Debug.Log("PlayerUserDataが存在しません");
         }
-
-
     }
-
     void Awake()
     {
         Instance = this;
