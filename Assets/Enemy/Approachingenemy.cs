@@ -52,11 +52,26 @@ public class Approachingenemy : MonoBehaviour
 
     void Update()
     {
+        //if (TextBoxController.IsTalking) return; // 会話中は入力無効
+        //if (Player.IsNotMove) return; // 会話中は入力無効
+
+        //if(GameManagement.Instance.isPause == false)
+        //{
+        //}
+        //HandleStateMachine();
+        //HandleArrow();
+        //Invincible();
+
         if (TextBoxController.IsTalking) return; // 会話中は入力無効
         if (Player.IsNotMove) return; // 会話中は入力無効
-        HandleStateMachine();
-        HandleArrow();
-        Invincible();
+
+        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
+        {
+            HandleStateMachine();
+            HandleArrow();
+            Invincible();
+        }
+
     }
 
     void HandleStateMachine()

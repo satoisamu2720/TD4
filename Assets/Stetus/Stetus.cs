@@ -5,6 +5,9 @@ public class StetusScript : MonoBehaviour
 {
     public static StetusScript Instance { get; private set; }
 
+    public GameObject levelUpPanel;
+    public bool isLevelUp = false;
+
     public PlayerExp playerExp;
 
     [Header("プレイヤーステータス")]
@@ -116,6 +119,14 @@ public class StetusScript : MonoBehaviour
             }
         }
 
+        if (isLevelUp)
+        {
+            levelUpPanel.SetActive(true);
+        }
+        else
+        {
+            levelUpPanel.SetActive(false);
+        }
 
     }
     public void Save()
