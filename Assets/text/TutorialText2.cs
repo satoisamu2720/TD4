@@ -35,6 +35,7 @@ public class TutorialText2 : MonoBehaviour
                 "–œ‘S‚¾‚ÆŽv‚Á‚½‚ç–îˆó‚Ì•û‚Ö‚¢‚±‚¤",
             };
             textBox.ShowMessages(lines);
+            TutorialStepController.Instance.ProgressToNextStep();
         }
     }
 }

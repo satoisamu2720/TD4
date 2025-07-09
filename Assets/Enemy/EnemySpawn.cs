@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
+    public static EnemySpawn Instance { get; private set; }
+
     [SerializeField] List<EnemyCount> enemyCounts;
 
  
@@ -29,6 +31,7 @@ public class EnemySpawn : MonoBehaviour
             foreach (Vector2 p in data.pos)
             {
                 GameObject enemyObj = Instantiate(data.enemyPrefab, p, data.rot);
+                enemyObj.tag = "Enemy";
                 spawnedEnemies.Add(enemyObj);
                 enemyObj.SetActive(true);
             }
@@ -44,6 +47,16 @@ public class EnemySpawn : MonoBehaviour
     {
         return spawnedEnemies;
     }
+    public void DestroyAllEnemies()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+    }
+
 
     [System.Serializable]
     public class EnemyCount
@@ -65,5 +78,16 @@ public class EnemySpawn : MonoBehaviour
         public bool isSpawn;                   // Ç±ÇÃìGÇê∂ê¨Ç∑ÇÈÇ©Ç«Ç§Ç©
     }
 
-   
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 }

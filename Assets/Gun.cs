@@ -129,6 +129,30 @@ public class Gun : MonoBehaviour
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
+            switch (currentWeaponID)
+            {
+                case "handgun":
+                    bulletSpeed = StetusScript.Instance.hundgunBulletSpeed;
+                    fireInterval = StetusScript.Instance.hundgunFireInterval;
+                    reloadTime = StetusScript.Instance.hundgunReloadTime;
+                    MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
+                    break;
+
+                case "ar":
+                    bulletSpeed = StetusScript.Instance.ArBulletSpeed;
+                    fireInterval = StetusScript.Instance.ArFireInterval;
+                    reloadTime = StetusScript.Instance.ArReloadTime;
+                    MaxAmmo = StetusScript.Instance.ArMaxAmmo;
+                    break;
+
+                default:
+                    bulletSpeed = StetusScript.Instance.hundgunBulletSpeed;
+                    fireInterval = StetusScript.Instance.hundgunFireInterval;
+                    reloadTime = StetusScript.Instance.hundgunReloadTime;
+                    MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
+                    break;
+            }
+
             // Rキーで手動リロード（残弾が満タンじゃないときだけ）
             if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < MaxAmmo)
             {

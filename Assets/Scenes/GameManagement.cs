@@ -44,6 +44,7 @@ public class GameManagement: MonoBehaviour
             StetusScript.Instance.Save();
             oneBoss = true;
             nWayBullet.Instance.Die();
+            EnemySpawn.Instance.DestroyAllEnemies();
             TutorialStepController.Instance.ProgressToNextStep();
             var followUI = UIFollowWorldObject.GetInstance();
             if (followUI != null)

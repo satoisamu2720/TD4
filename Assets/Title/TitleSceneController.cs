@@ -27,11 +27,15 @@ public class TitleSceneController : MonoBehaviour
 
     public void OnAlpha1Button()
     {
+        PlayerPrefs.DeleteKey("PlayerUserData");
+        PlayerPrefs.Save();
         SceneManager.LoadScene("Stage1");
         bgmSource.Stop();
     }
     public void OnAlpha2Button()
     {
+        PlayerPrefs.DeleteKey("PlayerUserData");
+        PlayerPrefs.Save();
         PlayerPrefs.SetInt("StartLoad", 1);
         SceneManager.LoadScene("Stage1");
         bgmSource.Stop();

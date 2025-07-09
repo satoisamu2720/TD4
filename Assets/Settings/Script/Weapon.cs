@@ -49,9 +49,6 @@ public class Weapon : MonoBehaviour
                 OnWeaponPickedUp?.Invoke();
                 // 武器を削除して消す
                 Destroy(this.gameObject);
-
-                // 武器を拾った後にチュートリアルを進める
-                TutorialStepController.Instance.ProgressToNextStep();
             }
         }
     }

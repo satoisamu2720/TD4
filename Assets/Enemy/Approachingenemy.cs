@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class Approachingenemy : MonoBehaviour
 {
+
+    public static Approachingenemy Instance { get; private set; }
     public float speed = 5f;
     public int maxHP = 2;
     public float rushDistance = 5f;
@@ -138,7 +140,7 @@ public class Approachingenemy : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
         if (itemPrefab != null)
         {
@@ -177,16 +179,16 @@ public class Approachingenemy : MonoBehaviour
             }
         }
     }
-    //void Awake()
-    //{
-    //    if (instance == null)
-    //    {
-    //        instance = this;
-    //        DontDestroyOnLoad(gameObject);
-    //    }
-    //    else
-    //    {
-    //        Destroy(gameObject); // 2å¬ñ⁄Ç™ê∂ê¨Ç≥ÇÍÇΩÇÁçÌèú
-    //    }
-    //}
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 }
