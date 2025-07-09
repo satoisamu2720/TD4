@@ -10,10 +10,22 @@ public class StetusScript : MonoBehaviour
     [Header("プレイヤーステータス")]
     public int PlayerHp = 5;
     public float PlayerSpeed = 1.0f;
-    public int Bullet = 7;
+    
     //public int Exp;
     public int level = 1;
 
+    [Header("ハンドガンステータス")]
+    public int HandgunAmmo = 7;
+    public float hundgunBulletSpeed = 10.0f;
+    public float hundgunFireInterval = 0.8f;
+    public float hundgunReloadTime = 1.0f;
+
+    [Header("アサルトライフルステータス")]
+    public int ArAmmo = 7;
+    public float ArBulletSpeed = 10.0f;
+    public float ArFireInterval = 1.2f;
+    public float ArReloadTime = 1.5f;
+   
 
 
     [System.Serializable]
@@ -27,6 +39,8 @@ public class StetusScript : MonoBehaviour
         public bool mainWeapon;
         public string mainWeaponID;
         public string subWeaponID;
+        public int handgunAmmo;
+        public int arAmmo;
     }
 
     [Header("ボスステータス")]
@@ -62,7 +76,8 @@ public class StetusScript : MonoBehaviour
                 position = PlayerMove.Instance.transform.position,
                 health = PlayerHp,
                 speed = PlayerSpeed,
-                bullet = Bullet,
+                handgunAmmo = HandgunAmmo,
+                arAmmo = ArAmmo,
                 playerLevel = level,
                 mainWeaponID = PlayerMove.Instance.GetWeaponID(true), 
                 subWeaponID = PlayerMove.Instance.GetWeaponID(false),
@@ -85,7 +100,8 @@ public class StetusScript : MonoBehaviour
                 PlayerMove.Instance.transform.position = data.position;
                 PlayerHp = data.health;
                 PlayerSpeed = data.speed;
-                Bullet = data.bullet;
+                HandgunAmmo = data.handgunAmmo;
+                ArAmmo = data.arAmmo;
                 level = data.playerLevel;
 
                 PlayerMove.Instance.isMainWeapon = data.mainWeapon;
@@ -132,7 +148,8 @@ public class StetusScript : MonoBehaviour
             position = PlayerMove.Instance.transform.position,
             health = PlayerHp,
             speed = PlayerSpeed,
-            bullet = Bullet,
+            handgunAmmo = HandgunAmmo,
+            arAmmo = ArAmmo,
             playerLevel = level,
             mainWeaponID = PlayerMove.Instance.GetWeaponID(true),
             subWeaponID = PlayerMove.Instance.GetWeaponID(false),
@@ -157,7 +174,8 @@ public class StetusScript : MonoBehaviour
             PlayerMove.Instance.transform.position = data.position;
             PlayerHp = data.health;
             PlayerSpeed = data.speed;
-            Bullet = data.bullet;
+            HandgunAmmo = data.handgunAmmo;
+            ArAmmo = data.arAmmo;
             level = data.playerLevel;
 
             PlayerMove.Instance.isMainWeapon = data.mainWeapon;

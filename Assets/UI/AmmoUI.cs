@@ -11,12 +11,14 @@ public class AmmoUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int currentAmmo = StetusScript.Instance.Bullet;
-
-        if (currentAmmo != lastammo)
+        if (Gun.Instance != null)
         {
-            ammoText.text = "íeêî: " + StetusScript.Instance.Bullet;
-            lastammo = currentAmmo;
+            int currentAmmo = Gun.Instance.GetCurrentAmmo();
+            if (currentAmmo != lastammo)
+            {
+                ammoText.text = "íeêî: " + Gun.Instance.GetCurrentAmmo();
+                lastammo = currentAmmo;
+            }
         }
     }
 }

@@ -117,8 +117,8 @@ public class nWayBullet : MonoBehaviour
         {
             StartInvincibility();
 
-            currentHP -= damage;
         }
+           currentHP -= damage;
         
     }
 

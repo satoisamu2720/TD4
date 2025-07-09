@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8133c5e8fbb1f13409425d94237b2cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: sabugun
+  ID: ar
   weaponPrefab: {fileID: 3245072080698827588}
 --- !u!61 &3813246084699439771
 BoxCollider2D:
