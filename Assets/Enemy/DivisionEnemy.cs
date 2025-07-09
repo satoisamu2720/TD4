@@ -1,0 +1,198 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class DivisionEnemy : MonoBehaviour
+{
+    public float speed = 5f;
+    public int maxHP = 2;
+    public float rushDistance = 5f;
+    public float waitTime = 1.5f;
+    public GameObject itemPrefab;
+    public GameObject arrowUIPrefab;
+
+    public GameObject miniEnemyPrefab;
+    public int numberOfSplits = 2;
+    public float splitSpreadAngle = 90f;
+
+    private int currentHP;
+    private Transform player;
+    private Vector2 moveDirection;
+    private Vector2 startPosition;
+    private float waitTimer = 0f;
+
+    private enum State { Idle, Rushing }
+    private State state = State.Idle;
+
+    private Camera mainCamera;
+    private RectTransform arrowInstance;
+
+    [SerializeField]
+    private float invincibilityDuration = 2f;
+    private bool isInvincible = false;
+    private float invincibilityTimer = 0f;
+
+    private SpriteRenderer spriteRenderer;
+    private Color originColor;
+
+    void Start()
+    {
+        player = GameObject.FindWithTag("Player")?.transform;
+        currentHP = maxHP;
+        waitTimer = waitTime;
+        mainCamera = Camera.main;
+
+        if (arrowUIPrefab != null)
+        {
+            GameObject arrowObj = Instantiate(arrowUIPrefab, GameObject.Find("Canvas").transform);
+            arrowInstance = arrowObj.GetComponent<RectTransform>();
+        }
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originColor = spriteRenderer.color;
+    }
+
+    void Update()
+    {
+        if (TextBoxController.IsTalking) return;
+        if (Player.IsNotMove) return;
+
+        HandleStateMachine();
+        HandleArrow();
+        HandleInvincibility();
+    }
+
+    void HandleStateMachine()
+    {
+        switch (state)
+        {
+            case State.Idle:
+                waitTimer -= Time.deltaTime;
+                if (waitTimer <= 0f && player != null)
+                {
+                    moveDirection = (player.position - transform.position).normalized;
+                    startPosition = transform.position;
+                    state = State.Rushing;
+                }
+                break;
+
+            case State.Rushing:
+                transform.Translate(moveDirection * speed * Time.deltaTime);
+                float traveled = Vector2.Distance(startPosition, transform.position);
+                if (traveled >= rushDistance)
+                {
+                    state = State.Idle;
+                    waitTimer = waitTime;
+                }
+                break;
+        }
+    }
+
+    void HandleArrow()
+    {
+        if (arrowInstance == null || mainCamera == null) return;
+
+        Vector3 viewportPos = mainCamera.WorldToViewportPoint(transform.position);
+        bool isOffScreen = viewportPos.x < 0f || viewportPos.x > 1f || viewportPos.y < 0f || viewportPos.y > 1f || viewportPos.z < 0f;
+
+        arrowInstance.gameObject.SetActive(isOffScreen);
+
+        if (isOffScreen)
+        {
+            Vector3 dir = (transform.position - mainCamera.transform.position).normalized;
+            Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
+            Vector3 screenDir = new Vector3(dir.x, dir.y, 0).normalized;
+
+            Vector3 screenPos = screenCenter + screenDir * 150f;
+            screenPos.x = Mathf.Clamp(screenPos.x, 30f, Screen.width - 30f);
+            screenPos.y = Mathf.Clamp(screenPos.y, 30f, Screen.height - 30f);
+
+            arrowInstance.position = screenPos;
+
+            float angle = Mathf.Atan2(screenDir.y, screenDir.x) * Mathf.Rad2Deg;
+            arrowInstance.rotation = Quaternion.Euler(0, 0, angle - 90f);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+            if (!isInvincible)
+            {
+                TakeDamage(1);
+                StartInvincibility();
+            }
+
+            Destroy(collision.gameObject);
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHP -= damage;
+        if (currentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        if (itemPrefab != null)
+        {
+            Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        }
+
+        if (arrowInstance != null)
+        {
+            Destroy(arrowInstance.gameObject);
+        }
+
+        Split();
+        Destroy(gameObject);
+    }
+
+    void StartInvincibility()
+    {
+        isInvincible = true;
+        invincibilityTimer = invincibilityDuration;
+    }
+
+    void HandleInvincibility()
+    {
+        if (isInvincible)
+        {
+            invincibilityTimer -= Time.deltaTime;
+
+            float alpha = Mathf.PingPong(Time.time * 10f, 0.5f) + 0.5f; // “§–¾“x 0.5`1.0
+            spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // Ô‚­“_–Å
+
+            if (invincibilityTimer <= 0f)
+            {
+                isInvincible = false;
+                spriteRenderer.color = originColor;
+            }
+        }
+    }
+
+    void Split()
+    {
+        if (miniEnemyPrefab == null || numberOfSplits <= 0) return;
+
+        float angleStep = splitSpreadAngle / (numberOfSplits - 1);
+        float startAngle = -splitSpreadAngle / 2;
+
+        for (int i = 0; i < numberOfSplits; i++)
+        {
+            GameObject mini = Instantiate(miniEnemyPrefab, transform.position, Quaternion.identity);
+            float angle = startAngle + angleStep * i;
+            Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right;
+
+            Rigidbody2D rb = mini.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.AddForce(direction * 3f, ForceMode2D.Impulse);
+            }
+        }
+    }
+}
