@@ -181,9 +181,7 @@ public class nWayBullet : MonoBehaviour
         invincibilityTimer = invincibilityDuration;
 
     }
-    /// <summary>
-    /// –³“GŠÔ‚Ìˆ—‚Æ“_–Å‚Ìˆ—
-    /// </summary>
+   
     private void Invincible()
     {
         if (isInvincible)

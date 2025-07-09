@@ -13,7 +13,7 @@ public class CrackEffectController : MonoBehaviour
 
         StartCoroutine(FadeInCrack());
 
-        Debug.Log("CrackEffect Played"); // ©‚±‚ê‚ğŠm”F—p‚É“ü‚ê‚Ä‚İ‚æ‚¤
+        Debug.Log("CrackEffect Played"); 
 
         if (dustParticle) dustParticle.Play();
         if (rockParticle) rockParticle.Play();
