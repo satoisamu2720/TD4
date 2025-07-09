@@ -152,6 +152,15 @@ public class nWayBullet : MonoBehaviour
             Destroy(bulletObj, 5f);
         }
     }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wall") )
+        {
+            Die();
+        }
+    }
+
+
 
     void Awake()
     {

@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: -8167633852722741300}
   - component: {fileID: -7971337538997809128}
   - component: {fileID: 1349978764509383205}
+  - component: {fileID: -5030037707133500532}
   m_Layer: 0
   m_Name: MiniEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,3 +183,22 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-5030037707133500532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7867096426092692376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 759b5f6eb2e3e3d44a00075dc67a289e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  maxHP: 2
+  rushDistance: 5
+  waitTime: 1.5
+  itemPrefab: {fileID: 0}
+  arrowUIPrefab: {fileID: 0}
+  invincibilityDuration: 2

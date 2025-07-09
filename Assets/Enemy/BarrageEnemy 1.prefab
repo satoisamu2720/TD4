@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2030022341567815632}
   - component: {fileID: 6928335307405413526}
   - component: {fileID: 7986642210635316691}
+  - component: {fileID: -1332594041708756533}
   m_Layer: 0
   m_Name: BarrageEnemy 1
   m_TagString: Enemy
@@ -104,8 +105,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Bullet: {fileID: 6774839169452580662, guid: 4c6cb210967c3fd44a6c4029f28da1c1, type: 3}
   _Velocity_0: 10
-  Degree: 60
-  Angle_Sprite: 6
+  Degree: 45
+  Angle_Sprite: 4
   playerTag: Player
   fireCooldown: 1
   reloadTime: 3
@@ -115,6 +116,7 @@ MonoBehaviour:
   maxHP: 20
   itemPrefab: {fileID: 0}
   delayBeforeFire: 1
+  invincibilityDuration: 2
 --- !u!61 &6928335307405413526
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -188,3 +190,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-1332594041708756533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8860817663685525557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1bfde70a3777e540ba8e4b39dfde681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crackRenderer: {fileID: 3890928606363542027, guid: f353594c96e584a4c847667b9e89d17a, type: 3}
+  dustParticle: {fileID: 0}
+  rockParticle: {fileID: 0}
