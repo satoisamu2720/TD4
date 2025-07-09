@@ -8,6 +8,13 @@ public class GameManagement: MonoBehaviour
 
     private AudioSource bgmSource;
 
+    [SerializeField]
+    private Vector3 playerSpawnTutorial = Vector3.zero;
+    [SerializeField]
+    private Vector3 playerSpawnStage1= Vector3.zero;
+    [SerializeField]
+    private Vector3 playerSpawnStage2= Vector3.zero;
+
     void Start()
     {
         PlayerHP = StetusScript.Instance.PlayerHp;
@@ -32,7 +39,7 @@ public class GameManagement: MonoBehaviour
         }
         if (nWayBullet.Instance != null && nWayBullet.Instance.currentHP <= 0 && !oneBoss)
         {
-            PlayerMove.Instance.transform.position = new Vector3(-150,-15,0);
+            PlayerMove.Instance.transform.position = playerSpawnStage1;
 
             StetusScript.Instance.Save();
             oneBoss = true;

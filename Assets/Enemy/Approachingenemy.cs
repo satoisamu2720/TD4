@@ -128,10 +128,10 @@ public class Approachingenemy : MonoBehaviour
     {
         if (!isInvincible)
         {
-            StartInvincibility();
 
-            currentHP -= damage;
+            StartInvincibility();
         }
+            currentHP -= damage;
         if (currentHP <= 0)
         {
             Die();

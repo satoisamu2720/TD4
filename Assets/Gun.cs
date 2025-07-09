@@ -38,21 +38,21 @@ public class Gun : MonoBehaviour
                 bulletSpeed = StetusScript.Instance.hundgunBulletSpeed;
                 fireInterval = StetusScript.Instance.hundgunFireInterval;
                 reloadTime = StetusScript.Instance.hundgunReloadTime;
-                MaxAmmo = StetusScript.Instance.HandgunAmmo;
+                MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                 break;
 
             case "ar":
                 bulletSpeed = StetusScript.Instance.ArBulletSpeed;
                 fireInterval = StetusScript.Instance.ArFireInterval;
                 reloadTime = StetusScript.Instance.ArReloadTime;
-                MaxAmmo = StetusScript.Instance.ArAmmo;
+                MaxAmmo = StetusScript.Instance.ArMaxAmmo;
                 break;
 
             default:
                 bulletSpeed = StetusScript.Instance.hundgunBulletSpeed;
                 fireInterval = StetusScript.Instance.hundgunFireInterval;
                 reloadTime = StetusScript.Instance.hundgunReloadTime;
-                MaxAmmo = StetusScript.Instance.HandgunAmmo;
+                MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                 break;
         }
     }
@@ -61,7 +61,7 @@ public class Gun : MonoBehaviour
     {
 
         audioSource = GetComponent<AudioSource>();
-        
+
         currentWeaponData = GetComponent<Weapon>();
         currentWeaponID = currentWeaponData != null ? currentWeaponData.GetID() : "default";
         SetupWeaponByID(currentWeaponID);
@@ -72,8 +72,18 @@ public class Gun : MonoBehaviour
         {
             ammoText = GameObject.Find("AmmoText")?.GetComponent<TextMeshProUGUI>();
         }
-
+        switch (currentWeaponID)
+        {
+            case "handgun":
+                MaxAmmo = StetusScript.Instance.HandgunAmmo;
+                break;
+            case "ar":
+                MaxAmmo = StetusScript.Instance.ArAmmo;
+                break;
+        }
     }
+
+
     void Update()
     {
         
@@ -95,29 +105,6 @@ public class Gun : MonoBehaviour
         {
             ammoText.text = "弾数: " + currentAmmo;
         }
-
-        switch (currentWeaponID)
-        {
-            case "handgun":
-                bulletSpeed = StetusScript.Instance.hundgunBulletSpeed;
-                fireInterval = StetusScript.Instance.hundgunFireInterval;
-                reloadTime = StetusScript.Instance.hundgunReloadTime;        
-                break;
-
-            case "ar":
-                bulletSpeed = StetusScript.Instance.ArBulletSpeed;
-                fireInterval = StetusScript.Instance.ArFireInterval;
-                reloadTime = StetusScript.Instance.ArReloadTime;
-                break;
-
-            default:
-                bulletSpeed = StetusScript.Instance.hundgunBulletSpeed;
-                fireInterval = StetusScript.Instance.hundgunFireInterval;
-                reloadTime = StetusScript.Instance.hundgunReloadTime;
-                break;
-        }
-
-
         Weapon weaponComp = playerMove.GetComponentInChildren<Weapon>();
         if (weaponComp != null)
         {
@@ -126,7 +113,7 @@ public class Gun : MonoBehaviour
             {
                 currentWeaponID = newWeaponID;
                 SetupWeaponByID(currentWeaponID);
-                currentAmmo = MaxAmmo; // 武器切り替えで弾数リセットしたい場合
+                //currentAmmo = MaxAmmo; // 武器切り替えで弾数リセットしたい場合
             }
         }
         if (playerMove.isWeapon == true)
