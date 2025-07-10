@@ -20,6 +20,7 @@ public class StetusScript : MonoBehaviour
     public float hundgunBulletSpeed = 10.0f;
     public float hundgunFireInterval = 0.8f;
     public float hundgunReloadTime = 1.0f;
+    public int hundgunBalletLife = 0;
 
     [Header("アサルトライフルステータス")]
     public int ArAmmo = 30;

@@ -5,10 +5,13 @@ public class Bullet : MonoBehaviour
     public float lifeTime = 5f; // 弾の寿命（秒数）
     public int damage = 1;      // ダメージ量
 
+    public int life = 0;
+
     private void Start()
     {
         // 指定時間後に自動で削除（保険）
         Destroy(gameObject, lifeTime);
+        life = StetusScript.Instance.hundgunBalletLife;
     }
 
 
@@ -35,21 +38,30 @@ public class Bullet : MonoBehaviour
 
             if (enemy != null)
             {
+                life--;
                 enemy.TakeDamage(damage);
             }
 
             if (Boss != null)
             {
+                life--;
                 Boss.TakeDamage(damage);
             }
 
             if (shootEnemy != null)
             {
+                life --;
                 shootEnemy.TakeDamage(damage);
             }
-
-            // 弾を消す（1ヒット制）
-            Destroy(gameObject);
+            
+            if(life <= 0)
+            {
+                // 弾を消す（1ヒット制）
+                Destroy(gameObject);
+                Debug.Log("life" + life);
+                life = StetusScript.Instance.hundgunBalletLife;
+            }
+            
         }
         if (other.CompareTag("Wall"))
         {
