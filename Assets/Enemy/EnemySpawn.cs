@@ -26,18 +26,22 @@ public class EnemySpawn : MonoBehaviour
         {
             foreach (Vector2 p in data.pos)
             {
-                GameObject enemyObj = Instantiate(data.enemyPrefab, p, data.rot);
+                // EnemySpawnオブジェクトの位置を基準にした相対位置でスポーン
+                Vector3 spawnPos = transform.position + (Vector3)p;
+                GameObject enemyObj = Instantiate(data.enemyPrefab, spawnPos, data.rot);
                 spawnedEnemies.Add(enemyObj);
                 enemyObj.SetActive(true);
             }
         }
     }
 
+    // 手動で呼び出して敵をスポーンさせる
     public void SpawnEnemiesManually()
     {
         SpawnEnemies();
     }
 
+    // 生成された敵のリストを取得
     public List<GameObject> GetSpawnedEnemies()
     {
         return spawnedEnemies;
@@ -56,7 +60,7 @@ public class EnemySpawn : MonoBehaviour
         }
 
         public EnemyType enemyType;            // ラベル的な用途
-        public List<Vector2> pos;              // 配置位置のリスト
+        public List<Vector2> pos;              // EnemySpawn位置からの相対配置位置のリスト
         public Quaternion rot;                 // 回転
         public GameObject enemyPrefab;         // 敵のプレハブ
         public string ID;                      // 任意のID
