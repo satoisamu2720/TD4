@@ -28,6 +28,7 @@ public class StetusScript : MonoBehaviour
     public float ArBulletSpeed = 10.0f;
     public float ArFireInterval = 1.2f;
     public float ArReloadTime = 1.5f;
+    public int ArBalletLife = 1;
    
 
 

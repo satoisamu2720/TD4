@@ -215,15 +215,25 @@ public class Gun : MonoBehaviour
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.linearVelocity = firePoint.right * bulletSpeed;
 
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
+
+        int bulletLife = 1;
+        int bulletDamage = 1;
+
         switch (currentWeaponID)
         {
             case "handgun":
+                bulletDamage = 5;
+                bulletLife = StetusScript.Instance.hundgunBalletLife;
                 StetusScript.Instance.HandgunAmmo--;
                 break;
             case "ar":
+                bulletDamage = 1;
+                bulletLife = StetusScript.Instance.ArBalletLife;
                 StetusScript.Instance.ArAmmo--;
                 break;
         }
+        bulletScript.Initialize(currentWeaponID, bulletLife, bulletDamage);
     }
 
     public int GetCurrentAmmo()
