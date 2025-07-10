@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - ExpItem
   - Bullet
+  - Wall
   layers:
   - Default
   - TransparentFX
