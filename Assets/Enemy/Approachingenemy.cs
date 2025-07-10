@@ -157,7 +157,7 @@ public class Approachingenemy : MonoBehaviour
             {
                 isInvincible = false;
                 spriteRenderer.color = originColor;
-            }
+            } 
         }
     }
 
