@@ -150,6 +150,15 @@ public class nWayBullet : MonoBehaviour
             Destroy(bulletObj, 5f);
         }
     }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wall") )
+        {
+            Die();
+        }
+    }
+
+
 
     private void StartInvincibility()
     {
@@ -157,9 +166,7 @@ public class nWayBullet : MonoBehaviour
         invincibilityTimer = invincibilityDuration;
 
     }
-    /// <summary>
-    /// –³“GŠÔ‚Ìˆ—‚Æ“_–Å‚Ìˆ—
-    /// </summary>
+   
     private void Invincible()
     {
         if (isInvincible)
