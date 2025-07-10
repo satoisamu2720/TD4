@@ -147,16 +147,10 @@ public class nWayBullet : MonoBehaviour
             bulletCs.theta = rad;
             bulletCs.Velocity_0 = _Velocity_0;
 
-            Destroy(bulletObj, 5f);
+           // Destroy(bulletObj, 5f);
         }
     }
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Wall") )
-        {
-            Die();
-        }
-    }
+    
 
 
 

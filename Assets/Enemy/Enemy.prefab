@@ -108,7 +108,8 @@ MonoBehaviour:
   waitTime: 1.5
   itemPrefab: {fileID: 8442228131798896307, guid: 978a81747381cc043896e181a9f0fb69, type: 3}
   arrowUIPrefab: {fileID: 0}
-  invincibilityDuration: 0.5
+  invincibilityDuration: 2
+  rushTimeout: 1
 --- !u!58 &-5490315343968452374
 CircleCollider2D:
   m_ObjectHideFlags: 0

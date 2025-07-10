@@ -15,4 +15,16 @@ public class BulletCs : MonoBehaviour
         bulletV.y = Velocity_0 * Mathf.Sin(theta);
         rid2d.linearVelocity = bulletV; 
     }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
+        }
+        if (collision.CompareTag("Player"))
+        {
+            Destroy(gameObject);
+        }
+    }
 }
