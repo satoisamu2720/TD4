@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour
             // 弾を消す（1ヒット制）
             Destroy(gameObject);
         }
-        if (other.CompareTag("Wall"))
+        if (other.CompareTag("block"))
         {
             Destroy(gameObject);
         }

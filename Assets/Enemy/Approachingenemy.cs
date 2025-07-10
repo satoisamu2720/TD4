@@ -3,12 +3,14 @@ using UnityEngine.UI;
 
 public class Approachingenemy : MonoBehaviour
 {
+
+    public static Approachingenemy Instance { get; private set; }
     public float speed = 5f;
     public int maxHP = 2;
     public float rushDistance = 5f;
     public float waitTime = 1.5f;
     public GameObject itemPrefab;
-    public GameObject arrowUIPrefab;
+    public GameObject arrowUIPrefab; 
 
     private int currentHP;
     private Transform player;
@@ -22,15 +24,16 @@ public class Approachingenemy : MonoBehaviour
     private Camera mainCamera;
     private RectTransform arrowInstance;
 
-    [SerializeField] private float invincibilityDuration = 2f;
+    // 無敵時間の長さ
+    [SerializeField]
+    private float invincibilityDuration = 2f;
     private bool isInvincible = false;
+    // 無敵時間の残り時間
     private float invincibilityTimer = 0f;
 
     private SpriteRenderer spriteRenderer;
+    //　元のカラー
     private Color originColor;
-
-    private float rushTimer = 0f;
-    [SerializeField] private float rushTimeout = 1f; // 最大1秒ラッシュ
 
     void Start()
     {
@@ -39,6 +42,7 @@ public class Approachingenemy : MonoBehaviour
         waitTimer = waitTime;
         mainCamera = Camera.main;
 
+       
         if (arrowUIPrefab != null)
         {
             GameObject arrowObj = Instantiate(arrowUIPrefab, GameObject.Find("Canvas").transform);
@@ -50,8 +54,8 @@ public class Approachingenemy : MonoBehaviour
 
     void Update()
     {
-        if (TextBoxController.IsTalking) return;
-        if (Player.IsNotMove) return;
+        if (TextBoxController.IsTalking) return; // 会話中は入力無効
+        if (Player.IsNotMove) return; // 会話中は入力無効
         HandleStateMachine();
         HandleArrow();
         Invincible();
@@ -68,16 +72,13 @@ public class Approachingenemy : MonoBehaviour
                     moveDirection = (player.position - transform.position).normalized;
                     startPosition = transform.position;
                     state = State.Rushing;
-                    rushTimer = rushTimeout; // タイムアウトタイマー開始
                 }
                 break;
 
             case State.Rushing:
                 transform.Translate(moveDirection * speed * Time.deltaTime);
                 float traveled = Vector2.Distance(startPosition, transform.position);
-                rushTimer -= Time.deltaTime;
-
-                if (traveled >= rushDistance || rushTimer <= 0f)
+                if (traveled >= rushDistance)
                 {
                     state = State.Idle;
                     waitTimer = waitTime;
@@ -91,40 +92,55 @@ public class Approachingenemy : MonoBehaviour
         if (arrowInstance == null || mainCamera == null) return;
 
         Vector3 viewportPos = mainCamera.WorldToViewportPoint(transform.position);
+
         bool isOffScreen = viewportPos.x < 0f || viewportPos.x > 1f || viewportPos.y < 0f || viewportPos.y > 1f || viewportPos.z < 0f;
+
         arrowInstance.gameObject.SetActive(isOffScreen);
 
         if (isOffScreen)
         {
+            
             Vector3 dir = (transform.position - mainCamera.transform.position).normalized;
             Vector3 screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0);
             Vector3 screenDir = new Vector3(dir.x, dir.y, 0).normalized;
 
+            
             Vector3 screenPos = screenCenter + screenDir * 150f;
             screenPos.x = Mathf.Clamp(screenPos.x, 30f, Screen.width - 30f);
             screenPos.y = Mathf.Clamp(screenPos.y, 30f, Screen.height - 30f);
 
             arrowInstance.position = screenPos;
 
+            
             float angle = Mathf.Atan2(screenDir.y, screenDir.x) * Mathf.Rad2Deg;
             arrowInstance.rotation = Quaternion.Euler(0, 0, angle - 90f);
         }
     }
 
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("Bullet"))
+    //    {
+    //        TakeDamage(1);
+    //        Destroy(collision.gameObject);
+    //    }
+    //}
+
     public void TakeDamage(int damage)
     {
         if (!isInvincible)
         {
+
             StartInvincibility();
         }
-        currentHP -= damage;
+            currentHP -= damage;
         if (currentHP <= 0)
         {
             Die();
         }
     }
 
-    void Die()
+    public void Die()
     {
         if (itemPrefab != null)
         {
@@ -138,20 +154,23 @@ public class Approachingenemy : MonoBehaviour
 
         Destroy(gameObject);
     }
-
     private void StartInvincibility()
     {
         isInvincible = true;
         invincibilityTimer = invincibilityDuration;
-    }
 
+    }
+    /// <summary>
+    /// 無敵時間の処理と点滅の処理
+    /// </summary>
     private void Invincible()
     {
         if (isInvincible)
         {
             invincibilityTimer -= Time.deltaTime;
+
             float alpha = Mathf.PingPong(Time.time * 10f, 1f);
-            spriteRenderer.color = new Color(1f, 0f, 0f, alpha);
+            spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // 赤点滅
 
             if (invincibilityTimer <= 0f)
             {
@@ -160,14 +179,16 @@ public class Approachingenemy : MonoBehaviour
             }
         }
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
+    void Awake()
     {
-        if (state == State.Rushing && collision.collider.CompareTag("Wall"))
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
         {
-            // 壁に当たったらIdleに戻る
-            state = State.Idle;
-            waitTimer = waitTime;
+            Instance = null;
         }
     }
 }
