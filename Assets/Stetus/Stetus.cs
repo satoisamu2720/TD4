@@ -21,16 +21,25 @@ public class StetusScript : MonoBehaviour
     public float handgunBulletSpeed = 10.0f;
     public float handgunFireInterval = 0.8f;
     public float handgunReloadTime = 1.0f;
-    public int handgunBalletLife = 0;
+    public int handgunBalletLife = 1;
 
     [Header("アサルトライフルステータス")]
     public int ArAmmo = 30;
-    public int ArMaxAmmo = 7;
+    public int ArMaxAmmo = 30;
     public float ArBulletSpeed = 10.0f;
     public float ArFireInterval = 1.2f;
     public float ArReloadTime = 1.5f;
     public int ArBalletLife = 1;
-   
+
+
+    [Header("ショットガンステータス")]
+    public int SGAmmo = 5;
+    public int SGMaxAmmo = 5;
+    public float SGBulletSpeed = 10.0f;
+    public float SGFireInterval = 1.2f;
+    public float SGReloadTime = 1.5f;
+    public int SGBalletLife = 1;
+
 
 
     [System.Serializable]
@@ -46,6 +55,7 @@ public class StetusScript : MonoBehaviour
         public string subWeaponID;
         public int handgunAmmo;
         public int arAmmo;
+        public int SGAmmo;
     }
 
     [Header("各ボスステータス")]

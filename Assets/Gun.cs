@@ -12,7 +12,7 @@ public class Gun : MonoBehaviour
 
     public GameObject bulletPrefab;
     public Transform firePoint;
-    public float bulletSpeed = 5f;
+    public float bulletSpeed = 0;
     public float fireInterval = 0f;
 
     
@@ -30,6 +30,8 @@ public class Gun : MonoBehaviour
     private Weapon currentWeaponData;
     private string currentWeaponID;
 
+    int bulletLife = 1;
+    int bulletDamage = 1;
     void SetupWeaponByID(string id)
     {
         switch (id)
@@ -47,7 +49,12 @@ public class Gun : MonoBehaviour
                 reloadTime = StetusScript.Instance.ArReloadTime;
                 MaxAmmo = StetusScript.Instance.ArMaxAmmo;
                 break;
-
+            case "sg":
+                bulletSpeed = StetusScript.Instance.SGBulletSpeed;
+                fireInterval = StetusScript.Instance.SGFireInterval;
+                reloadTime = StetusScript.Instance.SGReloadTime;
+                MaxAmmo = StetusScript.Instance.SGAmmo;
+                break;
             default:
                 bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
                 fireInterval = StetusScript.Instance.handgunFireInterval;
@@ -79,6 +86,9 @@ public class Gun : MonoBehaviour
                 break;
             case "ar":
                 MaxAmmo = StetusScript.Instance.ArAmmo;
+                break;
+            case "sg":
+                MaxAmmo = StetusScript.Instance.SGAmmo;
                 break;
         }
     }
@@ -135,14 +145,21 @@ public class Gun : MonoBehaviour
                     bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
                     fireInterval = StetusScript.Instance.handgunFireInterval;
                     reloadTime = StetusScript.Instance.handgunReloadTime;
-                    MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
+                    //MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                     break;
 
                 case "ar":
                     bulletSpeed = StetusScript.Instance.ArBulletSpeed;
                     fireInterval = StetusScript.Instance.ArFireInterval;
                     reloadTime = StetusScript.Instance.ArReloadTime;
-                    MaxAmmo = StetusScript.Instance.ArMaxAmmo;
+                    //MaxAmmo = StetusScript.Instance.ArMaxAmmo;
+                    break;
+
+                case "sg":
+                    bulletSpeed = StetusScript.Instance.SGBulletSpeed;
+                    fireInterval = StetusScript.Instance.SGFireInterval;
+                    reloadTime = StetusScript.Instance.SGReloadTime;
+                    //MaxAmmo = StetusScript.Instance.SGAmmo;
                     break;
 
                 default:
@@ -156,12 +173,13 @@ public class Gun : MonoBehaviour
             // Rキーで手動リロード（残弾が満タンじゃないときだけ）
             if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < MaxAmmo)
             {
+                
                 StartCoroutine(Reload());
                 return; 
             }
             if (Input.GetKeyDown(KeyCode.U))
             {
-                Debug.Log("残弾数: " + currentAmmo);
+                Debug.Log("残弾数: " + MaxAmmo);
             }
 
             if (isReloading)
@@ -186,6 +204,14 @@ public class Gun : MonoBehaviour
                     {
                         audioSource.PlayOneShot(SE);
                         Shoot();
+                        timer = 0f;
+                    }
+                    break;
+                case "sg":
+                    if (Input.GetMouseButton(0) && timer >= fireInterval && currentAmmo > 0)
+                    {
+                        audioSource.PlayOneShot(SE);
+                        FireNWaysShotgun();
                         timer = 0f;
                     }
                     break;
@@ -217,9 +243,6 @@ public class Gun : MonoBehaviour
 
         Bullet bulletScript = bullet.GetComponent<Bullet>();
 
-        int bulletLife = 1;
-        int bulletDamage = 1;
-
         switch (currentWeaponID)
         {
             case "handgun":
@@ -234,14 +257,45 @@ public class Gun : MonoBehaviour
                 break;
         }
         bulletScript.Initialize(currentWeaponID, bulletLife, bulletDamage);
+       
     }
+    void FireNWaysShotgun()
+    {
+        int bulletCount = 5;             // 弾の数
+        float spreadAngle = 30f;         // 扇の角度（度）
+        float baseAngle = firePoint.rotation.eulerAngles.z;
+        float startAngle = baseAngle - spreadAngle / 2f;
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        Bullet bulletScript = bullet.GetComponent<Bullet>();
 
+        for (int i = 0; i < bulletCount; i++)
+        {
+            float angle = startAngle + (spreadAngle / (bulletCount - 1)) * i;
+            float rad = angle * Mathf.Deg2Rad;
+
+            Vector3 dir = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0);
+
+            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+            rb.linearVelocity = dir * bulletSpeed;            
+        }
+        switch (currentWeaponID)
+        {
+            
+            case "sg":
+                bulletDamage = 1;
+                bulletLife = StetusScript.Instance.SGAmmo; // SGの設定使う
+                StetusScript.Instance.SGAmmo--;
+                break;
+        }
+        bulletScript.Initialize(currentWeaponID, bulletLife, bulletDamage);
+    }
     public int GetCurrentAmmo()
     {
         switch (currentWeaponID)
         {
             case "handgun": return StetusScript.Instance.HandgunAmmo;
             case "ar": return StetusScript.Instance.ArAmmo;
+            case "sg": return StetusScript.Instance.SGAmmo;
             default: return 0;
         }
     }
@@ -258,6 +312,9 @@ public class Gun : MonoBehaviour
                 break;
             case "ar":
                 StetusScript.Instance.ArAmmo = MaxAmmo;
+                break;
+            case "sg":
+                StetusScript.Instance.SGAmmo = MaxAmmo;
                 break;
         }
         isReloading = false;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class Bullet : MonoBehaviour
 {
@@ -6,6 +7,7 @@ public class Bullet : MonoBehaviour
     public int damage = 1;      // ダメージ量
     public int life = 1;
     private string currentWeaponID;
+
     public void Initialize(string weaponID, int bulletLife, int bulletDamage)
     {
         currentWeaponID = weaponID;
@@ -17,7 +19,6 @@ public class Bullet : MonoBehaviour
         // 指定時間後に自動で削除（保険）
         Destroy(gameObject, lifeTime);
         life = StetusScript.Instance.handgunBalletLife;
-      
     }
 
 
