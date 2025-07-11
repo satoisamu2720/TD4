@@ -30,14 +30,14 @@ public class EnemySpawn : MonoBehaviour
         {
             foreach (Vector2 p in data.pos)
             {
-<<<<<<< HEAD
+
                 // EnemySpawnオブジェクトの位置を基準にした相対位置でスポーン
                 Vector3 spawnPos = transform.position + (Vector3)p;
                 GameObject enemyObj = Instantiate(data.enemyPrefab, spawnPos, data.rot);
-=======
+
                 GameObject enemyObj = Instantiate(data.enemyPrefab, p, data.rot);
                 enemyObj.tag = "Enemy";
->>>>>>> origin/ver1.4
+
                 spawnedEnemies.Add(enemyObj);
                 enemyObj.SetActive(true);
             }
@@ -50,7 +50,7 @@ public class EnemySpawn : MonoBehaviour
         SpawnEnemies();
     }
 
-    // 生成された敵のリストを取得
+   
     public List<GameObject> GetSpawnedEnemies()
     {
         return spawnedEnemies;
@@ -78,12 +78,12 @@ public class EnemySpawn : MonoBehaviour
             Boss,
         }
 
-        public EnemyType enemyType;            // ラベル的な用途
-        public List<Vector2> pos;              // EnemySpawn位置からの相対配置位置のリスト
-        public Quaternion rot;                 // 回転
-        public GameObject enemyPrefab;         // 敵のプレハブ
-        public string ID;                      // 任意のID
-        public bool isSpawn;                   // この敵を生成するかどうか
+        public EnemyType enemyType;            
+        public List<Vector2> pos;              
+        public Quaternion rot;                 
+        public GameObject enemyPrefab;         
+        public string ID;                      
+        public bool isSpawn;                   
     }
 
     void Awake()
