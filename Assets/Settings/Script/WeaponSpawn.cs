@@ -8,15 +8,13 @@ public class WeaponSpawn : MonoBehaviour
 
     private int weaponCount;
 
-    private List<GameObject> spawnedWeapon = new List<GameObject>();   // 生成済みの武器のリスト
+    private List<GameObject> spawnedWeapon = new List<GameObject>();   
 
     // Start is called before the first frame update
     void Start()
     {
 
-        //this.weapon = FindObjectOfType<Weapon>(); // インスタンス化
-
-        // 初期配置
+       
         SpawnWeapon();
     }
 
