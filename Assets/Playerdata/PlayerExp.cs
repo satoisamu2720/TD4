@@ -8,15 +8,10 @@ public class PlayerExp
     public string Name = "主人公";
     public ExpLevelClass ExpLevel = new ExpLevelClass();
 
-    static readonly int[] TOTAL_EXP_ARRAY = { 0, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000,11000,12000,13000,14000,15000,16000 };
-
-    //経験値獲得処理
+    // 経験値獲得処理
     public (int afterLevel, int remainExp) AddExp(int exp)
     {
-        return ExpLevel.AddExp(exp, TOTAL_EXP_ARRAY);
+        return ExpLevel.AddExp(exp);
     }
-
- 
-   
 }
 

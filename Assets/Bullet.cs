@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
     {
         // w’èŠÔŒã‚É©“®‚Åíœi•ÛŒ¯j
         Destroy(gameObject, lifeTime);
-        life = StetusScript.Instance.hundgunBalletLife;
+        life = StetusScript.Instance.handgunBalletLife;
       
     }
 

@@ -15,12 +15,13 @@ public class StetusScript : MonoBehaviour
     public int level = 1;
 
     [Header("ハンドガンステータス")]
+    public int handgunDamage = 1;
     public int HandgunAmmo = 7;
     public int handgunMaxAmmo = 7;
-    public float hundgunBulletSpeed = 10.0f;
-    public float hundgunFireInterval = 0.8f;
-    public float hundgunReloadTime = 1.0f;
-    public int hundgunBalletLife = 0;
+    public float handgunBulletSpeed = 10.0f;
+    public float handgunFireInterval = 0.8f;
+    public float handgunReloadTime = 1.0f;
+    public int handgunBalletLife = 0;
 
     [Header("アサルトライフルステータス")]
     public int ArAmmo = 30;

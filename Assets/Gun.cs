@@ -35,9 +35,9 @@ public class Gun : MonoBehaviour
         switch (id)
         {
             case "handgun":
-                bulletSpeed = StetusScript.Instance.hundgunBulletSpeed;
-                fireInterval = StetusScript.Instance.hundgunFireInterval;
-                reloadTime = StetusScript.Instance.hundgunReloadTime;
+                bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
+                fireInterval = StetusScript.Instance.handgunFireInterval;
+                reloadTime = StetusScript.Instance.handgunReloadTime;
                 MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                 break;
 
@@ -49,9 +49,9 @@ public class Gun : MonoBehaviour
                 break;
 
             default:
-                bulletSpeed = StetusScript.Instance.hundgunBulletSpeed;
-                fireInterval = StetusScript.Instance.hundgunFireInterval;
-                reloadTime = StetusScript.Instance.hundgunReloadTime;
+                bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
+                fireInterval = StetusScript.Instance.handgunFireInterval;
+                reloadTime = StetusScript.Instance.handgunReloadTime;
                 MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                 break;
         }
@@ -132,9 +132,9 @@ public class Gun : MonoBehaviour
             switch (currentWeaponID)
             {
                 case "handgun":
-                    bulletSpeed = StetusScript.Instance.hundgunBulletSpeed;
-                    fireInterval = StetusScript.Instance.hundgunFireInterval;
-                    reloadTime = StetusScript.Instance.hundgunReloadTime;
+                    bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
+                    fireInterval = StetusScript.Instance.handgunFireInterval;
+                    reloadTime = StetusScript.Instance.handgunReloadTime;
                     MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                     break;
 
@@ -146,9 +146,9 @@ public class Gun : MonoBehaviour
                     break;
 
                 default:
-                    bulletSpeed = StetusScript.Instance.hundgunBulletSpeed;
-                    fireInterval = StetusScript.Instance.hundgunFireInterval;
-                    reloadTime = StetusScript.Instance.hundgunReloadTime;
+                    bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
+                    fireInterval = StetusScript.Instance.handgunFireInterval;
+                    reloadTime = StetusScript.Instance.handgunReloadTime;
                     MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                     break;
             }
@@ -223,8 +223,8 @@ public class Gun : MonoBehaviour
         switch (currentWeaponID)
         {
             case "handgun":
-                bulletDamage = 5;
-                bulletLife = StetusScript.Instance.hundgunBalletLife;
+                bulletDamage = StetusScript.Instance.handgunDamage;
+                bulletLife = StetusScript.Instance.handgunBalletLife;
                 StetusScript.Instance.HandgunAmmo--;
                 break;
             case "ar":

@@ -31,6 +31,7 @@ public class LevelUp : MonoBehaviour
     public void ChangeScene()
     {
         SceneManager.LoadScene(_LoadScene);
+
     }
 
 }
