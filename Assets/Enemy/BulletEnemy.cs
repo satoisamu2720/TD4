@@ -60,14 +60,7 @@ public class ShootEnemy : MonoBehaviour
     }
 
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.CompareTag("Bullet")) 
-    //    {
-    //        TakeDamage(1);
-    //        Destroy(collision.gameObject);
-    //    }
-    //}
+   
 
     public void TakeDamage(int damage)
     {
@@ -97,9 +90,7 @@ public class ShootEnemy : MonoBehaviour
         invincibilityTimer = invincibilityDuration;
 
     }
-    /// <summary>
-    /// –³“GŠÔ‚Ìˆ—‚Æ“_–Å‚Ìˆ—
-    /// </summary>
+   
     private void Invincible()
     {
         if (isInvincible)
