@@ -113,10 +113,10 @@ MonoBehaviour:
   maxShotsBeforeReload: 3
   followDistance: 5
   moveSpeed: 2
-  maxHP: 20
   itemPrefab: {fileID: 0}
   delayBeforeFire: 1
-  invincibilityDuration: 2
+  currentHP: 0
+  invincibilityDuration: 1
 --- !u!61 &6928335307405413526
 BoxCollider2D:
   m_ObjectHideFlags: 0

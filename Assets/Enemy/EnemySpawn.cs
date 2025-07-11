@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
+    public static EnemySpawn Instance { get; private set; }
+
     [SerializeField] List<EnemyCount> enemyCounts;
+
+ 
 
     private List<GameObject> spawnedEnemies = new List<GameObject>(); // 生成された敵のリスト
 
@@ -26,9 +30,14 @@ public class EnemySpawn : MonoBehaviour
         {
             foreach (Vector2 p in data.pos)
             {
+<<<<<<< HEAD
                 // EnemySpawnオブジェクトの位置を基準にした相対位置でスポーン
                 Vector3 spawnPos = transform.position + (Vector3)p;
                 GameObject enemyObj = Instantiate(data.enemyPrefab, spawnPos, data.rot);
+=======
+                GameObject enemyObj = Instantiate(data.enemyPrefab, p, data.rot);
+                enemyObj.tag = "Enemy";
+>>>>>>> origin/ver1.4
                 spawnedEnemies.Add(enemyObj);
                 enemyObj.SetActive(true);
             }
@@ -46,6 +55,16 @@ public class EnemySpawn : MonoBehaviour
     {
         return spawnedEnemies;
     }
+    public void DestroyAllEnemies()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+    }
+
 
     [System.Serializable]
     public class EnemyCount
@@ -65,5 +84,18 @@ public class EnemySpawn : MonoBehaviour
         public GameObject enemyPrefab;         // 敵のプレハブ
         public string ID;                      // 任意のID
         public bool isSpawn;                   // この敵を生成するかどうか
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }

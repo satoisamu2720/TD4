@@ -16,7 +16,11 @@ public class TextBoxController : MonoBehaviour
     public static bool IsTalking { get; private set; } = false;
     void Start()
     {
-        HideTextBox();
+        var followUI = UIFollowWorldObject.GetInstance();
+        if (followUI != null)
+        {
+            followUI.ShowUI(false);
+        }
     }
 
     // 会話スタート
@@ -95,5 +99,10 @@ public class TextBoxController : MonoBehaviour
         isTyping = false;
         canProceed = false;
         IsTalking = false; // 会話終了
+        var followUI = UIFollowWorldObject.GetInstance();
+        if (followUI != null)
+        {
+            followUI.ShowUI(true);
+        }
     }
 }

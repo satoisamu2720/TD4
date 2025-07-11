@@ -13,19 +13,19 @@ public class StetusChange : MonoBehaviour
         if(Input.GetKey(KeyCode.Alpha1))
         {
             StetusScript.Instance.level += 1;
-            StetusScript.Instance.PlayerHp += 10;
+            StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
             ChangeScene();
         }
         if (Input.GetKey(KeyCode.Alpha2))
         {
             StetusScript.Instance.level += 1;
-            StetusScript.Instance.PlayerSpeed -= 0.1f;
+            StetusScript.Instance.PlayerSpeed -= StetusScript.Instance.LevelUpDashCoolTime;
             ChangeScene();
         }
         if (Input.GetKey(KeyCode.Alpha3))
         {
             StetusScript.Instance.level += 1;
-            StetusScript.Instance.Bullet += 1;
+            StetusScript.Instance.hundgunFireInterval -= 0.2f;
             ChangeScene();
         }
     }
@@ -33,21 +33,21 @@ public class StetusChange : MonoBehaviour
     public void OnAlpha1Button()
     {
         StetusScript.Instance.level += 1;
-        StetusScript.Instance.PlayerHp += 2;
+        StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
         ChangeScene();
     }
 
     public void OnAlpha2Button()
     {
         StetusScript.Instance.level += 1;
-        StetusScript.Instance.PlayerSpeed -= 0.1f;
+        StetusScript.Instance.PlayerSpeed -= StetusScript.Instance.LevelUpDashCoolTime;
         ChangeScene();
     }
 
     public void OnAlpha3Button()
     {
         StetusScript.Instance.level += 1;
-        StetusScript.Instance.Bullet += 1;
+        StetusScript.Instance.hundgunFireInterval -= 0.2f;
         ChangeScene();
     }
 
