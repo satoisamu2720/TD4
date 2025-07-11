@@ -44,7 +44,7 @@ public class Bullet : MonoBehaviour
             Approachingenemy enemy = other.GetComponent<Approachingenemy>();
             nWayBullet Boss = other.GetComponent<nWayBullet>();
             ShootEnemy shootEnemy = other.GetComponent<ShootEnemy>();
-
+             
 
             if (enemy != null)
             {

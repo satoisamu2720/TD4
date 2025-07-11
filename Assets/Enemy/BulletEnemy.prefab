@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 910730887849096232}
   m_Layer: 0
   m_Name: BulletEnemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -102,11 +102,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b294d86c0861545994e05a3054c63b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 6
   maxHP: 3
+  currentHP: 0
   bulletPrefab: {fileID: 3484221168530009312, guid: fa93505b600e5c44581ed8953c8df69d, type: 3}
   shootInterval: 2
-  itemPrefab: {fileID: 8442228131798896307, guid: 978a81747381cc043896e181a9f0fb69, type: 3}
+  itemPrefab: {fileID: 0}
+  invincibilityDuration: 2
 --- !u!50 &3858406013050143806
 Rigidbody2D:
   serializedVersion: 5
