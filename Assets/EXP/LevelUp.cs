@@ -22,6 +22,8 @@ public class LevelUp : MonoBehaviour
         {
             if(_currentValue < playerExp.ExpLevel.Level)
             {
+
+
                 ChangeScene();
                 //_currentValue = levelClass.Level;
             }
