@@ -69,6 +69,7 @@ public class StetusScript : MonoBehaviour
     [Header("レベルアップステータス")]
     public int LevelUpPlayerHp = 2;
     public float LevelUpDashCoolTime = 0.05f;
+    public float LevelUpPlayerSpeed = 1.0f; 
     public int LevelUpGunMagazine = 1;
 
     void Start()

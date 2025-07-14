@@ -24,9 +24,6 @@ public class LevelUp : MonoBehaviour
             {
                 StopScene();
 
-
-                ChangeScene();
-                //_currentValue = levelClass.Level;
             }
         }
     }

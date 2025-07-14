@@ -1,6 +1,9 @@
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using TMPro;
+using UnityEngine.SocialPlatforms.Impl;
+using Unity.VisualScripting;
+using UnityEngine.Audio;
+using UnityEditor;
 
 public class StetusChange : MonoBehaviour
 {
@@ -9,6 +12,20 @@ public class StetusChange : MonoBehaviour
     int randomChoice = Random.Range(0, 3); 
     int randomChoice2 = Random.Range(0, 3);
     int randomChoice3 = Random.Range(0, 3);
+
+   
+
+    private void Start()
+    {
+        PlayerMove playerMove = GetComponent<PlayerMove>();
+
+        string weaponID = playerMove.currentWeapon2.GetID();
+
+        Debug.Log("ëïîıíÜÇÃïêäÌID: " + weaponID);
+    }
+
+
+
 
     //[SerializeField] private string _LoadScene;
     GameObject levelUpPanel;
@@ -45,20 +62,20 @@ public class StetusChange : MonoBehaviour
         switch (randomChoice)
         {
             case 0:
-                StetusScript.Instance.PlayerHp += 1;
-                Debug.Log("HP UP1!");
+                StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
+                Debug.Log("HP UP!");
                 break;
             case 1:
-                StetusScript.Instance.PlayerHp += 3;
-                Debug.Log("CoolTime!");
+                StetusScript.Instance.PlayerSpeed -= StetusScript.Instance.LevelUpDashCoolTime;
+                Debug.Log("CoolTimeDown!");
                 break;
             case 2:
-                StetusScript.Instance.PlayerHp += 5;
-                Debug.Log("Speed!");
+                StetusScript.Instance.PlayerSpeed += StetusScript.Instance.LevelUpPlayerSpeed;
+                Debug.Log("Speed UP!");
                 break;
         }
 
-        ChangeScene();
+        
     }
 
     public void OnAlpha2Button()
@@ -87,9 +104,10 @@ public class StetusChange : MonoBehaviour
 
 
         
-        ChangeScene();
+       
     }
 
+    //ïêäÌä÷òA
     public void OnAlpha3Button()
     {
         StetusScript.Instance.level += 1;
@@ -114,7 +132,7 @@ public class StetusChange : MonoBehaviour
 
         }
 
-        ChangeScene();
+        
     }
 
     public void RsumeScene()
