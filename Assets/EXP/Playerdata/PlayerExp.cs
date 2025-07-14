@@ -13,10 +13,7 @@ public class PlayerExp
     //ŒoŒ±’lŠl“¾ˆ—
     public (int afterLevel, int remainExp) AddExp(int exp)
     {
-        return ExpLevel.AddExp(exp, TOTAL_EXP_ARRAY);
+        return ExpLevel.AddExp(exp);
     }
-
- 
-   
 }
 

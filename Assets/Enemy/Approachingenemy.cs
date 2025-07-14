@@ -32,6 +32,7 @@ public class Approachingenemy : MonoBehaviour
     private float rushTimer = 0f;
     [SerializeField] private float rushTimeout = 1f; // 最大1秒ラッシュ
 
+    private bool isDead = false;
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
@@ -50,11 +51,26 @@ public class Approachingenemy : MonoBehaviour
 
     void Update()
     {
-        if (TextBoxController.IsTalking) return;
-        if (Player.IsNotMove) return;
-        HandleStateMachine();
-        HandleArrow();
-        Invincible();
+        //if (TextBoxController.IsTalking) return; // 会話中は入力無効
+        //if (Player.IsNotMove) return; // 会話中は入力無効
+
+        //if(GameManagement.Instance.isPause == false)
+        //{
+        //}
+        //HandleStateMachine();
+        //HandleArrow();
+        //Invincible();
+
+        if (TextBoxController.IsTalking) return; // 会話中は入力無効
+        if (Player.IsNotMove) return; // 会話中は入力無効
+
+        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
+        {
+            HandleStateMachine();
+            HandleArrow();
+            Invincible();
+        }
+
     }
 
     void HandleStateMachine()
@@ -113,19 +129,22 @@ public class Approachingenemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (!isInvincible)
-        {
-            StartInvincibility();
-        }
+        if (isInvincible || isDead) { return; } 
+
+        StartInvincibility();
         currentHP -= damage;
+
         if (currentHP <= 0)
         {
-            Die();
+            Die(); 
         }
     }
 
-    void Die()
+    public void Die()
     {
+        if (isDead) { return; }
+        isDead = true;
+
         if (itemPrefab != null)
         {
             Instantiate(itemPrefab, transform.position, Quaternion.identity);

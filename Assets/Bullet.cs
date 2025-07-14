@@ -1,17 +1,24 @@
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class Bullet : MonoBehaviour
 {
     public float lifeTime = 5f; // 弾の寿命（秒数）
     public int damage = 1;      // ダメージ量
+    public int life = 1;
+    private string currentWeaponID;
 
-    public int life = 0;
-
+    public void Initialize(string weaponID, int bulletLife, int bulletDamage)
+    {
+        currentWeaponID = weaponID;
+        life = bulletLife;
+        damage = bulletDamage;
+    }
     private void Start()
     {
         // 指定時間後に自動で削除（保険）
         Destroy(gameObject, lifeTime);
-        life = StetusScript.Instance.hundgunBalletLife;
+        life = StetusScript.Instance.handgunBalletLife;
     }
 
 
@@ -25,6 +32,7 @@ public class Bullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -32,37 +40,44 @@ public class Bullet : MonoBehaviour
         // Enemy タグのついたものに当たったらダメージ
         if (other.CompareTag("Enemy"))
         {
+            bool hit = false;
+
             Approachingenemy enemy = other.GetComponent<Approachingenemy>();
             nWayBullet Boss = other.GetComponent<nWayBullet>();
             ShootEnemy shootEnemy = other.GetComponent<ShootEnemy>();
+             
 
             if (enemy != null)
             {
                 life--;
+                hit = true;
                 enemy.TakeDamage(damage);
             }
 
             if (Boss != null)
             {
-                life--;
+                hit = true;
                 Boss.TakeDamage(damage);
             }
 
             if (shootEnemy != null)
             {
-                life --;
+                hit = true;
                 shootEnemy.TakeDamage(damage);
             }
-            
-            if(life <= 0)
+
+            if (hit)
             {
-                // 弾を消す（1ヒット制）
-                Destroy(gameObject);
-                Debug.Log("life" + life);
-                life = StetusScript.Instance.hundgunBalletLife;
+                life--;
+                if (life <= 0)
+                {
+                    Destroy(gameObject);
+                }
             }
-            
+
         }
+        
+
         if (other.CompareTag("Wall"))
         {
             Destroy(gameObject);

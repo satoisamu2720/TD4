@@ -40,7 +40,7 @@ public class nWayBullet : MonoBehaviour
 
     void Start()
     {
-        currentHP = StetusScript.Instance.BossEnemyHp;
+        currentHP = StetusScript.Instance.TutorialBossEnemyHp;
         GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
         if (playerObj != null)
         {
