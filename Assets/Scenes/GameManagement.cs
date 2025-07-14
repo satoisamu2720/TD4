@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManagement: MonoBehaviour
 {
+    public static GameManagement Instance { get; private set; }
     private int PlayerHP = 0;
     private bool oneBoss = false;
 
@@ -17,7 +18,6 @@ public class GameManagement: MonoBehaviour
 
     public bool isPause = false;
 
-    public static GameManagement Instance { get; private set; }
 
     void Start()
     {

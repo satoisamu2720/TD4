@@ -25,7 +25,7 @@ public class StetusChange : MonoBehaviour
         if (Input.GetKey(KeyCode.Alpha3))
         {
             StetusScript.Instance.level += 1;
-            StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
+            //StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
             RsumeScene();
         }
     }
@@ -47,7 +47,7 @@ public class StetusChange : MonoBehaviour
     public void OnAlpha3Button()
     {
         StetusScript.Instance.level += 1;
-        StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
+        //StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
         RsumeScene();
     }
 
