@@ -6,6 +6,10 @@ public class GameManagement: MonoBehaviour
     private int PlayerHP = 0;
     private bool oneBoss = false;
 
+    public bool isPause = false;
+
+    public static GameManagement Instance { get; private set; }
+
     void Start()
     {
         PlayerHP = StetusScript.Instance.PlayerHp;
@@ -29,4 +33,18 @@ public class GameManagement: MonoBehaviour
 
         }
     }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); 
+        }
+    }
+
+
 }

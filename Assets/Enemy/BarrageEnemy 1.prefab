@@ -112,7 +112,6 @@ MonoBehaviour:
   maxShotsBeforeReload: 3
   followDistance: 5
   moveSpeed: 2
-  BossEnemyHp: 1
   itemPrefab: {fileID: 0}
   delayBeforeFire: 1
   currentHP: 0
