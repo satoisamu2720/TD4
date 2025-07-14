@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class ObjectManager : MonoBehaviour
 {
-
+ 
     // オブジェクトのリスト化
     [SerializeField]
     private GameObject[] objectKeep;
