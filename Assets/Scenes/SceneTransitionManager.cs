@@ -3,18 +3,20 @@ using UnityEngine.SceneManagement;
 
 public class SceneTransitionManager : MonoBehaviour
 {
+
+    
     public static SceneTransitionManager Instance;
 
-    private void Awake()
+    void Awake()
     {
-        if (Instance == null)
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
         {
-            Instance = this;
-            DontDestroyOnLoad(this.gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
+            Instance = null;
         }
     }
 
@@ -39,7 +41,7 @@ public class SceneTransitionManager : MonoBehaviour
     // タイトルに戻る（全Scene初期化）
     public void GoToTitleScene()
     {
-        StetusScript.Instance.ResetStatus();
+        //StetusScript.Instance.ResetStatus();
         SceneManager.LoadScene("Title"); // LoadMode.Single で初期化される
     }
 }

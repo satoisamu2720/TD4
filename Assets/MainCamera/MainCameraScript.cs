@@ -14,7 +14,7 @@ public class MainCameraScript: MonoBehaviour
 
     private static MainCameraScript instance;
 
-    void LateUpdate()
+    void FixedUpdate()
     {
         if (target == null) return;
 

@@ -3,8 +3,11 @@ using System;
 
 public class Weapon : MonoBehaviour
 {
+
+    public static Weapon Instance { get; private set; }
+
     [SerializeField]
-    private string ID;
+    public string ID;
 
     public GameObject weaponPrefab;
 
@@ -23,7 +26,7 @@ public class Weapon : MonoBehaviour
     {
         ID = id;
     }
-
+    
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -46,10 +49,25 @@ public class Weapon : MonoBehaviour
                 OnWeaponPickedUp?.Invoke();
                 // 武器を削除して消す
                 Destroy(this.gameObject);
-
-                // 武器を拾った後にチュートリアルを進める
-                TutorialStepController.Instance.ProgressToNextStep();
             }
         }
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
+
+    public string GetID()
+    {
+        return ID;
     }
 }

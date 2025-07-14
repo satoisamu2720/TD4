@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class ShootEnemy : MonoBehaviour
 {
+    public static ShootEnemy Instance { get; private set; }
     public float speed = 2f;         
     public int maxHP = 3;            
-    private int currentHP;
+    public int currentHP;
     public GameObject bulletPrefab;  
     public float shootInterval = 2f; 
     private float shootTimer;
@@ -25,7 +26,7 @@ public class ShootEnemy : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
-        currentHP = maxHP;
+        currentHP = StetusScript.Instance.TutorialBossEnemyHp;
         shootTimer = shootInterval;
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
@@ -53,7 +54,7 @@ public class ShootEnemy : MonoBehaviour
         {
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             Vector2 direction = (player.position - transform.position).normalized;
-            bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 5f;
+            bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 12f;
 
             Destroy(bullet, 5f);
         }
@@ -77,13 +78,9 @@ public class ShootEnemy : MonoBehaviour
 
         }
         currentHP -= damage;
-        if (currentHP <= 0)
-        {
-            Die();
-        }
     }
 
-    void Die()
+    public void Die()
     {
         if (itemPrefab != null)
         {
@@ -114,6 +111,19 @@ public class ShootEnemy : MonoBehaviour
                 isInvincible = false;
                 spriteRenderer.color = originColor;
             }
+        }
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
         }
     }
 }

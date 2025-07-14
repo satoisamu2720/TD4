@@ -40,13 +40,11 @@ public class ArrowWarning : MonoBehaviour
 
         if (targetIsOnScreen)
         {
-            // ターゲットが画面内 → 非表示 & 位置変更なし
+           
             return;
         }
 
-        // --- ターゲットが画面外のときのみ以下の処理を実行 ---
-
-        // 方向と回転をターゲットに向ける
+        
         Vector2 direction = (target.position - transform.position).normalized;
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         float currentAngle = transform.eulerAngles.z;

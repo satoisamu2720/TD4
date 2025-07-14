@@ -3,6 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class nWayBullet : MonoBehaviour
 {
+    public static nWayBullet Instance { get; private set; }
+
     public GameObject Bullet;
     public float _Velocity_0 = 5f;
     public float Degree = 60f;
@@ -14,18 +16,16 @@ public class nWayBullet : MonoBehaviour
     public int maxShotsBeforeReload = 3;
     public float followDistance = 5f;
     public float moveSpeed = 2f;
-    public int maxHP = 2;
     public GameObject itemPrefab;
     public float delayBeforeFire = 1f; // 追加：スポーンしてから撃ち始めるまでの待機時間
 
-    private int currentHP;
+    public int currentHP;
     private float fireTimer = 0f;
     private int shotCount = 0;
     private bool isReloading = false;
     private float reloadTimer = 0f;
     private bool canFire = false; // 弾を撃ち始めてよいかどうか
-    private static nWayBullet instance;
-
+    
     // 無敵時間の長さ
     [SerializeField]
     private float invincibilityDuration = 2f;
@@ -40,7 +40,7 @@ public class nWayBullet : MonoBehaviour
 
     void Start()
     {
-        currentHP = maxHP;
+        currentHP = StetusScript.Instance.TutorialBossEnemyHp;
         GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
         if (playerObj != null)
         {
@@ -66,46 +66,48 @@ public class nWayBullet : MonoBehaviour
 
     void Update()
     {
-        if (TextBoxController.IsTalking) return; // 会話中は入力無効
-        if (Player.IsNotMove) return; // 会話中は入力無効
-        if (!canFire || player == null) return;
-
-        Vector2 directionToPlayer = player.position - transform.position;
-        float distance = directionToPlayer.magnitude;
-
-        if (Mathf.Abs(distance - followDistance) > 0.1f)
-        {
-            Vector2 moveDir = directionToPlayer.normalized;
-            float moveStep = moveSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, player.position - (Vector3)(moveDir * followDistance), moveStep);
-        }
-
-        if (isReloading)
-        {
-            reloadTimer -= Time.deltaTime;
-            if (reloadTimer <= 0f)
-            {
-                isReloading = false;
-                shotCount = 0;
-            }
-            return;
-        }
-
-        fireTimer -= Time.deltaTime;
-
-        if (fireTimer <= 0f)
-        {
-            FireNWays();
-            fireTimer = fireCooldown;
-            shotCount++;
-
-            if (shotCount >= maxShotsBeforeReload)
-            {
-                isReloading = true;
-                reloadTimer = reloadTime;
-            }
-        }
         Invincible();
+        if (!TextBoxController.IsTalking &&
+        !Player.IsNotMove &&
+        canFire && player != null)
+        {
+
+            Vector2 directionToPlayer = player.position - transform.position;
+            float distance = directionToPlayer.magnitude;
+
+            if (Mathf.Abs(distance - followDistance) > 0.1f)
+            {
+                Vector2 moveDir = directionToPlayer.normalized;
+                float moveStep = moveSpeed * Time.deltaTime;
+                transform.position = Vector3.MoveTowards(transform.position, player.position - (Vector3)(moveDir * followDistance), moveStep);
+            }
+
+            if (isReloading)
+            {
+                reloadTimer -= Time.deltaTime;
+                if (reloadTimer <= 0f)
+                {
+                    isReloading = false;
+                    shotCount = 0;
+                }
+                return;
+            }
+
+            fireTimer -= Time.deltaTime;
+
+            if (fireTimer <= 0f)
+            {
+                FireNWays();
+                fireTimer = fireCooldown;
+                shotCount++;
+
+                if (shotCount >= maxShotsBeforeReload)
+                {
+                    isReloading = true;
+                    reloadTimer = reloadTime;
+                }
+            }
+        }
 
     }
 
@@ -116,16 +118,12 @@ public class nWayBullet : MonoBehaviour
             StartInvincibility();
 
         }
-        currentHP -= damage;
-        if (currentHP <= 0)
-        {
-            SceneManager.LoadScene("GameClear");
-            Die();
-        }
+           currentHP -= damage;
+        
     }
 
-    void Die()
-    {
+    public void Die()
+    { 
         if (itemPrefab != null)
         {
             Instantiate(itemPrefab, transform.position, Quaternion.identity);
@@ -149,22 +147,12 @@ public class nWayBullet : MonoBehaviour
             bulletCs.theta = rad;
             bulletCs.Velocity_0 = _Velocity_0;
 
-            Destroy(bulletObj, 5f);
+           // Destroy(bulletObj, 5f);
         }
     }
+    
 
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject); // 2個目が生成されたら削除
-        }
-    }
+
 
     private void StartInvincibility()
     {
@@ -172,14 +160,14 @@ public class nWayBullet : MonoBehaviour
         invincibilityTimer = invincibilityDuration;
 
     }
-    /// <summary>
-    /// 無敵時間の処理と点滅の処理
-    /// </summary>
+   
     private void Invincible()
     {
         if (isInvincible)
         {
             invincibilityTimer -= Time.deltaTime;
+
+            //Debug.Log("敵：点滅中 " + invincibilityTimer);
 
             float alpha = Mathf.PingPong(Time.time * 10f, 1f);
             spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // 赤点滅
@@ -189,6 +177,19 @@ public class nWayBullet : MonoBehaviour
                 isInvincible = false;
                 spriteRenderer.color = originColor;
             }
+        }
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
         }
     }
 }

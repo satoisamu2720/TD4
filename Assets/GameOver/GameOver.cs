@@ -8,12 +8,20 @@ public class GameOver : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             // Stage1Scene ‚É‘JˆÚ
-            SceneManager.LoadScene("Title");
+            SceneTransitionManager.Instance.GoToTitleScene();
         }
     }
 
     public void OnAlpha1Button()
     {
-        SceneManager.LoadScene("Title");
+        SceneTransitionManager.Instance.GoToTitleScene();
+        PlayerPrefs.DeleteKey("PlayerUserData");
+        PlayerPrefs.Save();
+    }
+    public void OnAlpha2Button()
+    {
+
+        PlayerPrefs.SetInt("ShouldLoad", 1);
+        SceneManager.LoadScene("Stage1");
     }
 }

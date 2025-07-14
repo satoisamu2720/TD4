@@ -26,25 +26,25 @@ public class TutorialStepController : MonoBehaviour
 
     void Update()
     {
-        // Nキーで次の目的地に進む処理（そのまま残す）
+        // Nキーで次の目的地に進む処理
         if (Input.GetKeyDown(KeyCode.N))
         {
             ProgressToNextStep();
         }
     }
 
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // これでシーンをまたいでも残る
-        }
-        else
-        {
-            Destroy(gameObject); // 2個目のカメラができたら破棄する
-        }
-    }
+    //void Awake()
+    //{
+    //    if (instance == null)
+    //    {
+    //        instance = this;
+    //        DontDestroyOnLoad(gameObject); // これでシーンをまたいでも残る
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject); // 2個目のカメラができたら破棄する
+    //    }
+    //}
 
     // チュートリアルステップを進めるメソッド
     public void ProgressToNextStep()

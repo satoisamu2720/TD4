@@ -77,8 +77,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
-  m_Sprite: {fileID: 6879118450950661895, guid: 62fd3149376506944b5402387d7ca73b, type: 3}
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 6879118450950661895, guid: 520e07fa28859b841b248043608ad393, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8133c5e8fbb1f13409425d94237b2cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: gun
+  ID: handgun
   weaponPrefab: {fileID: 3245072080698827588}
 --- !u!61 &3813246084699439771
 BoxCollider2D:

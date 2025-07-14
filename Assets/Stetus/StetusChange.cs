@@ -10,31 +10,36 @@ public class StetusChange : MonoBehaviour
     int randomChoice2 = Random.Range(0, 3);
     int randomChoice3 = Random.Range(0, 3);
 
+    //[SerializeField] private string _LoadScene;
+    GameObject levelUpPanel;
+    
     void Update()
     {
         if(Input.GetKey(KeyCode.Alpha1))
         {
             StetusScript.Instance.level += 1;
-            StetusScript.Instance.PlayerHp += 10;
-            ChangeScene();
+            StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
+            RsumeScene();
         }
         if (Input.GetKey(KeyCode.Alpha2))
         {
             StetusScript.Instance.level += 1;
-            StetusScript.Instance.PlayerSpeed -= 0.1f;
-            ChangeScene();
+            StetusScript.Instance.PlayerSpeed -= StetusScript.Instance.LevelUpDashCoolTime;
+            RsumeScene();
         }
         if (Input.GetKey(KeyCode.Alpha3))
         {
             StetusScript.Instance.level += 1;
-            StetusScript.Instance.Bullet += 1;
-            ChangeScene();
+            //StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
+            RsumeScene();
         }
     }
 
     public void OnAlpha1Button()
     {
         StetusScript.Instance.level += 1;
+        StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
+        RsumeScene();
         
 
         switch (randomChoice)
@@ -59,6 +64,8 @@ public class StetusChange : MonoBehaviour
     public void OnAlpha2Button()
     {
         StetusScript.Instance.level += 1;
+        StetusScript.Instance.PlayerSpeed -= StetusScript.Instance.LevelUpDashCoolTime;
+        RsumeScene();
        
 
         switch(randomChoice2)
@@ -86,6 +93,8 @@ public class StetusChange : MonoBehaviour
     public void OnAlpha3Button()
     {
         StetusScript.Instance.level += 1;
+        //StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
+        RsumeScene();
         
 
         switch (randomChoice3)
@@ -108,10 +117,15 @@ public class StetusChange : MonoBehaviour
         ChangeScene();
     }
 
-    public void ChangeScene()
+    public void RsumeScene()
     {
-        SceneTransitionManager.Instance.ReturnToStageScene();
-        Player.IsNotMove = false;
+        //SceneTransitionManager.Instance.ReturnToStageScene();
+        //Player.IsNotMove = false;
+
+        StetusScript.Instance.isLevelUp = false;
+
+        GameManagement.Instance.isPause = false;
+
     }
 
 

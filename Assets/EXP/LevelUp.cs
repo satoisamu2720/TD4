@@ -22,6 +22,7 @@ public class LevelUp : MonoBehaviour
         {
             if(_currentValue < playerExp.ExpLevel.Level)
             {
+                StopScene();
 
 
                 ChangeScene();
@@ -30,9 +31,11 @@ public class LevelUp : MonoBehaviour
         }
     }
 
-    public void ChangeScene()
+    public void StopScene()
     {
-        SceneManager.LoadScene(_LoadScene);
+        //SceneManager.LoadScene(_LoadScene);
+        StetusScript.Instance.isLevelUp = true;
+        //StopManager.Instance.Pause();
     }
 
 }

@@ -18,6 +18,34 @@ public class ExpLevelClass
     public int MinLevel => _minLevel;
     public int Level => _level;
 
+
+    public (int afterLevel, int remainExp) AddExp(int exp)
+    {
+        _exp = Mathf.Max(_exp + exp, 0); // マイナスは許容しない
+        UpdateLevelAndRemainExp();
+        return (Level, RemainExp);
+    }
+    void UpdateLevelAndRemainExp()
+    {
+        // 現在の経験値に対応するレベルを計算
+        int currentLevel = 1;
+        while (_exp >= RequiredExpForLevel(currentLevel + 1))
+        {
+            currentLevel++;
+        }
+
+        _level = currentLevel;
+
+        // 次のレベルまでに必要な経験値
+        int nextLevelExp = RequiredExpForLevel(_level + 1);
+        _remainExp = nextLevelExp - _exp;
+    }
+    // レベルに必要な累積経験値を計算
+    int RequiredExpForLevel(int level)
+    {
+        // 例: レベルごとに必要経験値が増加する式（任意調整可）
+        return 1000 * (level - 1);
+    }
     //Expを加算してlvを初期化する
     public (int afterLevel, int remainExp) AddExp(int exp, int[] expArray)
     {
