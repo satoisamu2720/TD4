@@ -32,6 +32,7 @@ public class Approachingenemy : MonoBehaviour
     private float rushTimer = 0f;
     [SerializeField] private float rushTimeout = 1f; // Å‘å1•bƒ‰ƒbƒVƒ…
 
+    private bool isDead = false;
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
@@ -128,19 +129,22 @@ public class Approachingenemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (!isInvincible)
-        {
-            StartInvincibility();
-        }
+        if (isInvincible || isDead) { return; } 
+
+        StartInvincibility();
         currentHP -= damage;
+
         if (currentHP <= 0)
         {
-            Die();
+            Die(); 
         }
     }
 
-    void Die()
+    public void Die()
     {
+        if (isDead) { return; }
+        isDead = true;
+
         if (itemPrefab != null)
         {
             Instantiate(itemPrefab, transform.position, Quaternion.identity);
