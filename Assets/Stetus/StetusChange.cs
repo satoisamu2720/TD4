@@ -6,7 +6,7 @@ public class StetusChange : MonoBehaviour
 {
 
     [SerializeField] private string _LoadScene;
-    int randomChoice = Random.Range(0, 3); // 0, 1, 2 �̂ǂꂩ
+    int randomChoice = Random.Range(0, 3); 
     int randomChoice2 = Random.Range(0, 3);
     int randomChoice3 = Random.Range(0, 3);
 
