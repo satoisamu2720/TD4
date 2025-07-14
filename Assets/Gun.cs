@@ -24,6 +24,8 @@ public class Gun : MonoBehaviour
     private float timer;
     private bool isReloading = false;
 
+    public ReloadUI reloadUI;
+
     [SerializeField]
     private TextMeshProUGUI ammoText;
 
@@ -53,7 +55,7 @@ public class Gun : MonoBehaviour
                 bulletSpeed = StetusScript.Instance.SGBulletSpeed;
                 fireInterval = StetusScript.Instance.SGFireInterval;
                 reloadTime = StetusScript.Instance.SGReloadTime;
-                MaxAmmo = StetusScript.Instance.SGAmmo;
+                MaxAmmo = StetusScript.Instance.SGMaxAmmo;
                 break;
             default:
                 bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
@@ -211,7 +213,7 @@ public class Gun : MonoBehaviour
                     if (Input.GetMouseButton(0) && timer >= fireInterval && currentAmmo > 0)
                     {
                         audioSource.PlayOneShot(SE);
-                        FireNWaysShotgun();
+                        Shoot();
                         timer = 0f;
                     }
                     break;
@@ -255,6 +257,10 @@ public class Gun : MonoBehaviour
                 bulletLife = StetusScript.Instance.ArBalletLife;
                 StetusScript.Instance.ArAmmo--;
                 break;
+            case "sg":
+                FireNWaysShotgun();
+                StetusScript.Instance.SGAmmo--;
+                break;
         }
         bulletScript.Initialize(currentWeaponID, bulletLife, bulletDamage);
        
@@ -265,8 +271,6 @@ public class Gun : MonoBehaviour
         float spreadAngle = 30f;         // 扇の角度（度）
         float baseAngle = firePoint.rotation.eulerAngles.z;
         float startAngle = baseAngle - spreadAngle / 2f;
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
-        Bullet bulletScript = bullet.GetComponent<Bullet>();
 
         for (int i = 0; i < bulletCount; i++)
         {
@@ -274,20 +278,16 @@ public class Gun : MonoBehaviour
             float rad = angle * Mathf.Deg2Rad;
 
             Vector3 dir = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0);
+            GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = dir * bulletSpeed;            
+            rb.linearVelocity = dir * bulletSpeed;
+
+            Bullet bulletScript = bullet.GetComponent<Bullet>();
+            int bulletLife = StetusScript.Instance.SGAmmo; // SGの設定使う
+            int bulletDamage = 1;
+            bulletScript.Initialize(currentWeaponID, bulletLife, bulletDamage);
         }
-        switch (currentWeaponID)
-        {
-            
-            case "sg":
-                bulletDamage = 1;
-                bulletLife = StetusScript.Instance.SGAmmo; // SGの設定使う
-                StetusScript.Instance.SGAmmo--;
-                break;
-        }
-        bulletScript.Initialize(currentWeaponID, bulletLife, bulletDamage);
     }
     public int GetCurrentAmmo()
     {
@@ -304,6 +304,12 @@ public class Gun : MonoBehaviour
     {
         isReloading = true;
         //Debug.Log("リロード中...");
+
+        if (reloadUI != null)
+        {
+            reloadUI.StartReload(reloadTime);
+        }
+
         yield return new WaitForSeconds(reloadTime);
         switch (currentWeaponID)
         {

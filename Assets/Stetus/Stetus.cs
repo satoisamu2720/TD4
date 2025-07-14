@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class StetusScript : MonoBehaviour
@@ -55,7 +56,7 @@ public class StetusScript : MonoBehaviour
         public string subWeaponID;
         public int handgunAmmo;
         public int arAmmo;
-        public int SGAmmo;
+        public int sgAmmo;
     }
 
     [Header("各ボスステータス")]
@@ -94,6 +95,7 @@ public class StetusScript : MonoBehaviour
                 speed = PlayerSpeed,
                 handgunAmmo = HandgunAmmo,
                 arAmmo = ArAmmo,
+                sgAmmo = SGAmmo,
                 playerLevel = level,
                 mainWeaponID = PlayerMove.Instance.GetWeaponID(true), 
                 subWeaponID = PlayerMove.Instance.GetWeaponID(false),
@@ -118,6 +120,7 @@ public class StetusScript : MonoBehaviour
                 PlayerSpeed = data.speed;
                 HandgunAmmo = data.handgunAmmo;
                 ArAmmo = data.arAmmo;
+                SGAmmo = data.sgAmmo;
                 level = data.playerLevel;
 
                 PlayerMove.Instance.isMainWeapon = data.mainWeapon;
@@ -166,6 +169,7 @@ public class StetusScript : MonoBehaviour
             speed = PlayerSpeed,
             handgunAmmo = HandgunAmmo,
             arAmmo = ArAmmo,
+            sgAmmo = SGAmmo,
             playerLevel = level,
             mainWeaponID = PlayerMove.Instance.GetWeaponID(true),
             subWeaponID = PlayerMove.Instance.GetWeaponID(false),
@@ -192,6 +196,7 @@ public class StetusScript : MonoBehaviour
             PlayerSpeed = data.speed;
             HandgunAmmo = data.handgunAmmo;
             ArAmmo = data.arAmmo;
+            SGAmmo = data.sgAmmo;
             level = data.playerLevel;
 
             PlayerMove.Instance.isMainWeapon = data.mainWeapon;
