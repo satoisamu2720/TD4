@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7950275830888892174}
+  - component: {fileID: 5164991290341599224}
   m_Layer: 0
   m_Name: EnemyAreaObject
   m_TagString: Untagged
@@ -25,9 +26,36 @@ Transform:
   m_GameObject: {fileID: 4026477790721980185}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.903015, y: -15.911699, z: 4.22764}
+  m_LocalPosition: {x: 14.5, y: -16, z: 4.22764}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5164991290341599224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4026477790721980185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 949575c8428297a448ef9b805b00f628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyCounts:
+  - enemyType: 0
+    pos:
+    - {x: 0, y: 0}
+    - {x: 2, y: -4}
+    - {x: -2, y: -10}
+    - {x: 4, y: -2}
+    - {x: 6, y: 0}
+    - {x: -4, y: -2}
+    - {x: -4, y: -10}
+    - {x: 2, y: -10}
+    rot: {x: 0, y: 0, z: 0, w: 0}
+    enemyPrefab: {fileID: 7384841044922133289, guid: df69d78a64f3f1b4681321c88081f942, type: 3}
+    ID: 2
+    isSpawn: 1

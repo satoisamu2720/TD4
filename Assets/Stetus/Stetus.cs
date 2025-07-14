@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class StetusScript : MonoBehaviour
 {
     public static StetusScript Instance { get; private set; }
+
+    public GameObject levelUpPanel;
+    public bool isLevelUp = false;
 
     public PlayerExp playerExp;
 
@@ -15,20 +19,31 @@ public class StetusScript : MonoBehaviour
     public int level = 1;
 
     [Header("ハンドガンステータス")]
+    public int handgunDamage = 1;
     public int HandgunAmmo = 7;
     public int handgunMaxAmmo = 7;
-    public float hundgunBulletSpeed = 10.0f;
-    public float hundgunFireInterval = 0.8f;
-    public float hundgunReloadTime = 1.0f;
-    public int hundgunBalletLife = 0;
+    public float handgunBulletSpeed = 10.0f;
+    public float handgunFireInterval = 0.8f;
+    public float handgunReloadTime = 1.0f;
+    public int handgunBalletLife = 1;
 
     [Header("アサルトライフルステータス")]
     public int ArAmmo = 30;
-    public int ArMaxAmmo = 7;
+    public int ArMaxAmmo = 30;
     public float ArBulletSpeed = 10.0f;
     public float ArFireInterval = 1.2f;
     public float ArReloadTime = 1.5f;
-   
+    public int ArBalletLife = 1;
+
+
+    [Header("ショットガンステータス")]
+    public int SGAmmo = 5;
+    public int SGMaxAmmo = 5;
+    public float SGBulletSpeed = 10.0f;
+    public float SGFireInterval = 1.2f;
+    public float SGReloadTime = 1.5f;
+    public int SGBalletLife = 1;
+
 
 
     [System.Serializable]
@@ -44,10 +59,12 @@ public class StetusScript : MonoBehaviour
         public string subWeaponID;
         public int handgunAmmo;
         public int arAmmo;
+        public int sgAmmo;
     }
 
-    [Header("ボスステータス")]
-    public int BossEnemyHp = 0;
+    [Header("各ボスステータス")]
+    public int TutorialBossEnemyHp = 0;
+    public int Stage1BossEnemyHp = 0;
 
     [Header("レベルアップステータス")]
     public int LevelUpPlayerHp = 2;
@@ -81,6 +98,7 @@ public class StetusScript : MonoBehaviour
                 speed = PlayerSpeed,
                 handgunAmmo = HandgunAmmo,
                 arAmmo = ArAmmo,
+                sgAmmo = SGAmmo,
                 playerLevel = level,
                 mainWeaponID = PlayerMove.Instance.GetWeaponID(true), 
                 subWeaponID = PlayerMove.Instance.GetWeaponID(false),
@@ -105,6 +123,7 @@ public class StetusScript : MonoBehaviour
                 PlayerSpeed = data.speed;
                 HandgunAmmo = data.handgunAmmo;
                 ArAmmo = data.arAmmo;
+                SGAmmo = data.sgAmmo;
                 level = data.playerLevel;
 
                 PlayerMove.Instance.isMainWeapon = data.mainWeapon;
@@ -140,6 +159,14 @@ public class StetusScript : MonoBehaviour
             }
         }
 
+        if (isLevelUp)
+        {
+            levelUpPanel.SetActive(true);
+        }
+        else
+        {
+            levelUpPanel.SetActive(false);
+        }
 
     }
     public void Save()
@@ -153,6 +180,7 @@ public class StetusScript : MonoBehaviour
             speed = PlayerSpeed,
             handgunAmmo = HandgunAmmo,
             arAmmo = ArAmmo,
+            sgAmmo = SGAmmo,
             playerLevel = level,
             mainWeaponID = PlayerMove.Instance.GetWeaponID(true),
             subWeaponID = PlayerMove.Instance.GetWeaponID(false),
@@ -179,6 +207,7 @@ public class StetusScript : MonoBehaviour
             PlayerSpeed = data.speed;
             HandgunAmmo = data.handgunAmmo;
             ArAmmo = data.arAmmo;
+            SGAmmo = data.sgAmmo;
             level = data.playerLevel;
 
             PlayerMove.Instance.isMainWeapon = data.mainWeapon;
