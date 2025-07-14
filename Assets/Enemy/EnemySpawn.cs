@@ -35,7 +35,6 @@ public class EnemySpawn : MonoBehaviour
                 Vector3 spawnPos = transform.position + (Vector3)p;
                 GameObject enemyObj = Instantiate(data.enemyPrefab, spawnPos, data.rot);
 
-                GameObject enemyObj = Instantiate(data.enemyPrefab, p, data.rot);
                 enemyObj.tag = "Enemy";
 
                 spawnedEnemies.Add(enemyObj);
@@ -64,15 +63,7 @@ public class EnemySpawn : MonoBehaviour
             Destroy(enemy);
         }
     }
-    public void DestroyAllEnemies()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        foreach (GameObject enemy in enemies)
-        {
-            Destroy(enemy);
-        }
-    }
+   
 
 
     [System.Serializable]
@@ -93,19 +84,6 @@ public class EnemySpawn : MonoBehaviour
         public GameObject enemyPrefab;         
         public string ID;                      
         public bool isSpawn;                   
-    }
-
-    void Awake()
-    {
-        Instance = this;
-    }
-
-    void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
     }
 
     void Awake()

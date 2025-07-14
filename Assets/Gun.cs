@@ -300,15 +300,15 @@ public class Gun : MonoBehaviour
         }
     }
 
-    public int GetCurrentAmmo()
-    {
-        switch (currentWeaponID)
-        {
-            case "handgun": return StetusScript.Instance.HandgunAmmo;
-            case "ar": return StetusScript.Instance.ArAmmo;
-            default: return 0;
-        }
-    }
+    //public int GetCurrentAmmo()
+    //{
+    //    switch (currentWeaponID)
+    //    {
+    //        case "handgun": return StetusScript.Instance.HandgunAmmo;
+    //        case "ar": return StetusScript.Instance.ArAmmo;
+    //        default: return 0;
+    //    }
+    //}
 
     System.Collections.IEnumerator Reload()
     {
