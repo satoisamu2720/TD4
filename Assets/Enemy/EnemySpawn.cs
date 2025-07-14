@@ -35,7 +35,6 @@ public class EnemySpawn : MonoBehaviour
                 Vector3 spawnPos = transform.position + (Vector3)p;
                 GameObject enemyObj = Instantiate(data.enemyPrefab, spawnPos, data.rot);
 
-                GameObject enemyObj = Instantiate(data.enemyPrefab, p, data.rot);
                 enemyObj.tag = "Enemy";
 
                 spawnedEnemies.Add(enemyObj);

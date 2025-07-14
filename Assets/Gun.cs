@@ -18,7 +18,6 @@ public class Gun : MonoBehaviour
     
     public float reloadTime = 2f;
 
-
     private int MaxAmmo = 0;
     private int currentAmmo;
     private float timer;
