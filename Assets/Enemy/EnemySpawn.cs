@@ -64,6 +64,15 @@ public class EnemySpawn : MonoBehaviour
             Destroy(enemy);
         }
     }
+    public void DestroyAllEnemies()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+    }
 
 
     [System.Serializable]
@@ -84,6 +93,19 @@ public class EnemySpawn : MonoBehaviour
         public GameObject enemyPrefab;         
         public string ID;                      
         public bool isSpawn;                   
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 
     void Awake()

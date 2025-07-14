@@ -33,18 +33,18 @@ public class TutorialStepController : MonoBehaviour
         }
     }
 
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // これでシーンをまたいでも残る
-        }
-        else
-        {
-            Destroy(gameObject); // 2個目のカメラができたら破棄する
-        }
-    }
+    //void Awake()
+    //{
+    //    if (instance == null)
+    //    {
+    //        instance = this;
+    //        DontDestroyOnLoad(gameObject); // これでシーンをまたいでも残る
+    //    }
+    //    else
+    //    {
+    //        Destroy(gameObject); // 2個目のカメラができたら破棄する
+    //    }
+    //}
 
     // チュートリアルステップを進めるメソッド
     public void ProgressToNextStep()

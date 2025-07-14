@@ -1,9 +1,12 @@
+using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
     public PlayerExp playerExp;
+
+    public static Player Instance { get; private set; }
 
     public int ExpBox;
     public int ExpBox2;
@@ -13,6 +16,8 @@ public class Player : MonoBehaviour
 
     public int CurrentValue => _currentValue;
     public static bool IsNotMove { get; set; } = false;
+
+    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,31 +32,46 @@ public class Player : MonoBehaviour
         {
             if (_currentValue < playerExp.ExpLevel.Level)
             {
-                ChangeScene();
+                StopScene();
+                Debug.Log("ì¸Ç¡ÇΩ");
                 _currentValue = playerExp.ExpLevel.Level;
             }
         }
     }
 
-    public void ChangeScene()
+    public void StopScene()
     {
-        IsNotMove = true;
-        SceneManager.LoadScene(_LoadScene, LoadSceneMode.Additive);
+        //IsNotMove = true;
+        //SceneManager.LoadScene(_LoadScene, LoadSceneMode.Additive);
+        Debug.Log("é~ÇﬂÇΩ");
 
+        StetusScript.Instance.isLevelUp = true;
+        GameManagement.Instance.isPause = true;
     }
 
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("ìñÇΩÇ¡ÇΩ");
         if (other.CompareTag("ExpItem"))
         {
             ExpItem item = other.GetComponent<ExpItem>();
             if (item != null)
             {
-                playerExp.AddExp(item.expAmount);
-                Destroy(other.gameObject); // ÉAÉCÉeÉÄÇè¡Ç∑
+                item.Collect(playerExp);
             }
+        }
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
         }
     }
 }
