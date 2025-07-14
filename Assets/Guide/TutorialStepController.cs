@@ -7,16 +7,10 @@ public class TutorialStepController : MonoBehaviour
 
     private int currentStep = 0;
 
-    private static TutorialStepController instance;
-    public static TutorialStepController Instance
-    {
-        get
-        {
-            return instance;
-        }
-    }
+    
+    public static TutorialStepController Instance { get; private set; }
 
-    void Start()
+void Start()
     {
         if (tutorialTargets.Length > 0)
         {
@@ -33,18 +27,18 @@ public class TutorialStepController : MonoBehaviour
         }
     }
 
-    //void Awake()
-    //{
-    //    if (instance == null)
-    //    {
-    //        instance = this;
-    //        DontDestroyOnLoad(gameObject); // これでシーンをまたいでも残る
-    //    }
-    //    else
-    //    {
-    //        Destroy(gameObject); // 2個目のカメラができたら破棄する
-    //    }
-    //}
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 
     // チュートリアルステップを進めるメソッド
     public void ProgressToNextStep()
