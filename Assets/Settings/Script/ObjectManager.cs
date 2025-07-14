@@ -15,7 +15,7 @@ public class ObjectManager : MonoBehaviour
     private Dictionary<GameObject, bool> destroyedFlags = new();
 
     private void Awake()
-    {
+    { 
         if (!isKeep)
         {
             foreach (GameObject obj in objectKeep)
