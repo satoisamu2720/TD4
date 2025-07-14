@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      PlayerLifeGageFrame-1_0: 822742978443787715
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
