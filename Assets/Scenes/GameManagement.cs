@@ -15,6 +15,10 @@ public class GameManagement: MonoBehaviour
     [SerializeField]
     private Vector3 playerSpawnStage2= Vector3.zero;
 
+    public bool isPause = false;
+
+    public static GameManagement Instance { get; private set; }
+
     void Start()
     {
         PlayerHP = StetusScript.Instance.PlayerHp;
@@ -62,4 +66,18 @@ public class GameManagement: MonoBehaviour
             bgmSource.volume = Mathf.Clamp01(volume);
         }
     }
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); 
+        }
+    }
+
+
 }
