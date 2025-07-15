@@ -7,8 +7,24 @@ using UnityEngine.Audio;
 public class Gun : MonoBehaviour
 {
     public static Gun Instance { get; private set; }
-    public AudioClip SE;
-    AudioSource audioSource;
+
+    [Header("ハンドガンSE")]
+    public AudioClip HSE;
+    public AudioClip HRSE;
+    AudioSource handgunSE;
+    AudioSource handgunReloadSE;
+
+    [Header("アサルトライフルSE")]
+    public AudioClip ARSE;
+    public AudioClip ARRSE;
+    AudioSource arSE;
+    AudioSource arReloadSE;
+
+    [Header("ショットガンSE")]
+    public AudioClip SGSE;
+    public AudioClip SGRSE;
+    AudioSource sgSE;
+    AudioSource sgReloadSE;
 
     public GameObject bulletPrefab;
     public Transform firePoint;
@@ -69,7 +85,14 @@ public class Gun : MonoBehaviour
     void Start()
     {
 
-        audioSource = GetComponent<AudioSource>();
+        handgunSE = GetComponent<AudioSource>();
+        handgunReloadSE = GetComponent<AudioSource>();
+
+        arSE = GetComponent<AudioSource>();
+        arReloadSE = GetComponent<AudioSource>();
+
+        sgSE = GetComponent<AudioSource>();
+        sgReloadSE = GetComponent<AudioSource>();
 
         currentWeaponData = GetComponent<Weapon>();
         currentWeaponID = currentWeaponData != null ? currentWeaponData.GetID() : "default";
@@ -195,7 +218,7 @@ public class Gun : MonoBehaviour
                 case "handgun":
                     if (Input.GetMouseButtonDown(0) && timer >= fireInterval && currentAmmo > 0)
                     {
-                        audioSource.PlayOneShot(SE);
+                        handgunSE.PlayOneShot(HSE);
                         Shoot();
                         timer = 0f;
                     }
@@ -204,7 +227,7 @@ public class Gun : MonoBehaviour
                 case "ar":
                     if (Input.GetMouseButton(0) && timer >= fireInterval && currentAmmo > 0)
                     {
-                        audioSource.PlayOneShot(SE);
+                        arSE.PlayOneShot(ARSE);
                         Shoot();
                         timer = 0f;
                     }
@@ -212,7 +235,7 @@ public class Gun : MonoBehaviour
                 case "sg":
                     if (Input.GetMouseButton(0) && timer >= fireInterval && currentAmmo > 0)
                     {
-                        audioSource.PlayOneShot(SE);
+                        sgSE.PlayOneShot(SGSE);
                         Shoot();
                         timer = 0f;
                     }
@@ -221,7 +244,7 @@ public class Gun : MonoBehaviour
                 default:
                     if (Input.GetMouseButtonDown(0) && timer >= fireInterval && currentAmmo > 0)
                     {
-                        audioSource.PlayOneShot(SE);
+                        handgunSE.PlayOneShot(HSE);
                         Shoot();
                         timer = 0f;
                     }
@@ -304,7 +327,20 @@ public class Gun : MonoBehaviour
     {
         isReloading = true;
         //Debug.Log("リロード中...");
-
+        switch (currentWeaponID)
+        {
+            case "handgun":
+                handgunReloadSE.PlayOneShot(HRSE);
+                break;
+            case "ar":
+                arReloadSE.PlayOneShot(ARRSE);
+                break;
+            case "sg":
+                sgReloadSE.clip = SGRSE;        
+                sgReloadSE.loop = true;          
+                sgReloadSE.Play();
+                break;
+        }
         if (reloadUI != null)
         {
             reloadUI.StartReload(reloadTime);
@@ -321,6 +357,8 @@ public class Gun : MonoBehaviour
                 break;
             case "sg":
                 StetusScript.Instance.SGAmmo = MaxAmmo;
+                sgReloadSE.Stop();         
+                sgReloadSE.loop = false;
                 break;
         }
         isReloading = false;
@@ -342,9 +380,29 @@ public class Gun : MonoBehaviour
 
     public void SetBgmVolume(float volume)
     {
-        if (audioSource != null)
+        if (handgunSE != null)
         {
-            audioSource.volume = Mathf.Clamp01(volume);
+            handgunSE.volume = Mathf.Clamp01(volume);
+        }
+        if (handgunReloadSE != null)
+        {
+            handgunReloadSE.volume = Mathf.Clamp01(volume);
+        }
+        if (arSE != null)
+        {
+            arSE.volume = Mathf.Clamp01(volume);
+        }
+        if (arReloadSE != null)
+        {
+            arReloadSE.volume = Mathf.Clamp01(volume);
+        }
+        if (sgSE != null)
+        {
+            sgSE.volume = Mathf.Clamp01(volume);
+        }
+        if (sgReloadSE != null)
+        {
+            sgReloadSE.volume = Mathf.Clamp01(volume);
         }
     }
 
