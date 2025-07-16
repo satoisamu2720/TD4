@@ -31,8 +31,7 @@ public class TutorialText2 : MonoBehaviour
                 "ハンドガンを拾った",
                 "カーソルで狙って左クリックで打てる",
                 "これでゾンビを倒すことができる",
-                "倒すと経験値が落ちて自身を強化できる",
-                "万全だと思ったら矢印の方へいこう",
+                "矢印の方へいこう",
             };
             textBox.ShowMessages(lines);
             TutorialStepController.Instance.ProgressToNextStep();

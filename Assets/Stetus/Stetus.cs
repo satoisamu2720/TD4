@@ -6,9 +6,6 @@ public class StetusScript : MonoBehaviour
 {
     public static StetusScript Instance { get; private set; }
 
-    public GameObject levelUpPanel;
-    public bool isLevelUp = false;
-
     public PlayerExp playerExp;
 
     [Header("プレイヤーステータス")]
@@ -77,12 +74,7 @@ public class StetusScript : MonoBehaviour
         {
             StetusScript.Instance.Load();
             PlayerPrefs.DeleteKey("ShouldLoad");
-        }
-        if (PlayerPrefs.HasKey("StartLoad") && PlayerPrefs.GetInt("StartLoad") == 1)
-        {
-            PlayerMove.Instance.transform.position = new Vector3(-150, -15, 0);
-            PlayerPrefs.DeleteKey("StartLoad");
-        }
+        }        
     }
 
     private void Update()
@@ -159,15 +151,7 @@ public class StetusScript : MonoBehaviour
             }
         }
 
-        if (isLevelUp)
-        {
-            levelUpPanel.SetActive(true);
-        }
-        else
-        {
-            levelUpPanel.SetActive(false);
-        }
-
+        
     }
     public void Save()
     {

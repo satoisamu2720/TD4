@@ -56,7 +56,7 @@ public class StetusChange : MonoBehaviour
         //SceneTransitionManager.Instance.ReturnToStageScene();
         //Player.IsNotMove = false;
 
-        StetusScript.Instance.isLevelUp = false;
+        GameManagement.Instance.isLevelUp = false;
 
         GameManagement.Instance.isPause = false;
 

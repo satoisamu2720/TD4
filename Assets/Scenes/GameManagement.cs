@@ -18,7 +18,8 @@ public class GameManagement: MonoBehaviour
 
     public bool isPause = false;
 
-
+    public GameObject levelUpPanel;
+    public bool isLevelUp = false;
     void Start()
     {
         PlayerHP = StetusScript.Instance.PlayerHp;
@@ -29,6 +30,19 @@ public class GameManagement: MonoBehaviour
         {
             bgmSource.loop = true;
             bgmSource.Play();
+        }
+        if (PlayerPrefs.HasKey("StartLoad") && PlayerPrefs.GetInt("StartLoad") == 1)
+        {
+            var followUI = UIFollowWorldObject.GetInstance();
+            if (followUI != null)
+            {
+                followUI.ShowUI(true);
+            }
+            TutorialStepController.Instance.ProgressToNextStep();
+            TutorialStepController.Instance.ProgressToNextStep();
+            
+            PlayerMove.Instance.transform.position = playerSpawnStage1;
+            PlayerPrefs.DeleteKey("StartLoad");
         }
     }
 
@@ -57,6 +71,15 @@ public class GameManagement: MonoBehaviour
             }
 
         }
+        if (isLevelUp)
+        {
+            levelUpPanel.SetActive(true);
+        }
+        else
+        {
+            levelUpPanel.SetActive(false);
+        }
+
     }
 
     public void SetBgmVolume(float volume)

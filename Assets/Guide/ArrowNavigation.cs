@@ -64,21 +64,21 @@ public class ArrowNavigation : MonoBehaviour
         {
             isSnapped = false;
 
-            Vector2 direction = (target.position - transform.position).normalized;
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            // プレイヤーの位置を中心に、一定距離だけ矢印を表示
+            Transform player = GameObject.FindWithTag("Player")?.transform;
+            if (player != null)
+            {
+                Vector2 direction = (target.position - player.position).normalized;
 
-            Vector3 moveDelta = (Vector3)(transform.right * speed * Time.deltaTime);
-            Vector3 nextPosition = transform.position + moveDelta;
+                // プレイヤーの周囲に矢印を配置
+                float radius = 4f;
+                Vector3 offset = new Vector3(direction.x, direction.y, 0) * radius;
+                transform.position = player.position + offset;
 
-            Vector3 bottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
-            Vector3 topRight = cam.ViewportToWorldPoint(new Vector3(1, 1, cam.nearClipPlane));
-            bottomLeft += new Vector3(screenMargin.x, screenMargin.y, 0);
-            topRight -= new Vector3(screenMargin.x, screenMargin.y, 0);
-
-            float clampedX = Mathf.Clamp(nextPosition.x, bottomLeft.x, topRight.x);
-            float clampedY = Mathf.Clamp(nextPosition.y, bottomLeft.y, topRight.y);
-            transform.position = new Vector3(clampedX, clampedY, transform.position.z);
+                // 向きをターゲットの方向に合わせる
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0, 0, angle);
+            }
         }
     }
 

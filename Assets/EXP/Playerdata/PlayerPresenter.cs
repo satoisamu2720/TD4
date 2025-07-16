@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
         //SceneManager.LoadScene(_LoadScene, LoadSceneMode.Additive);
         Debug.Log("Ž~‚ß‚½");
 
-        StetusScript.Instance.isLevelUp = true;
+        GameManagement.Instance.isLevelUp = true;
         GameManagement.Instance.isPause = true;
     }
 

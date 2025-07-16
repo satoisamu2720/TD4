@@ -37,7 +37,7 @@ public class TextBoxController : MonoBehaviour
     {
         if (!textBoxPanel.activeSelf) return;
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F)|| Input.GetMouseButtonDown(0)|| Input.GetKeyDown(KeyCode.Space))
         {
             if (isTyping)
             {

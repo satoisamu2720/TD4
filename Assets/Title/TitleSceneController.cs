@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class TitleSceneController : MonoBehaviour
 {
     private AudioSource bgmSource;
+    public AudioClip getStartSE;
+    AudioSource startSE;
 
     void Start()
     {
         bgmSource = GetComponent<AudioSource>();
+        startSE = GetComponent<AudioSource>();
 
         if (bgmSource != null)
         {
@@ -16,37 +20,49 @@ public class TitleSceneController : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            SceneManager.LoadScene("Stage1");
-            bgmSource.Stop();
-        }
-    }
-
     public void OnAlpha1Button()
     {
-        PlayerPrefs.DeleteKey("PlayerUserData");
-        PlayerPrefs.Save();
-        SceneManager.LoadScene("Stage1");
-        bgmSource.Stop();
-    }
-    public void OnAlpha2Button()
-    {
-        PlayerPrefs.DeleteKey("PlayerUserData");
-        PlayerPrefs.Save();
-        PlayerPrefs.SetInt("StartLoad", 1);
-        SceneManager.LoadScene("Stage1");
-        bgmSource.Stop();
+        StartCoroutine(PlaySEAndLoadScene(false));
     }
 
-    // 音量を設定（0.0f〜1.0fの範囲）
+    public void OnAlpha2Button()
+    {
+        StartCoroutine(PlaySEAndLoadScene(true));
+    }
+
+    IEnumerator PlaySEAndLoadScene(bool loadFromSave)
+    {
+        if (startSE != null && getStartSE != null)
+        {
+            startSE.PlayOneShot(getStartSE);
+            yield return new WaitForSeconds(getStartSE.length); // 銃声が鳴り終わるまで待つ
+        }
+
+        bgmSource?.Stop();
+
+        PlayerPrefs.DeleteKey("PlayerUserData");
+        if (loadFromSave)
+        {
+            PlayerPrefs.SetInt("StartLoad", 1);
+            SceneManager.LoadScene("Stage1");
+        }
+        else
+        {
+            PlayerPrefs.DeleteKey("StartLoad");
+            PlayerPrefs.Save();
+            SceneManager.LoadScene("Stage1");
+        }
+
+
+    }
+
+    // 音量調整
     public void SetBgmVolume(float volume)
     {
         if (bgmSource != null)
-        {
             bgmSource.volume = Mathf.Clamp01(volume);
-        }
+
+        if (startSE != null)
+            startSE.volume = 1.0f; // 効果音は固定（必要なら調整可能）
     }
 }

@@ -31,7 +31,7 @@ public class LevelUp : MonoBehaviour
     public void StopScene()
     {
         //SceneManager.LoadScene(_LoadScene);
-        StetusScript.Instance.isLevelUp = true;
+        GameManagement.Instance.isLevelUp = true;
         //StopManager.Instance.Pause();
     }
 
