@@ -66,45 +66,46 @@ public class nWayBullet : MonoBehaviour
 
     void Update()
     {
-        Invincible();
-        if (!TextBoxController.IsTalking &&
-        !Player.IsNotMove &&
-        canFire && player != null)
+        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
         {
-
-            Vector2 directionToPlayer = player.position - transform.position;
-            float distance = directionToPlayer.magnitude;
-
-            if (Mathf.Abs(distance - followDistance) > 0.1f)
+            Invincible();
+            if (canFire && player != null)
             {
-                Vector2 moveDir = directionToPlayer.normalized;
-                float moveStep = moveSpeed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, player.position - (Vector3)(moveDir * followDistance), moveStep);
-            }
 
-            if (isReloading)
-            {
-                reloadTimer -= Time.deltaTime;
-                if (reloadTimer <= 0f)
+                Vector2 directionToPlayer = player.position - transform.position;
+                float distance = directionToPlayer.magnitude;
+
+                if (Mathf.Abs(distance - followDistance) > 0.1f)
                 {
-                    isReloading = false;
-                    shotCount = 0;
+                    Vector2 moveDir = directionToPlayer.normalized;
+                    float moveStep = moveSpeed * Time.deltaTime;
+                    transform.position = Vector3.MoveTowards(transform.position, player.position - (Vector3)(moveDir * followDistance), moveStep);
                 }
-                return;
-            }
 
-            fireTimer -= Time.deltaTime;
-
-            if (fireTimer <= 0f)
-            {
-                FireNWays();
-                fireTimer = fireCooldown;
-                shotCount++;
-
-                if (shotCount >= maxShotsBeforeReload)
+                if (isReloading)
                 {
-                    isReloading = true;
-                    reloadTimer = reloadTime;
+                    reloadTimer -= Time.deltaTime;
+                    if (reloadTimer <= 0f)
+                    {
+                        isReloading = false;
+                        shotCount = 0;
+                    }
+                    return;
+                }
+
+                fireTimer -= Time.deltaTime;
+
+                if (fireTimer <= 0f)
+                {
+                    FireNWays();
+                    fireTimer = fireCooldown;
+                    shotCount++;
+
+                    if (shotCount >= maxShotsBeforeReload)
+                    {
+                        isReloading = true;
+                        reloadTimer = reloadTime;
+                    }
                 }
             }
         }

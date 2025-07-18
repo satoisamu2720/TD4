@@ -60,10 +60,6 @@ public class Approachingenemy : MonoBehaviour
         //HandleStateMachine();
         //HandleArrow();
         //Invincible();
-
-        if (TextBoxController.IsTalking) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
-        if (Player.IsNotMove) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
-
         if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
         {
             HandleStateMachine();

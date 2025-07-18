@@ -13,7 +13,6 @@ public class TextBoxController : MonoBehaviour
     private int currentMessageIndex;    // 現在表示中のインデックス
     private bool isTyping;              // タイピング中かどうか
     private bool canProceed;            // 次に進めるか
-    public static bool IsTalking { get; private set; } = false;
     void Start()
     {
         var followUI = UIFollowWorldObject.GetInstance();
@@ -26,7 +25,7 @@ public class TextBoxController : MonoBehaviour
     // 会話スタート
     public void ShowMessages(string[] lines)
     {
-        IsTalking = true; // 会話開始
+        GameManagement.Instance.isPause  = true; // 会話開始
         messages = lines;
         currentMessageIndex = 0;
         textBoxPanel.SetActive(true);
@@ -98,7 +97,7 @@ public class TextBoxController : MonoBehaviour
         currentMessageIndex = 0;
         isTyping = false;
         canProceed = false;
-        IsTalking = false; // 会話終了
+        GameManagement.Instance.isPause  = false; // 会話終了
         var followUI = UIFollowWorldObject.GetInstance();
         if (followUI != null)
         {

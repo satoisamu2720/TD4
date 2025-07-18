@@ -121,142 +121,142 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        
-        if (TextBoxController.IsTalking) return; // 会話中は入力無効
-        if (Player.IsNotMove) return; // 会話中は入力無効
-        PlayerMove playerMove = GetComponent<PlayerMove>();
 
-        if (ammoText == null)
+        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
         {
-            GameObject ammoObj = GameObject.Find("AmmoText");
-            if (ammoObj != null)
+            PlayerMove playerMove = GetComponent<PlayerMove>();
+
+            if (ammoText == null)
             {
-                ammoText = ammoObj.GetComponent<TextMeshProUGUI>();
+                GameObject ammoObj = GameObject.Find("AmmoText");
+                if (ammoObj != null)
+                {
+                    ammoText = ammoObj.GetComponent<TextMeshProUGUI>();
+                }
+            }
+
+            int currentAmmo = GetCurrentAmmo();
+            if (ammoText != null)
+            {
+                ammoText.text = "弾数: " + currentAmmo;
+            }
+            Weapon weaponComp = playerMove.GetComponentInChildren<Weapon>();
+            if (weaponComp != null)
+            {
+                string newWeaponID = weaponComp.ID;
+                if (newWeaponID != currentWeaponID)
+                {
+                    currentWeaponID = newWeaponID;
+                    SetupWeaponByID(currentWeaponID);
+                    //currentAmmo = MaxAmmo; // 武器切り替えで弾数リセットしたい場合
+                }
+            }
+            if (playerMove.isWeapon == true)
+            {
+
+                Vector3 mousePos = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                mousePos.z = 0f;
+
+
+                Vector3 direction = mousePos - transform.position;
+
+
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
+                switch (currentWeaponID)
+                {
+                    case "handgun":
+                        bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
+                        fireInterval = StetusScript.Instance.handgunFireInterval;
+                        reloadTime = StetusScript.Instance.handgunReloadTime;
+                        //MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
+                        break;
+
+                    case "ar":
+                        bulletSpeed = StetusScript.Instance.ArBulletSpeed;
+                        fireInterval = StetusScript.Instance.ArFireInterval;
+                        reloadTime = StetusScript.Instance.ArReloadTime;
+                        //MaxAmmo = StetusScript.Instance.ArMaxAmmo;
+                        break;
+
+                    case "sg":
+                        bulletSpeed = StetusScript.Instance.SGBulletSpeed;
+                        fireInterval = StetusScript.Instance.SGFireInterval;
+                        reloadTime = StetusScript.Instance.SGReloadTime;
+                        //MaxAmmo = StetusScript.Instance.SGAmmo;
+                        break;
+
+                    default:
+                        bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
+                        fireInterval = StetusScript.Instance.handgunFireInterval;
+                        reloadTime = StetusScript.Instance.handgunReloadTime;
+                        MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
+                        break;
+                }
+
+                // Rキーで手動リロード（残弾が満タンじゃないときだけ）
+                if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < MaxAmmo)
+                {
+
+                    StartCoroutine(Reload());
+                    return;
+                }
+                if (Input.GetKeyDown(KeyCode.U))
+                {
+                    Debug.Log("残弾数: " + MaxAmmo);
+                }
+
+                if (isReloading)
+                    return;
+
+                timer += Time.deltaTime;
+
+
+                switch (currentWeaponID)
+                {
+                    case "handgun":
+                        if (Input.GetMouseButtonDown(0) && timer >= fireInterval && currentAmmo > 0)
+                        {
+                            handgunSE.PlayOneShot(HSE);
+                            Shoot();
+                            timer = 0f;
+                        }
+                        break;
+
+                    case "ar":
+                        if (Input.GetMouseButton(0) && timer >= fireInterval && currentAmmo > 0)
+                        {
+                            arSE.PlayOneShot(ARSE);
+                            Shoot();
+                            timer = 0f;
+                        }
+                        break;
+                    case "sg":
+                        if (Input.GetMouseButton(0) && timer >= fireInterval && currentAmmo > 0)
+                        {
+                            sgSE.PlayOneShot(SGSE);
+                            Shoot();
+                            timer = 0f;
+                        }
+                        break;
+
+                    default:
+                        if (Input.GetMouseButtonDown(0) && timer >= fireInterval && currentAmmo > 0)
+                        {
+                            handgunSE.PlayOneShot(HSE);
+                            Shoot();
+                            timer = 0f;
+                        }
+                        break;
+                }
+
+                if (currentAmmo <= 0)
+                {
+                    StartCoroutine(Reload());
+                }
             }
         }
-
-        int currentAmmo = GetCurrentAmmo();
-        if (ammoText != null)
-        {
-            ammoText.text = "弾数: " + currentAmmo;
-        }
-        Weapon weaponComp = playerMove.GetComponentInChildren<Weapon>();
-        if (weaponComp != null)
-        {
-            string newWeaponID = weaponComp.ID;
-            if (newWeaponID != currentWeaponID)
-            {
-                currentWeaponID = newWeaponID;
-                SetupWeaponByID(currentWeaponID);
-                //currentAmmo = MaxAmmo; // 武器切り替えで弾数リセットしたい場合
-            }
-        }
-        if (playerMove.isWeapon == true)
-        {
-           
-            Vector3 mousePos = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0f; 
-
-            
-            Vector3 direction = mousePos - transform.position;
-
-            
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0f, 0f, angle);
-
-            switch (currentWeaponID)
-            {
-                case "handgun":
-                    bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
-                    fireInterval = StetusScript.Instance.handgunFireInterval;
-                    reloadTime = StetusScript.Instance.handgunReloadTime;
-                    //MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
-                    break;
-
-                case "ar":
-                    bulletSpeed = StetusScript.Instance.ArBulletSpeed;
-                    fireInterval = StetusScript.Instance.ArFireInterval;
-                    reloadTime = StetusScript.Instance.ArReloadTime;
-                    //MaxAmmo = StetusScript.Instance.ArMaxAmmo;
-                    break;
-
-                case "sg":
-                    bulletSpeed = StetusScript.Instance.SGBulletSpeed;
-                    fireInterval = StetusScript.Instance.SGFireInterval;
-                    reloadTime = StetusScript.Instance.SGReloadTime;
-                    //MaxAmmo = StetusScript.Instance.SGAmmo;
-                    break;
-
-                default:
-                    bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
-                    fireInterval = StetusScript.Instance.handgunFireInterval;
-                    reloadTime = StetusScript.Instance.handgunReloadTime;
-                    MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
-                    break;
-            }
-
-            // Rキーで手動リロード（残弾が満タンじゃないときだけ）
-            if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo < MaxAmmo)
-            {
-                
-                StartCoroutine(Reload());
-                return; 
-            }
-            if (Input.GetKeyDown(KeyCode.U))
-            {
-                Debug.Log("残弾数: " + MaxAmmo);
-            }
-
-            if (isReloading)
-                return;
-
-            timer += Time.deltaTime;
-
-
-            switch (currentWeaponID)
-            {
-                case "handgun":
-                    if (Input.GetMouseButtonDown(0) && timer >= fireInterval && currentAmmo > 0)
-                    {
-                        handgunSE.PlayOneShot(HSE);
-                        Shoot();
-                        timer = 0f;
-                    }
-                    break;
-
-                case "ar":
-                    if (Input.GetMouseButton(0) && timer >= fireInterval && currentAmmo > 0)
-                    {
-                        arSE.PlayOneShot(ARSE);
-                        Shoot();
-                        timer = 0f;
-                    }
-                    break;
-                case "sg":
-                    if (Input.GetMouseButton(0) && timer >= fireInterval && currentAmmo > 0)
-                    {
-                        sgSE.PlayOneShot(SGSE);
-                        Shoot();
-                        timer = 0f;
-                    }
-                    break;
-
-                default:
-                    if (Input.GetMouseButtonDown(0) && timer >= fireInterval && currentAmmo > 0)
-                    {
-                        handgunSE.PlayOneShot(HSE);
-                        Shoot();
-                        timer = 0f;
-                    }
-                    break;
-            }
-
-            if (currentAmmo <= 0)
-            {
-                StartCoroutine(Reload());
-            }
-        }
-
 
     }
 
@@ -295,6 +295,8 @@ public class Gun : MonoBehaviour
         float baseAngle = firePoint.rotation.eulerAngles.z;
         float startAngle = baseAngle - spreadAngle / 2f;
 
+        bulletLife = StetusScript.Instance.SGBalletLife;
+
         for (int i = 0; i < bulletCount; i++)
         {
             float angle = startAngle + (spreadAngle / (bulletCount - 1)) * i;
@@ -307,7 +309,6 @@ public class Gun : MonoBehaviour
             rb.linearVelocity = dir * bulletSpeed;
 
             Bullet bulletScript = bullet.GetComponent<Bullet>();
-            int bulletLife = StetusScript.Instance.SGAmmo; // SGの設定使う
             int bulletDamage = 1;
             bulletScript.Initialize(currentWeaponID, bulletLife, bulletDamage);
         }

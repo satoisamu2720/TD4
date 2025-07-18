@@ -62,6 +62,7 @@ public class StetusScript : MonoBehaviour
     [Header("各ボスステータス")]
     public int TutorialBossEnemyHp = 0;
     public int Stage1BossEnemyHp = 0;
+    public int Stage2BossEnemyHp = 0;
 
     [Header("レベルアップステータス")]
     public int LevelUpPlayerHp = 2;

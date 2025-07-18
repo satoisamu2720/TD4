@@ -3,8 +3,9 @@ using UnityEngine.UI;
 
 public class DivisionEnemy : MonoBehaviour
 {
+
+    public static DivisionEnemy Instance { get; private set; }
     public float speed = 5f;
-    public int maxHP = 2;
     public float rushDistance = 5f;
     public float waitTime = 1.5f;
     public GameObject itemPrefab;
@@ -14,7 +15,7 @@ public class DivisionEnemy : MonoBehaviour
     public int numberOfSplits = 2;
     public float splitSpreadAngle = 90f;
 
-    private int currentHP;
+    public int currentHP;
     private Transform player;
     private Vector2 moveDirection;
     private Vector2 startPosition;
@@ -37,7 +38,7 @@ public class DivisionEnemy : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
-        currentHP = maxHP;
+        currentHP = StetusScript.Instance.Stage2BossEnemyHp;
         waitTimer = waitTime;
         mainCamera = Camera.main;
 
@@ -53,12 +54,13 @@ public class DivisionEnemy : MonoBehaviour
 
     void Update()
     {
-        if (TextBoxController.IsTalking) return;
-        if (Player.IsNotMove) return;
+        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
+        {
 
-        HandleStateMachine();
-        HandleArrow();
-        HandleInvincibility();
+            HandleStateMachine();
+            HandleArrow();
+            HandleInvincibility();
+        }
     }
 
     void HandleStateMachine()
@@ -119,8 +121,8 @@ public class DivisionEnemy : MonoBehaviour
         {
             if (!isInvincible)
             {
-                TakeDamage(1);
-                StartInvincibility();
+                //TakeDamage(1);
+                //StartInvincibility();
             }
 
             Destroy(collision.gameObject);
@@ -129,6 +131,10 @@ public class DivisionEnemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (!isInvincible)
+        {
+            StartInvincibility();
+        }
         currentHP -= damage;
         if (currentHP <= 0)
         {
@@ -136,7 +142,7 @@ public class DivisionEnemy : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
         if (itemPrefab != null)
         {
@@ -193,6 +199,19 @@ public class DivisionEnemy : MonoBehaviour
             {
                 rb.AddForce(direction * 3f, ForceMode2D.Impulse);
             }
+        }
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
         }
     }
 }

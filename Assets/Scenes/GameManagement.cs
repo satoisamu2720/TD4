@@ -4,8 +4,11 @@ using UnityEngine.SceneManagement;
 public class GameManagement: MonoBehaviour
 {
     public static GameManagement Instance { get; private set; }
+    public Transform startGetTarget;
     private int PlayerHP = 0;
-    private bool oneBoss = false;
+    private bool tutorialBoss = false;
+    private bool stage1Boss = false;
+    private bool stage2Boss = false;
 
     private AudioSource bgmSource;
 
@@ -22,6 +25,7 @@ public class GameManagement: MonoBehaviour
     public bool isLevelUp = false;
     void Start()
     {
+        
         PlayerHP = StetusScript.Instance.PlayerHp;
 
         bgmSource = GetComponent<AudioSource>();
@@ -44,6 +48,7 @@ public class GameManagement: MonoBehaviour
             PlayerMove.Instance.transform.position = playerSpawnStage1;
             PlayerPrefs.DeleteKey("StartLoad");
         }
+        
     }
 
     
@@ -55,12 +60,12 @@ public class GameManagement: MonoBehaviour
             bgmSource.Stop();
             SceneManager.LoadScene("GameOver");
         }
-        if (ShootEnemy.Instance != null && ShootEnemy.Instance.currentHP <= 0 && !oneBoss)
+        if (ShootEnemy.Instance != null && ShootEnemy.Instance.currentHP <= 0 && !tutorialBoss)
         {
             PlayerMove.Instance.transform.position = playerSpawnStage1;
 
             StetusScript.Instance.Save();
-            oneBoss = true;
+            tutorialBoss = true;
             ShootEnemy.Instance.Die();
             EnemySpawn.Instance.DestroyAllEnemies();
             TutorialStepController.Instance.ProgressToNextStep();
@@ -71,6 +76,32 @@ public class GameManagement: MonoBehaviour
             }
 
         }
+        if (nWayBullet.Instance != null && nWayBullet.Instance.currentHP <= 0 && !stage1Boss)
+        {
+            PlayerMove.Instance.transform.position = playerSpawnStage2;
+
+            StetusScript.Instance.Save();
+            stage1Boss = true;
+            nWayBullet.Instance.Die();
+            EnemySpawn.Instance.DestroyAllEnemies();
+            TutorialStepController.Instance.ProgressToNextStep();
+            var followUI = UIFollowWorldObject.GetInstance();
+            if (followUI != null)
+            {
+                followUI.ShowUI(true);
+            }
+
+        }
+        if (DivisionEnemy.Instance != null && DivisionEnemy.Instance.currentHP <= 0 && !stage2Boss)
+        {
+            stage2Boss = true;
+            DivisionEnemy.Instance.Die();
+            EnemySpawn.Instance.DestroyAllEnemies();
+
+            bgmSource.Stop();
+            SceneManager.LoadScene("GameClear");
+        }
+
         if (isLevelUp)
         {
             levelUpPanel.SetActive(true);

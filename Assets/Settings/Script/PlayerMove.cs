@@ -83,36 +83,38 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        if (TextBoxController.IsTalking) return; // 会話中は入力無効
-        if (Player.IsNotMove) return; // 会話中は入力無効
-        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        Invincible();
-
-        //Weapon();
-
-        if (Input.GetKeyDown(KeyCode.Q)) // Qキーで切り替え
-        {
-            SwitchWeapon();
-        }
-
-        PlayerDirection();
-
+     
        
-
-        if (StetusScript.Instance.PlayerHp <= 0) {
-            StetusScript.Instance.PlayerHp = 10;
-            
-            SceneManager.LoadScene("GameOver");
-        }
-       
-        //Animate();
     }
 
     private void FixedUpdate()
     {
-        if (TextBoxController.IsTalking) return; // 会話中は移動も無効
-        if (Player.IsNotMove) return; // 会話中は入力無効
-        MovePlayer();
+        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
+        {
+            movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            Invincible();
+
+            //Weapon();
+
+            if (Input.GetKeyDown(KeyCode.Q)) // Qキーで切り替え
+            {
+                SwitchWeapon();
+            }
+
+            PlayerDirection();
+
+
+
+            if (StetusScript.Instance.PlayerHp <= 0)
+            {
+                StetusScript.Instance.PlayerHp = 10;
+
+                SceneManager.LoadScene("GameOver");
+            }
+
+            //Animate();
+            MovePlayer();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

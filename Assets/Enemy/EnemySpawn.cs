@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ public class EnemySpawn : MonoBehaviour
         {
             EnemyGenerator(enemyCounts[i]);
         }
+
     }
 
     private void EnemyGenerator(EnemyCount data)
@@ -36,10 +38,35 @@ public class EnemySpawn : MonoBehaviour
                 enemyObj.tag = "Enemy";
                 spawnedEnemies.Add(enemyObj);
                 enemyObj.SetActive(true);
+                if (data.enemyType == EnemyCount.EnemyType.Boss)
+                {
+                    // プレイヤーのTransformを取得
+                    GameObject player = GameObject.FindGameObjectWithTag("Player");
+                    if (player != null)
+                    {
+                        MainCameraScript.Instance.SetDefaultTarget(player.transform);
+                        MainCameraScript.Instance.FocusOn(enemyObj.transform, 3f); // 3秒間ボスにフォーカス
+                    }
+                }
             }
+
+        }
+        
+    }
+    private IEnumerator FocusCameraToBoss(Transform bossTransform)
+    {
+        // プレイヤーを取得
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        // メインカメラ制御にプレイヤーを登録
+        if (MainCameraScript.Instance != null)
+        {
+            MainCameraScript.Instance.SetDefaultTarget(player.transform);
+            yield return new WaitForSeconds(0.5f); // 少し待つとスムーズ
+
+            MainCameraScript.Instance.FocusOn(bossTransform);
         }
     }
-
     // 手動で呼び出して敵をスポーンさせる
     public void SpawnEnemiesManually()
     {

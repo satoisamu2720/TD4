@@ -22,62 +22,64 @@ public class ArrowNavigation : MonoBehaviour
 
     void Update()
     {
-        if (TextBoxController.IsTalking) return; // 会話中は入力無効
-        if (target == null || cam == null) return;
-
-        Vector3 worldTarget = target.position + offsetAboveTarget;
-        Vector3 viewportPos = cam.WorldToViewportPoint(target.position);
-
-        bool targetIsOnScreen = viewportPos.x >= 0 && viewportPos.x <= 1 &&
-                                viewportPos.y >= 0 && viewportPos.y <= 1 &&
-                                viewportPos.z >= 0;
-
-        if (targetIsOnScreen)
+        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
         {
-            float dist = Vector3.Distance(transform.position, worldTarget);
+            if (target == null || cam == null) return;
 
-            if (dist > snapDistance || !isSnapped)
+            Vector3 worldTarget = target.position + offsetAboveTarget;
+            Vector3 viewportPos = cam.WorldToViewportPoint(target.position);
+
+            bool targetIsOnScreen = viewportPos.x >= 0 && viewportPos.x <= 1 &&
+                                    viewportPos.y >= 0 && viewportPos.y <= 1 &&
+                                    viewportPos.z >= 0;
+
+            if (targetIsOnScreen)
             {
-                // 到達していない、または新しいターゲットに切り替えたばかりの時は移動
-                transform.position = Vector3.MoveTowards(transform.position, worldTarget, speed * Time.deltaTime);
+                float dist = Vector3.Distance(transform.position, worldTarget);
 
-                // 到達チェック（次のフレームからバウンド可）
-                if (Vector3.Distance(transform.position, worldTarget) <= snapDistance)
+                if (dist > snapDistance || !isSnapped)
                 {
-                    isSnapped = true;
+                    // 到達していない、または新しいターゲットに切り替えたばかりの時は移動
+                    transform.position = Vector3.MoveTowards(transform.position, worldTarget, speed * Time.deltaTime);
+
+                    // 到達チェック（次のフレームからバウンド可）
+                    if (Vector3.Distance(transform.position, worldTarget) <= snapDistance)
+                    {
+                        isSnapped = true;
+                    }
+                    else
+                    {
+                        isSnapped = false;
+                    }
                 }
                 else
                 {
-                    isSnapped = false;
+                    // 到達後バウンド処理
+                    float bounceY = Mathf.Sin(Time.time * bounceSpeed) * bounceAmplitude;
+                    transform.position = worldTarget + new Vector3(0, bounceY, 0);
+                    transform.rotation = Quaternion.Euler(0, 0, -90f);
                 }
+
             }
             else
             {
-                // 到達後バウンド処理
-                float bounceY = Mathf.Sin(Time.time * bounceSpeed) * bounceAmplitude;
-                transform.position = worldTarget + new Vector3(0, bounceY, 0);
-                transform.rotation = Quaternion.Euler(0, 0, -90f);
-            }
+                isSnapped = false;
 
-        }
-        else
-        {
-            isSnapped = false;
+                // プレイヤーの位置を中心に、一定距離だけ矢印を表示
+                Transform player = GameObject.FindWithTag("Player")?.transform;
+                if (player != null)
+                {
+                    Vector2 direction = (target.position - player.position).normalized;
 
-            // プレイヤーの位置を中心に、一定距離だけ矢印を表示
-            Transform player = GameObject.FindWithTag("Player")?.transform;
-            if (player != null)
-            {
-                Vector2 direction = (target.position - player.position).normalized;
+                    // プレイヤーの周囲に矢印を配置
+                    float radius = 4f;
+                    Vector3 offset = new Vector3(direction.x, direction.y, 0) * radius;
+                    transform.position = player.position + offset;
 
-                // プレイヤーの周囲に矢印を配置
-                float radius = 4f;
-                Vector3 offset = new Vector3(direction.x, direction.y, 0) * radius;
-                transform.position = player.position + offset;
-
-                // 向きをターゲットの方向に合わせる
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0, 0, angle);
+                    // 向きをターゲットの方向に合わせる
+                    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                    transform.rotation = Quaternion.Euler(0, 0, angle);
+                }
             }
         }
     }

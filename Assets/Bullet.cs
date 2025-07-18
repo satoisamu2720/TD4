@@ -18,14 +18,12 @@ public class Bullet : MonoBehaviour
     {
         // 指定時間後に自動で削除（保険）
         Destroy(gameObject, lifeTime);
-        life = StetusScript.Instance.handgunBalletLife;
+        //life = StetusScript.Instance.handgunBalletLife;
     }
 
 
     private void Update()
     {
-        if (TextBoxController.IsTalking) return; // 会話中は入力無効
-        if (Player.IsNotMove) return; // 会話中は入力無効
         // カメラのビューポート（0～1）外に出たら削除
         Vector3 screenPoint = UnityEngine.Camera.main.WorldToViewportPoint(transform.position);
         if (screenPoint.x < 0 || screenPoint.x > 1 || screenPoint.y < 0 || screenPoint.y > 1)
@@ -45,6 +43,7 @@ public class Bullet : MonoBehaviour
             Approachingenemy enemy = other.GetComponent<Approachingenemy>();
             nWayBullet Boss = other.GetComponent<nWayBullet>();
             ShootEnemy shootEnemy = other.GetComponent<ShootEnemy>();
+            DivisionEnemy divisionEnemy = other.GetComponent<DivisionEnemy>();
              
 
             if (enemy != null)
@@ -63,6 +62,12 @@ public class Bullet : MonoBehaviour
             {
                 hit = true;
                 shootEnemy.TakeDamage(damage);
+            }
+
+            if(divisionEnemy != null)
+            {
+                hit =true;
+                divisionEnemy.TakeDamage(damage);
             }
 
             if (hit)

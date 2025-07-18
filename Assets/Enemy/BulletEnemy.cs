@@ -34,18 +34,19 @@ public class ShootEnemy : MonoBehaviour
 
     void Update()
     {
-        if (TextBoxController.IsTalking) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
-        if (Player.IsNotMove) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
-        if (player != null)
+        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
         {
-            shootTimer -= Time.deltaTime;
-            if (shootTimer <= 0f)
+            if (player != null)
             {
-                Shoot();
-                shootTimer = shootInterval; 
+                shootTimer -= Time.deltaTime;
+                if (shootTimer <= 0f)
+                {
+                    Shoot();
+                    shootTimer = shootInterval;
+                }
             }
+            Invincible();
         }
-        Invincible();
     }
 
     void Shoot()
