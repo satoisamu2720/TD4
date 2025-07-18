@@ -10,13 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1157599256226961045}
   - component: {fileID: 7661424299577510623}
-  - component: {fileID: -8167633852722741300}
   - component: {fileID: -7971337538997809128}
   - component: {fileID: 1349978764509383205}
-  - component: {fileID: -5030037707133500532}
+  - component: {fileID: -8286901658570352573}
   m_Layer: 0
   m_Name: MiniEnemy
-  m_TagString: Enemy
+  m_TagString: MiniEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.21779346, g: 0.97735846, b: 0, a: 1}
   m_FlipX: 0
@@ -91,25 +90,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-8167633852722741300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7867096426092692376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 759b5f6eb2e3e3d44a00075dc67a289e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  maxHP: 2
-  rushDistance: 5
-  waitTime: 1.5
-  itemPrefab: {fileID: 8442228131798896307, guid: 978a81747381cc043896e181a9f0fb69, type: 3}
-  arrowUIPrefab: {fileID: 0}
-  invincibilityDuration: 2
 --- !u!50 &-7971337538997809128
 Rigidbody2D:
   serializedVersion: 5
@@ -122,8 +102,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
+  m_Mass: 10
+  m_LinearDamping: 10
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -183,7 +163,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &-5030037707133500532
+--- !u!114 &-8286901658570352573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,13 +172,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7867096426092692376}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 759b5f6eb2e3e3d44a00075dc67a289e, type: 3}
+  m_Script: {fileID: 11500000, guid: c33658e0870373040b16a0a5acba3fc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
+  speed: 15
+  rushDistance: 7
+  waitTime: 0.5
+  rushTimeout: 1
+  separationDistance: 20
   maxHP: 2
-  rushDistance: 5
-  waitTime: 1.5
   itemPrefab: {fileID: 0}
-  arrowUIPrefab: {fileID: 0}
-  invincibilityDuration: 2
+  invincibilityDuration: 1

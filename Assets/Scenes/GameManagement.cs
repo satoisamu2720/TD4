@@ -1,10 +1,9 @@
-using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.UIElements;
 
-public class GameManagement: MonoBehaviour
+public class GameManagement : MonoBehaviour
 {
     public static GameManagement Instance { get; private set; }
     public Transform startGetTarget;
@@ -15,14 +14,12 @@ public class GameManagement: MonoBehaviour
 
     public float bossTime = 3f;
 
+    private bool oneBoss = false;
     private AudioSource bgmSource;
 
-    [SerializeField]
-    private Vector3 playerSpawnTutorial = Vector3.zero;
-    [SerializeField]
-    private Vector3 playerSpawnStage1= Vector3.zero;
-    [SerializeField]
-    private Vector3 playerSpawnStage2= Vector3.zero;
+    [SerializeField] private Vector3 playerSpawnTutorial = Vector3.zero;
+    [SerializeField] private Vector3 playerSpawnStage1 = Vector3.zero;
+    [SerializeField] private Vector3 playerSpawnStage2 = Vector3.zero;
 
     public bool isPause = false;
 
@@ -34,7 +31,6 @@ public class GameManagement: MonoBehaviour
         PlayerHP = StetusScript.Instance.PlayerHp;
 
         bgmSource = GetComponent<AudioSource>();
-
         if (bgmSource != null)
         {
             bgmSource.loop = true;
@@ -54,7 +50,6 @@ public class GameManagement: MonoBehaviour
     
     void Update()
     {
-       
         if (StetusScript.Instance != null && StetusScript.Instance.PlayerHp <= 0)
         {
             bgmSource.Stop();

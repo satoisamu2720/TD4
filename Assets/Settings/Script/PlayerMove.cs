@@ -29,7 +29,7 @@ public class PlayerMove : MonoBehaviour
     public Rigidbody2D rb;
     // 移動用変数
     private Vector2 movement;
-
+    public static bool IsNotMove { get; private set; }
 
     // ダッシュ機能フラグ
     [SerializeField]

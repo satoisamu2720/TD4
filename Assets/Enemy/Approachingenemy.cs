@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.UI;
 
 public class Approachingenemy : MonoBehaviour
@@ -10,6 +10,8 @@ public class Approachingenemy : MonoBehaviour
     public GameObject itemPrefab;
     public GameObject arrowUIPrefab;
 
+    public bool startImmediate = false; // â† miniEnemy ãªã‚‰ true ã«
+ 
     private int currentHP;
     private Transform player;
     private Vector2 moveDirection;
@@ -18,7 +20,7 @@ public class Approachingenemy : MonoBehaviour
 
     private enum State { Idle, Rushing }
     private State state = State.Idle;
-
+    private Vector2? injectedDirection = null;
     private Camera mainCamera;
     private RectTransform arrowInstance;
 
@@ -30,14 +32,14 @@ public class Approachingenemy : MonoBehaviour
     private Color originColor;
 
     private float rushTimer = 0f;
-    [SerializeField] private float rushTimeout = 1f; // Å‘å1•bƒ‰ƒbƒVƒ…
+    [SerializeField] private float rushTimeout = 1f;
 
     private bool isDead = false;
+
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
         currentHP = maxHP;
-        waitTimer = waitTime;
         mainCamera = Camera.main;
 
         if (arrowUIPrefab != null)
@@ -45,14 +47,34 @@ public class Approachingenemy : MonoBehaviour
             GameObject arrowObj = Instantiate(arrowUIPrefab, GameObject.Find("Canvas").transform);
             arrowInstance = arrowObj.GetComponent<RectTransform>();
         }
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
+
+       
+        if (startImmediate)
+        {
+            // æ³¨å…¥ã•ã‚Œã¦ã„ã‚Œã°ä½¿ã†ï¼ãªã‘ã‚Œã°ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ–¹å‘ã«çªã£è¾¼ã‚€
+            moveDirection = injectedDirection ?? (player != null ? (player.position - transform.position).normalized : Vector2.down);
+            startPosition = transform.position;
+            state = State.Rushing;
+            rushTimer = rushTimeout;
+        }
+        else
+        {
+            waitTimer = waitTime;
+        }
     }
+
+
 
     void Update()
     {
-        //if (TextBoxController.IsTalking) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
-        //if (Player.IsNotMove) return; // ‰ï˜b’†‚Í“ü—Í–³Œø
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player")?.transform;
+            if (player == null) return;
+        }
 
         //if(GameManagement.Instance.isPause == false)
         //{
@@ -66,7 +88,6 @@ public class Approachingenemy : MonoBehaviour
             HandleArrow();
             Invincible();
         }
-
     }
 
     void HandleStateMachine()
@@ -80,7 +101,7 @@ public class Approachingenemy : MonoBehaviour
                     moveDirection = (player.position - transform.position).normalized;
                     startPosition = transform.position;
                     state = State.Rushing;
-                    rushTimer = rushTimeout; // ƒ^ƒCƒ€ƒAƒEƒgƒ^ƒCƒ}[ŠJn
+                    rushTimer = rushTimeout;
                 }
                 break;
 
@@ -137,15 +158,12 @@ public class Approachingenemy : MonoBehaviour
             StartInvincibility();
         }
 
-        if (currentHP <= 0)
-        {
-            Die(); 
-        }
+        if (currentHP <= 0) Die();
     }
 
     public void Die()
     {
-        if (isDead) { return; }
+        if (isDead) return;
         isDead = true;
 
         if (itemPrefab != null)
@@ -187,9 +205,16 @@ public class Approachingenemy : MonoBehaviour
     {
         if (state == State.Rushing && collision.collider.CompareTag("Wall"))
         {
-            // •Ç‚É“–‚½‚Á‚½‚çIdle‚É–ß‚é
             state = State.Idle;
             waitTimer = waitTime;
         }
     }
+
+    public void InitializeDirection(Vector2 dir)
+    {
+        injectedDirection = dir.normalized;
+    }
+
 }
+
+
