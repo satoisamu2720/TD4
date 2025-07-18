@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Approachingenemy : MonoBehaviour
@@ -10,7 +10,7 @@ public class Approachingenemy : MonoBehaviour
     public GameObject itemPrefab;
     public GameObject arrowUIPrefab;
 
-    public bool startImmediate = false; // �� miniEnemy �Ȃ� true ��
+    public bool startImmediate = false; // ← miniEnemy なら true に
  
     private int currentHP;
     private Transform player;
@@ -20,7 +20,7 @@ public class Approachingenemy : MonoBehaviour
 
     private enum State { Idle, Rushing }
     private State state = State.Idle;
-
+    private Vector2? injectedDirection = null;
     private Camera mainCamera;
     private RectTransform arrowInstance;
 
@@ -40,7 +40,6 @@ public class Approachingenemy : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player")?.transform;
         currentHP = maxHP;
-        waitTimer = startImmediate ? 0f : waitTime; // miniEnemy�Ȃ瑦�s��
         mainCamera = Camera.main;
 
         if (arrowUIPrefab != null)
@@ -51,7 +50,23 @@ public class Approachingenemy : MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
+
+       
+        if (startImmediate)
+        {
+            // 注入されていれば使う／なければプレイヤー方向に突っ込む
+            moveDirection = injectedDirection ?? (player != null ? (player.position - transform.position).normalized : Vector2.down);
+            startPosition = transform.position;
+            state = State.Rushing;
+            rushTimer = rushTimeout;
+        }
+        else
+        {
+            waitTimer = waitTime;
+        }
     }
+
+
 
     void Update()
     {
@@ -184,4 +199,12 @@ public class Approachingenemy : MonoBehaviour
             waitTimer = waitTime;
         }
     }
+
+    public void InitializeDirection(Vector2 dir)
+    {
+        injectedDirection = dir.normalized;
+    }
+
 }
+
+

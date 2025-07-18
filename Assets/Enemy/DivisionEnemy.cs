@@ -53,6 +53,14 @@ public class DivisionEnemy : MonoBehaviour
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
+
+        // ミニ敵用：プレイヤーがいれば最初からラッシュ状態にして追尾開始
+        if (player != null && state == State.Idle && gameObject.CompareTag("MiniEnemy"))
+        {
+            moveDirection = (player.position - transform.position).normalized;
+            startPosition = transform.position;
+            state = State.Rushing;
+        }
     }
 
     void Update()
@@ -80,8 +88,13 @@ public class DivisionEnemy : MonoBehaviour
                 break;
 
             case State.Rushing:
+                if (player != null)
+                {
+                    // 毎フレームプレイヤーに追従
+                    moveDirection = (player.position - transform.position).normalized;
+                }
                 Vector2 newPos = rb.position + moveDirection * speed * Time.deltaTime;
-                rb.MovePosition(newPos); // transform.TranslateをMovePositionに置き換え
+                rb.MovePosition(newPos);
 
                 float traveled = Vector2.Distance(startPosition, rb.position);
                 if (traveled >= rushDistance)
@@ -154,9 +167,15 @@ public class DivisionEnemy : MonoBehaviour
             Destroy(arrowInstance.gameObject);
         }
 
-        Split();
+        // すでにミニ敵だったら分裂しない
+        if (this.CompareTag("MiniEnemy") == false)
+        {
+            Split();
+        }
+
         Destroy(gameObject);
     }
+
 
     void StartInvincibility()
     {
@@ -191,6 +210,7 @@ public class DivisionEnemy : MonoBehaviour
         for (int i = 0; i < numberOfSplits; i++)
         {
             GameObject mini = Instantiate(miniEnemyPrefab, transform.position, Quaternion.identity);
+            mini.tag = "MiniEnemy"; // 必須: 分離距離処理の対象にする
             float angle = startAngle + angleStep * i;
             Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right;
 
@@ -199,6 +219,32 @@ public class DivisionEnemy : MonoBehaviour
             {
                 miniRB.AddForce(direction * 3f, ForceMode2D.Impulse);
             }
+        }
+    }
+
+
+
+
+
+
+    // ミニ敵用の初期化メソッドを追加
+    public void InitializeMiniEnemy(Transform targetPlayer, Vector2 initialDirection)
+    {
+        player = targetPlayer;
+        currentHP = maxHP;
+        moveDirection = initialDirection.normalized;
+        startPosition = transform.position;
+        state = State.Rushing;
+        waitTimer = 0f;
+    }
+
+    // 壁にぶつかったらIdleに戻す
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (state == State.Rushing && collision.collider.CompareTag("Wall"))
+        {
+            state = State.Idle;
+            waitTimer = waitTime;
         }
     }
 }
