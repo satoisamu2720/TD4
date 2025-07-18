@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1157599256226961045}
   - component: {fileID: 7661424299577510623}
-  - component: {fileID: -8167633852722741300}
   - component: {fileID: -7971337538997809128}
   - component: {fileID: 1349978764509383205}
   - component: {fileID: -8286901658570352573}
@@ -91,27 +90,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-8167633852722741300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7867096426092692376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 759b5f6eb2e3e3d44a00075dc67a289e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  maxHP: 2
-  rushDistance: 5
-  waitTime: 1.5
-  itemPrefab: {fileID: 8442228131798896307, guid: 978a81747381cc043896e181a9f0fb69, type: 3}
-  arrowUIPrefab: {fileID: 0}
-  startImmediate: 0
-  invincibilityDuration: 2
-  rushTimeout: 1
 --- !u!50 &-7971337538997809128
 Rigidbody2D:
   serializedVersion: 5
@@ -202,3 +180,6 @@ MonoBehaviour:
   waitTime: 1
   rushTimeout: 1
   separationDistance: 15
+  maxHP: 2
+  itemPrefab: {fileID: 0}
+  invincibilityDuration: 1

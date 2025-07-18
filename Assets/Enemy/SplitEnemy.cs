@@ -6,24 +6,39 @@ public class SplitEnemy : MonoBehaviour
     public float rushDistance = 5f;
     public float waitTime = 1.5f;
     public float rushTimeout = 1f;
-    public float separationDistance = 1.5f; // 他の分裂体との最小距離
+    public float separationDistance = 1.5f;
+    public int maxHP = 1;
+    public GameObject itemPrefab;
 
     private Transform player;
     private Vector2 moveDirection;
     private Vector2 startPosition;
     private float waitTimer = 0f;
     private float rushTimer = 0f;
+    private int currentHP;
     private enum State { Idle, Rushing }
     private State state = State.Idle;
 
     private Rigidbody2D rb;
     private GameObject[] allSplitEnemies;
 
+    [SerializeField] private float invincibilityDuration = 0.5f;
+    private bool isInvincible = false;
+    private float invincibilityTimer = 0f;
+    private bool isDead = false;
+
+    private SpriteRenderer spriteRenderer;
+    private Color originColor;
+
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
         rb = GetComponent<Rigidbody2D>();
-        waitTimer = 0f; // 分裂直後から即行動
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        originColor = spriteRenderer.color;
+
+        waitTimer = 0f; // 即行動開始
+        currentHP = maxHP;
     }
 
     void Update()
@@ -34,8 +49,9 @@ public class SplitEnemy : MonoBehaviour
             return;
         }
 
-        HandleSeparation(); // 他の分身と距離を保つ
+        HandleSeparation();
         HandleStateMachine();
+        HandleInvincibility();
     }
 
     void HandleStateMachine()
@@ -79,10 +95,66 @@ public class SplitEnemy : MonoBehaviour
             float dist = Vector2.Distance(transform.position, other.transform.position);
             if (dist < separationDistance)
             {
-                // 近すぎるので逆方向に少し押し出す
                 Vector2 pushDir = (transform.position - other.transform.position).normalized;
-                rb.MovePosition(rb.position + pushDir * Time.deltaTime * 1f); // 押し出し速度
+                rb.MovePosition(rb.position + pushDir * Time.deltaTime * 1f);
             }
+        }
+    }
+
+    void HandleInvincibility()
+    {
+        if (isInvincible)
+        {
+            invincibilityTimer -= Time.deltaTime;
+            float alpha = Mathf.PingPong(Time.time * 10f, 1f);
+            spriteRenderer.color = new Color(1f, 0f, 0f, alpha);
+
+            if (invincibilityTimer <= 0f)
+            {
+                isInvincible = false;
+                spriteRenderer.color = originColor;
+            }
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if (isInvincible || isDead) return;
+
+        currentHP -= damage;
+        StartInvincibility();
+
+        if (currentHP <= 0)
+        {
+            Die();
+        }
+    }
+
+    void StartInvincibility()
+    {
+        isInvincible = true;
+        invincibilityTimer = invincibilityDuration;
+    }
+
+    void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        if (itemPrefab != null)
+        {
+            Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        }
+
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+            TakeDamage(1);
+            Destroy(collision.gameObject);
         }
     }
 }
