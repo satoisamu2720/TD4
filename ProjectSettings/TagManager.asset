@@ -11,6 +11,7 @@ TagManager:
   - ExpItem
   - Bullet
   - Wall
+  - BossEnemy
   layers:
   - Default
   - TransparentFX

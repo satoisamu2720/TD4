@@ -119,7 +119,7 @@ public class PlayerMove : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("EnemyBullet") || collision.CompareTag("Enemy"))
+        if (collision.CompareTag("EnemyBullet") || collision.CompareTag("Enemy") || collision.CompareTag("BossEnemy"))
         {
 
             if (!isInvincible)

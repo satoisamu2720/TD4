@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6153144473454393214}
   m_Layer: 0
   m_Name: devisionEnemy
-  m_TagString: Untagged
+  m_TagString: BossEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -100,7 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a8989f2ecc0524ea87603530a26c08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 5
+  rushDistance: 5
+  waitTime: 1.5
+  itemPrefab: {fileID: 0}
+  arrowUIPrefab: {fileID: 0}
   miniEnemyPrefab: {fileID: 7867096426092692376, guid: bec8c69c40ccdf44692e88fc618a70e6, type: 3}
   numberOfSplits: 2
   splitSpreadAngle: 90
-  health: 100
+  currentHP: 0
+  invincibilityDuration: 2

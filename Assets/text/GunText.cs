@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HandGunText : MonoBehaviour
+public class GunText : MonoBehaviour
 {
     public TextBoxController textBox;
     public string targetWeaponID; 

@@ -36,7 +36,7 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         // Enemy タグのついたものに当たったらダメージ
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") ||other.CompareTag("BossEnemy"))
         {
             bool hit = false;
 

@@ -1,5 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using static UnityEngine.GraphicsBuffer;
+using UnityEngine.UIElements;
 
 public class GameManagement: MonoBehaviour
 {
@@ -9,6 +12,8 @@ public class GameManagement: MonoBehaviour
     private bool tutorialBoss = false;
     private bool stage1Boss = false;
     private bool stage2Boss = false;
+
+    public float bossTime = 3f;
 
     private AudioSource bgmSource;
 
@@ -37,12 +42,7 @@ public class GameManagement: MonoBehaviour
         }
         if (PlayerPrefs.HasKey("StartLoad") && PlayerPrefs.GetInt("StartLoad") == 1)
         {
-            var followUI = UIFollowWorldObject.GetInstance();
-            if (followUI != null)
-            {
-                followUI.ShowUI(true);
-            }
-            TutorialStepController.Instance.ProgressToNextStep();
+            
             TutorialStepController.Instance.ProgressToNextStep();
             
             PlayerMove.Instance.transform.position = playerSpawnStage1;
@@ -60,48 +60,74 @@ public class GameManagement: MonoBehaviour
             bgmSource.Stop();
             SceneManager.LoadScene("GameOver");
         }
-        if (ShootEnemy.Instance != null && ShootEnemy.Instance.currentHP <= 0 && !tutorialBoss)
-        {
-            PlayerMove.Instance.transform.position = playerSpawnStage1;
 
-            StetusScript.Instance.Save();
-            tutorialBoss = true;
-            ShootEnemy.Instance.Die();
-            EnemySpawn.Instance.DestroyAllEnemies();
-            TutorialStepController.Instance.ProgressToNextStep();
-            var followUI = UIFollowWorldObject.GetInstance();
-            if (followUI != null)
+        if (ShootEnemy.Instance != null)
+        {
+            if (ShootEnemy.Instance.currentHP <= 0 && !tutorialBoss)
             {
-                followUI.ShowUI(true);
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                GameObject bossEnemy = GameObject.FindGameObjectWithTag("BossEnemy");
+                if (player != null)
+                {
+                    MainCameraScript.Instance.SetDefaultTarget(player.transform);
+                    MainCameraScript.Instance.FocusOn(bossEnemy.transform, bossTime); // 3秒間ボスにフォーカス
+                }
+                tutorialBoss = true;
             }
-
-        }
-        if (nWayBullet.Instance != null && nWayBullet.Instance.currentHP <= 0 && !stage1Boss)
-        {
-            PlayerMove.Instance.transform.position = playerSpawnStage2;
-
-            StetusScript.Instance.Save();
-            stage1Boss = true;
-            nWayBullet.Instance.Die();
-            EnemySpawn.Instance.DestroyAllEnemies();
-            TutorialStepController.Instance.ProgressToNextStep();
-            var followUI = UIFollowWorldObject.GetInstance();
-            if (followUI != null)
+            if (!GameManagement.Instance.isPause && tutorialBoss)
             {
-                followUI.ShowUI(true);
+                ShootEnemy.Instance.Die();
+                PlayerMove.Instance.transform.position = playerSpawnStage1;
+                StetusScript.Instance.Save();
+
+                EnemySpawn.Instance.DestroyAllEnemies();
             }
-
         }
-        if (DivisionEnemy.Instance != null && DivisionEnemy.Instance.currentHP <= 0 && !stage2Boss)
+
+        if (nWayBullet.Instance != null)
         {
-            stage2Boss = true;
-            DivisionEnemy.Instance.Die();
-            EnemySpawn.Instance.DestroyAllEnemies();
-
-            bgmSource.Stop();
-            SceneManager.LoadScene("GameClear");
+            if (nWayBullet.Instance.currentHP <= 0 && !stage1Boss)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                GameObject bossEnemy = GameObject.FindGameObjectWithTag("BossEnemy");
+                if (player != null)
+                {
+                    MainCameraScript.Instance.SetDefaultTarget(player.transform);
+                    MainCameraScript.Instance.FocusOn(bossEnemy.transform, bossTime); // 3秒間ボスにフォーカス
+                }
+                stage1Boss = true;
+            }
+            if (!GameManagement.Instance.isPause && stage1Boss)
+            {
+                nWayBullet.Instance.Die();
+                StetusScript.Instance.Save();
+                PlayerMove.Instance.transform.position = playerSpawnStage2;
+                EnemySpawn.Instance.DestroyAllEnemies();                    
+            }
         }
+        if (DivisionEnemy.Instance != null) 
+        { 
+            if (DivisionEnemy.Instance.currentHP <= 0 && !stage2Boss)
+            { 
+        
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                GameObject bossEnemy = GameObject.FindGameObjectWithTag("BossEnemy");
+                if (player != null)
+                {
+                    MainCameraScript.Instance.SetDefaultTarget(player.transform);
+                    MainCameraScript.Instance.FocusOn(bossEnemy.transform, bossTime); // 3秒間ボスにフォーカス
+                }
+                stage2Boss = true;
+            }
+            if (!GameManagement.Instance.isPause && stage2Boss)
+            {
+                DivisionEnemy.Instance.Die();
+                EnemySpawn.Instance.DestroyAllEnemies();
 
+                bgmSource.Stop();
+                SceneManager.LoadScene("GameClear");
+            }
+        }
         if (isLevelUp)
         {
             levelUpPanel.SetActive(true);
@@ -132,5 +158,10 @@ public class GameManagement: MonoBehaviour
             Destroy(gameObject); 
         }
     }
+    private IEnumerator TimeDie()
+    {
+        
+        yield return new WaitForSeconds(3f);
 
+    }
 }

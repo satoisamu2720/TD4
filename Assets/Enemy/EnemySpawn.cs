@@ -32,14 +32,24 @@ public class EnemySpawn : MonoBehaviour
         {
             foreach (Vector2 p in data.pos)
             {
-                // EnemySpawnオブジェクトの位置を基準にした相対位置でスポーン
-                Vector3 spawnPos = transform.position + (Vector3)p;
-                GameObject enemyObj = Instantiate(data.enemyPrefab, spawnPos, data.rot);
-                enemyObj.tag = "Enemy";
-                spawnedEnemies.Add(enemyObj);
-                enemyObj.SetActive(true);
+                if (data.enemyType == EnemyCount.EnemyType.Enemy0)
+                {
+                    // EnemySpawnオブジェクトの位置を基準にした相対位置でスポーン
+                    Vector3 spawnPos = transform.position + (Vector3)p;
+                    GameObject enemyObj = Instantiate(data.enemyPrefab, spawnPos, data.rot);
+                    enemyObj.tag = "Enemy";
+                    spawnedEnemies.Add(enemyObj);
+                    enemyObj.SetActive(true);
+                }
+
                 if (data.enemyType == EnemyCount.EnemyType.Boss)
                 {
+                    // EnemySpawnオブジェクトの位置を基準にした相対位置でスポーン
+                    Vector3 spawnPos = transform.position + (Vector3)p;
+                    GameObject enemyObj = Instantiate(data.enemyPrefab, spawnPos, data.rot);
+                    enemyObj.tag = "BossEnemy";
+                    spawnedEnemies.Add(enemyObj);
+                    enemyObj.SetActive(true);
                     // プレイヤーのTransformを取得
                     GameObject player = GameObject.FindGameObjectWithTag("Player");
                     if (player != null)
