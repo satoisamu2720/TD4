@@ -129,14 +129,31 @@ public class Approachingenemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (isInvincible || isDead) { return; } 
+        //if (isInvincible || isDead) { return; } 
 
-        StartInvincibility();
+        //StartInvincibility();
+        //currentHP -= damage;
+
+        //if (currentHP <= 0)
+        //{
+        //    Die(); 
+        //}
+
+        if (isDead)
+        {
+            return;
+        }
         currentHP -= damage;
+
+        if (!isInvincible)
+        {
+
+            StartInvincibility();
+        }
 
         if (currentHP <= 0)
         {
-            Die(); 
+            Die();
         }
     }
 

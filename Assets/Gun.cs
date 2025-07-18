@@ -32,9 +32,9 @@ public class Gun : MonoBehaviour
     private Weapon currentWeaponData;
     private string currentWeaponID;
 
-    int bulletLife = 1;
+    public int bulletLife = 1;
     int bulletDamage = 1;
-    void SetupWeaponByID(string id)
+    public void SetupWeaponByID(string id)
     {
         switch (id)
         {
@@ -347,5 +347,11 @@ public class Gun : MonoBehaviour
             audioSource.volume = Mathf.Clamp01(volume);
         }
     }
+
+    public string GetCurrentWeaponID()
+    {
+        return currentWeaponID;
+    }
+
 
 }
