@@ -10,6 +10,8 @@ public class Approachingenemy : MonoBehaviour
     public GameObject itemPrefab;
     public GameObject arrowUIPrefab;
 
+    public bool startImmediate = false; // ← miniEnemy なら true に
+ 
     private int currentHP;
     private Transform player;
     private Vector2 moveDirection;
@@ -30,14 +32,15 @@ public class Approachingenemy : MonoBehaviour
     private Color originColor;
 
     private float rushTimer = 0f;
-    [SerializeField] private float rushTimeout = 1f; // 最大1秒ラッシュ
+    [SerializeField] private float rushTimeout = 1f;
 
     private bool isDead = false;
+
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
         currentHP = maxHP;
-        waitTimer = waitTime;
+        waitTimer = startImmediate ? 0f : waitTime; // miniEnemyなら即行動
         mainCamera = Camera.main;
 
         if (arrowUIPrefab != null)
@@ -45,24 +48,21 @@ public class Approachingenemy : MonoBehaviour
             GameObject arrowObj = Instantiate(arrowUIPrefab, GameObject.Find("Canvas").transform);
             arrowInstance = arrowObj.GetComponent<RectTransform>();
         }
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
     }
 
     void Update()
     {
-        //if (TextBoxController.IsTalking) return; // 会話中は入力無効
-        //if (Player.IsNotMove) return; // 会話中は入力無効
+        if (player == null)
+        {
+            player = GameObject.FindWithTag("Player")?.transform;
+            if (player == null) return;
+        }
 
-        //if(GameManagement.Instance.isPause == false)
-        //{
-        //}
-        //HandleStateMachine();
-        //HandleArrow();
-        //Invincible();
-
-        if (TextBoxController.IsTalking) return; // 会話中は入力無効
-        if (Player.IsNotMove) return; // 会話中は入力無効
+        if (TextBoxController.IsTalking) return;
+        if (PlayerMove.IsNotMove) return;
 
         if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
         {
@@ -70,7 +70,6 @@ public class Approachingenemy : MonoBehaviour
             HandleArrow();
             Invincible();
         }
-
     }
 
     void HandleStateMachine()
@@ -84,7 +83,7 @@ public class Approachingenemy : MonoBehaviour
                     moveDirection = (player.position - transform.position).normalized;
                     startPosition = transform.position;
                     state = State.Rushing;
-                    rushTimer = rushTimeout; // タイムアウトタイマー開始
+                    rushTimer = rushTimeout;
                 }
                 break;
 
@@ -129,20 +128,17 @@ public class Approachingenemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (isInvincible || isDead) { return; } 
+        if (isInvincible || isDead) return;
 
         StartInvincibility();
         currentHP -= damage;
 
-        if (currentHP <= 0)
-        {
-            Die(); 
-        }
+        if (currentHP <= 0) Die();
     }
 
     public void Die()
     {
-        if (isDead) { return; }
+        if (isDead) return;
         isDead = true;
 
         if (itemPrefab != null)
@@ -184,7 +180,6 @@ public class Approachingenemy : MonoBehaviour
     {
         if (state == State.Rushing && collision.collider.CompareTag("Wall"))
         {
-            // 壁に当たったらIdleに戻る
             state = State.Idle;
             waitTimer = waitTime;
         }

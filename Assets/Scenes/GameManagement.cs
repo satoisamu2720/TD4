@@ -1,30 +1,38 @@
-using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine;
 
-public class GameManagement: MonoBehaviour
+public class GameManagement : MonoBehaviour
 {
-    public static GameManagement Instance { get; private set; }
+    public static GameManagement Instance { get; private set; }  // ← object型ではなく、GameManagement型に！
+
     private int PlayerHP = 0;
     private bool oneBoss = false;
-
     private AudioSource bgmSource;
 
-    [SerializeField]
-    private Vector3 playerSpawnTutorial = Vector3.zero;
-    [SerializeField]
-    private Vector3 playerSpawnStage1= Vector3.zero;
-    [SerializeField]
-    private Vector3 playerSpawnStage2= Vector3.zero;
+    [SerializeField] private Vector3 playerSpawnTutorial = Vector3.zero;
+    [SerializeField] private Vector3 playerSpawnStage1 = Vector3.zero;
+    [SerializeField] private Vector3 playerSpawnStage2 = Vector3.zero;
 
     public bool isPause = false;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); // シーンをまたぐ場合
+        }
+        else
+        {
+            Destroy(gameObject); // 重複インスタンスを防ぐ
+        }
+    }
 
     void Start()
     {
         PlayerHP = StetusScript.Instance.PlayerHp;
 
         bgmSource = GetComponent<AudioSource>();
-
         if (bgmSource != null)
         {
             bgmSource.loop = true;
@@ -32,30 +40,29 @@ public class GameManagement: MonoBehaviour
         }
     }
 
-    
     void Update()
     {
-       
         if (StetusScript.Instance != null && StetusScript.Instance.PlayerHp <= 0)
         {
             bgmSource.Stop();
             SceneManager.LoadScene("GameOver");
         }
-        if (ShootEnemy.Instance != null && ShootEnemy.Instance.currentHP <= 0 && !oneBoss)
+
+        if (nWayBullet.Instance != null && nWayBullet.Instance.currentHP <= 0 && !oneBoss)
         {
             PlayerMove.Instance.transform.position = playerSpawnStage1;
 
             StetusScript.Instance.Save();
             oneBoss = true;
-            ShootEnemy.Instance.Die();
+            nWayBullet.Instance.Die();
             EnemySpawn.Instance.DestroyAllEnemies();
             TutorialStepController.Instance.ProgressToNextStep();
+
             var followUI = UIFollowWorldObject.GetInstance();
             if (followUI != null)
             {
                 followUI.ShowUI(true);
             }
-
         }
     }
 
@@ -66,17 +73,4 @@ public class GameManagement: MonoBehaviour
             bgmSource.volume = Mathf.Clamp01(volume);
         }
     }
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject); 
-        }
-    }
-
 }

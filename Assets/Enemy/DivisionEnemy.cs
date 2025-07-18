@@ -34,12 +34,16 @@ public class DivisionEnemy : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color originColor;
 
+    private Rigidbody2D rb; // Rigidbody2D’Ç‰Á
+
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
         currentHP = maxHP;
         waitTimer = waitTime;
         mainCamera = Camera.main;
+
+        rb = GetComponent<Rigidbody2D>(); // Rigidbody2DŽæ“¾
 
         if (arrowUIPrefab != null)
         {
@@ -54,7 +58,7 @@ public class DivisionEnemy : MonoBehaviour
     void Update()
     {
         if (TextBoxController.IsTalking) return;
-        if (Player.IsNotMove) return;
+        if (PlayerMove.IsNotMove) return;
 
         HandleStateMachine();
         HandleArrow();
@@ -76,8 +80,10 @@ public class DivisionEnemy : MonoBehaviour
                 break;
 
             case State.Rushing:
-                transform.Translate(moveDirection * speed * Time.deltaTime);
-                float traveled = Vector2.Distance(startPosition, transform.position);
+                Vector2 newPos = rb.position + moveDirection * speed * Time.deltaTime;
+                rb.MovePosition(newPos); // transform.Translate‚ðMovePosition‚É’u‚«Š·‚¦
+
+                float traveled = Vector2.Distance(startPosition, rb.position);
                 if (traveled >= rushDistance)
                 {
                     state = State.Idle;
@@ -188,10 +194,10 @@ public class DivisionEnemy : MonoBehaviour
             float angle = startAngle + angleStep * i;
             Vector2 direction = Quaternion.Euler(0, 0, angle) * Vector2.right;
 
-            Rigidbody2D rb = mini.GetComponent<Rigidbody2D>();
-            if (rb != null)
+            Rigidbody2D miniRB = mini.GetComponent<Rigidbody2D>();
+            if (miniRB != null)
             {
-                rb.AddForce(direction * 3f, ForceMode2D.Impulse);
+                miniRB.AddForce(direction * 3f, ForceMode2D.Impulse);
             }
         }
     }
