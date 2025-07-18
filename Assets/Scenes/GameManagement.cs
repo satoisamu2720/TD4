@@ -2,6 +2,7 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.UIElements;
+using UnityEngine;
 
 public class GameManagement : MonoBehaviour
 {
@@ -100,9 +101,9 @@ public class GameManagement : MonoBehaviour
                 EnemySpawn.Instance.DestroyAllEnemies();                    
             }
         }
-        if (DivisionEnemy.Instance != null) 
+        if (SplitEnemy.Instance != null) 
         { 
-            if (DivisionEnemy.Instance.currentHP <= 0 && !stage2Boss)
+            if (SplitEnemy.Instance.currentHP <= 0 && !stage2Boss)
             { 
         
                 GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -116,7 +117,7 @@ public class GameManagement : MonoBehaviour
             }
             if (!GameManagement.Instance.isPause && stage2Boss)
             {
-                DivisionEnemy.Instance.Die();
+                SplitEnemy.Instance.Die();
                 EnemySpawn.Instance.DestroyAllEnemies();
 
                 bgmSource.Stop();

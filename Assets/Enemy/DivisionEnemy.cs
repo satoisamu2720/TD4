@@ -237,7 +237,7 @@ public class DivisionEnemy : MonoBehaviour
     public void InitializeMiniEnemy(Transform targetPlayer, Vector2 initialDirection)
     {
         player = targetPlayer;
-        currentHP = maxHP;
+        currentHP = StetusScript.Instance.Stage2BossEnemyHp;
         moveDirection = initialDirection.normalized;
         startPosition = transform.position;
         state = State.Rushing;
@@ -251,12 +251,6 @@ public class DivisionEnemy : MonoBehaviour
         {
             state = State.Idle;
             waitTimer = waitTime;
-        }
-            Rigidbody2D rb = mini.GetComponent<Rigidbody2D>();
-            if (rb != null)
-            {
-                rb.AddForce(direction * 3f, ForceMode2D.Impulse);
-            }
         }
     }
 

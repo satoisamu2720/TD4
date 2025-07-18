@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class SplitEnemy : MonoBehaviour
 {
+    public static SplitEnemy Instance { get; private set; }
     public float speed = 5f;
     public float rushDistance = 5f;
     public float waitTime = 1.5f;
@@ -15,7 +16,7 @@ public class SplitEnemy : MonoBehaviour
     private Vector2 startPosition;
     private float waitTimer = 0f;
     private float rushTimer = 0f;
-    private int currentHP;
+    public int currentHP;
     private enum State { Idle, Rushing }
     private State state = State.Idle;
 
@@ -123,11 +124,6 @@ public class SplitEnemy : MonoBehaviour
 
         currentHP -= damage;
         StartInvincibility();
-
-        if (currentHP <= 0)
-        {
-            Die();
-        }
     }
 
     void StartInvincibility()
@@ -136,7 +132,7 @@ public class SplitEnemy : MonoBehaviour
         invincibilityTimer = invincibilityDuration;
     }
 
-    void Die()
+    public void Die()
     {
         if (isDead) return;
         isDead = true;
