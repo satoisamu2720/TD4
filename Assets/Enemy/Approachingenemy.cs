@@ -10,7 +10,7 @@ public class Approachingenemy : MonoBehaviour
     public GameObject itemPrefab;
     public GameObject arrowUIPrefab;
 
-    public bool startImmediate = false; // ← miniEnemy なら true に
+    public bool startImmediate = false; // �� miniEnemy �Ȃ� true ��
  
     private int currentHP;
     private Transform player;
@@ -54,7 +54,7 @@ public class Approachingenemy : MonoBehaviour
        
         if (startImmediate)
         {
-            // 注入されていれば使う／なければプレイヤー方向に突っ込む
+            // ��������Ă���Ύg���^�Ȃ���΃v���C���[�����ɓ˂�����
             moveDirection = injectedDirection ?? (player != null ? (player.position - transform.position).normalized : Vector2.down);
             startPosition = transform.position;
             state = State.Rushing;

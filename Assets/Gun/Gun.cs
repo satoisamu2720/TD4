@@ -48,7 +48,7 @@ public class Gun : MonoBehaviour
     private Weapon currentWeaponData;
     private string currentWeaponID;
 
-    int bulletLife = 1;
+    public int bulletLife = 1;
     int bulletDamage = 1;
     void SetupWeaponByID(string id)
     {
@@ -406,5 +406,8 @@ public class Gun : MonoBehaviour
             sgReloadSE.volume = Mathf.Clamp01(1.0f);
         }
     }
-
+    public string GetCurrentWeaponID()
+    {
+        return currentWeaponID;
+    }
 }

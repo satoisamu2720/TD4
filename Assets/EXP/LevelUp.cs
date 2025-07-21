@@ -23,7 +23,7 @@ public class LevelUp : MonoBehaviour
             if(_currentValue < playerExp.ExpLevel.Level)
             {
                 StopScene();
-                //_currentValue = levelClass.Level;
+
             }
         }
     }

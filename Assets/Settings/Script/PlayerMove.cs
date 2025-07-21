@@ -47,7 +47,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI hpText;
 
-    private GameObject currentWeapon;
+    public GameObject currentWeapon;
+
+    public Weapon currentWeapon2;
 
     public bool isWeapon = false;
 
@@ -148,6 +150,8 @@ public class PlayerMove : MonoBehaviour
     {
         // プレイヤーの手元（weaponPos）に生成し、親子関係も結ぶ
         GameObject weapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
+
+        currentWeapon2 = weaponObj.GetComponent<Weapon>();
 
         if (!isMainWeapon)
         {
