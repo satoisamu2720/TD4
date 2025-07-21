@@ -71,14 +71,7 @@ public class GameManagement : MonoBehaviour
                     MainCameraScript.Instance.FocusOn(bossEnemy.transform, bossTime); // 3秒間ボスにフォーカス
                 }
                 tutorialBoss = true;
-            }
-            if (!isPause && tutorialBoss)
-            {
-                ShootEnemy.Instance.Die();
-                PlayerMove.Instance.transform.position = playerSpawnStage1;
-                StetusScript.Instance.Save();
-
-                EnemySpawn.Instance.DestroyAllEnemies();
+                StartCoroutine(TutorialBossClear());
             }
         }
 
@@ -94,14 +87,10 @@ public class GameManagement : MonoBehaviour
                     MainCameraScript.Instance.FocusOn(bossEnemy.transform, bossTime); // 3秒間ボスにフォーカス
                 }
                 stage1Boss = true;
+                StartCoroutine(Stage1BossClear());
             }
-            if (!isPause && stage1Boss)
-            {
-                nWayBullet.Instance.Die();
-                StetusScript.Instance.Save();
-                PlayerMove.Instance.transform.position = playerSpawnStage2;
-                EnemySpawn.Instance.DestroyAllEnemies();                    
-            }
+
+            
         }
         if (!stage2Boss)
         {
@@ -148,9 +137,59 @@ public class GameManagement : MonoBehaviour
     {
         lastDeadEnemy = enemy;
     }
+    private IEnumerator TutorialBossClear()
+    {
+        ShootEnemy.Instance.Die();
+        // カメラフォーカス時間待機
+        yield return new WaitForSeconds(5f);
+
+        if (FadeController.Instance != null)
+        {
+            yield return StartCoroutine(FadeController.Instance.FadeOut());
+        }
+
+        EnemySpawn.Instance.DestroyAllEnemies();
+        bgmSource.Stop();
+        PlayerMove.Instance.transform.position = playerSpawnStage1;
+        StetusScript.Instance.Save();
+
+        if (FadeController.Instance != null)
+        {
+            yield return StartCoroutine(FadeController.Instance.FadeIn());
+        }
+    }
+    private IEnumerator Stage1BossClear()
+    {
+        nWayBullet.Instance.Die();
+        // カメラフォーカス時間待機
+        yield return new WaitForSeconds(5f);
+
+        if (FadeController.Instance != null)
+        {
+            yield return StartCoroutine(FadeController.Instance.FadeOut());
+        }
+
+        EnemySpawn.Instance.DestroyAllEnemies();
+        bgmSource.Stop();
+        PlayerMove.Instance.transform.position = playerSpawnStage2;
+        StetusScript.Instance.Save();
+
+        if (FadeController.Instance != null)
+        {
+            yield return StartCoroutine(FadeController.Instance.FadeIn());
+        }
+    }
+
     private IEnumerator Stage2BossClear()
     {
-        yield return new WaitForSeconds(bossTime);
+        // カメラフォーカス時間待機
+        yield return new WaitForSeconds(5f);
+
+        
+        if (FadeController.Instance != null)
+        {
+            yield return StartCoroutine(FadeController.Instance.FadeOut());
+        }
 
         
         GameObject[] miniEnemies = GameObject.FindGameObjectsWithTag("MiniEnemy");
@@ -161,13 +200,17 @@ public class GameManagement : MonoBehaviour
                 Destroy(enemy);
             }
         }
-
         EnemySpawn.Instance.DestroyAllEnemies();
         bgmSource.Stop();
 
+        if (FadeController.Instance != null)
+        {
+            yield return StartCoroutine(FadeController.Instance.FadeIn());
+        }
+
+        //シーン切り替え
         SceneManager.LoadScene("GameClear");
     }
-
     public void SetBgmVolume(float volume)
     {
         if (bgmSource != null)
