@@ -116,16 +116,4 @@ public class ArrowNavigation : MonoBehaviour
         return !isSnapped && Vector3.Distance(transform.position, target.position + offsetAboveTarget) <= snapDistance;
     }
 
-    void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // これでシーンをまたいでも残る
-        }
-        else
-        {
-            Destroy(gameObject); // 2個目のカメラができたら破棄する
-        }
-    }
 }

@@ -16,7 +16,6 @@ public class GameManagement : MonoBehaviour
 
     public float bossTime = 3f;
 
-    private bool oneBoss = false;
     private AudioSource bgmSource;
 
     [SerializeField] private Vector3 playerSpawnTutorial = Vector3.zero;
@@ -176,22 +175,22 @@ public class GameManagement : MonoBehaviour
             bgmSource.volume = Mathf.Clamp01(volume);
         }
     }
-
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject); 
-        }
-    }
     private IEnumerator TimeDie()
     {
         
         yield return new WaitForSeconds(3f);
 
+    }
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }

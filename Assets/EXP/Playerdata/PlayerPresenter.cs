@@ -2,11 +2,11 @@ using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour
+public class PlayerPresenter : MonoBehaviour
 {
     public PlayerExp playerExp;
 
-    public static Player Instance { get; private set; }
+    public static PlayerPresenter Instance { get; private set; }
 
     public int ExpBox;
     public int ExpBox2;

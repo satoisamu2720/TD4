@@ -9,10 +9,9 @@ public class ArrowFlag : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
-            var followUI = UIFollowWorldObject.GetInstance();
-            if (followUI != null)
+            if (UIFollowWorldObject.Instance != null)
             {
-                followUI.ShowUI(false);
+                UIFollowWorldObject.Instance.ShowUI(false);
             }
         }
     }

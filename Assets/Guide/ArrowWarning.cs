@@ -14,7 +14,7 @@ public class ArrowWarning : MonoBehaviour
     public float snapDistance = 0.05f;
 
     private Camera cam;
-    private bool isSnapped = false;
+    
 
     void Start()
     {

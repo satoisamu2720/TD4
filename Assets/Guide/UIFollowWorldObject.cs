@@ -9,7 +9,7 @@ public class UIFollowWorldObject : MonoBehaviour
     public bool shouldShowUI = false;
 
 
-    private static UIFollowWorldObject instance;
+    public static UIFollowWorldObject Instance { get; private set; }
     void Update()
     {
         if (target == null || mainCamera == null || uiElement == null)
@@ -45,21 +45,17 @@ public class UIFollowWorldObject : MonoBehaviour
         return shouldShowUI;
     }
 
-
-    public static UIFollowWorldObject GetInstance()
-    {
-        return instance;
-    }
     void Awake()
     {
-        if (instance == null)
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // これでシーンをまたいでも残る
-        }
-        else
-        {
-            Destroy(gameObject); // 2個目のカメラができたら破棄する
+            Instance = null;
         }
     }
+
 }

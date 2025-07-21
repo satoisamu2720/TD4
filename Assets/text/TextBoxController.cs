@@ -15,10 +15,10 @@ public class TextBoxController : MonoBehaviour
     private bool canProceed;            // éüÇ…êiÇﬂÇÈÇ©
     void Start()
     {
-        var followUI = UIFollowWorldObject.GetInstance();
-        if (followUI != null)
+        
+        if (UIFollowWorldObject.Instance != null)
         {
-            followUI.ShowUI(false);
+            UIFollowWorldObject.Instance.ShowUI(false);
         }
     }
 
@@ -98,10 +98,9 @@ public class TextBoxController : MonoBehaviour
         isTyping = false;
         canProceed = false;
         GameManagement.Instance.isPause  = false; // âÔòbèIóπ
-        var followUI = UIFollowWorldObject.GetInstance();
-        if (followUI != null)
+        if (UIFollowWorldObject.Instance != null)
         {
-            followUI.ShowUI(true);
+            UIFollowWorldObject.Instance.ShowUI(true);
         }
     }
 }

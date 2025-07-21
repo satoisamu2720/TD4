@@ -11,10 +11,9 @@ public class NextNavigation : MonoBehaviour
         {
             NextFlag = false;
             TutorialStepController.Instance.ProgressToNextStep();
-            var followUI = UIFollowWorldObject.GetInstance();
-            if (followUI != null)
+            if (UIFollowWorldObject.Instance != null)
             {
-                followUI.ShowUI(true);
+                UIFollowWorldObject.Instance.ShowUI(true);
             }
 
         }

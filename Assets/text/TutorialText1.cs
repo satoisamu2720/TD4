@@ -18,6 +18,7 @@ public class TutorialText1 : MonoBehaviour
                 "K‰^‚ğ‹F‚Á‚Ä‚é",
             };
             textBox.ShowMessages(lines);
+            
         }
     }
 }
