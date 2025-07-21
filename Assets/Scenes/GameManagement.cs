@@ -3,15 +3,16 @@ using System.Collections;
 using static UnityEngine.GraphicsBuffer;
 using UnityEngine.UIElements;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameManagement : MonoBehaviour
 {
     public static GameManagement Instance { get; private set; }
     public Transform startGetTarget;
     private int PlayerHP = 0;
-    private bool tutorialBoss = false;
-    private bool stage1Boss = false;
-    private bool stage2Boss = false;
+    public bool tutorialBoss = false;
+    public bool stage1Boss = false;
+    public bool stage2Boss = false;
 
     public float bossTime = 3f;
 
@@ -26,6 +27,8 @@ public class GameManagement : MonoBehaviour
 
     public GameObject levelUpPanel;
     public bool isLevelUp = false;
+
+    private GameObject lastDeadEnemy;
     void Start()
     {
         
@@ -70,7 +73,7 @@ public class GameManagement : MonoBehaviour
                 }
                 tutorialBoss = true;
             }
-            if (!GameManagement.Instance.isPause && tutorialBoss)
+            if (!isPause && tutorialBoss)
             {
                 ShootEnemy.Instance.Die();
                 PlayerMove.Instance.transform.position = playerSpawnStage1;
@@ -93,7 +96,7 @@ public class GameManagement : MonoBehaviour
                 }
                 stage1Boss = true;
             }
-            if (!GameManagement.Instance.isPause && stage1Boss)
+            if (!isPause && stage1Boss)
             {
                 nWayBullet.Instance.Die();
                 StetusScript.Instance.Save();
@@ -101,29 +104,37 @@ public class GameManagement : MonoBehaviour
                 EnemySpawn.Instance.DestroyAllEnemies();                    
             }
         }
-        if (SplitEnemy.Instance != null) 
-        { 
-            if (SplitEnemy.Instance.currentHP <= 0 && !stage2Boss)
-            { 
-        
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-                GameObject bossEnemy = GameObject.FindGameObjectWithTag("BossEnemy");
-                if (player != null)
-                {
-                    MainCameraScript.Instance.SetDefaultTarget(player.transform);
-                    MainCameraScript.Instance.FocusOn(bossEnemy.transform, bossTime); // 3秒間ボスにフォーカス
-                }
-                stage2Boss = true;
-            }
-            if (!GameManagement.Instance.isPause && stage2Boss)
-            {
-                SplitEnemy.Instance.Die();
-                EnemySpawn.Instance.DestroyAllEnemies();
+        if (!stage2Boss)
+        {
+            GameObject[] miniEnemies = GameObject.FindGameObjectsWithTag("MiniEnemy");
 
-                bgmSource.Stop();
-                SceneManager.LoadScene("GameClear");
+            bool allDead = true;
+            foreach (GameObject enemy in miniEnemies)
+            {
+                SplitEnemy split = enemy.GetComponent<SplitEnemy>();
+                if (split != null && split.currentHP > 0)
+                {
+                    allDead = false;
+                    break;
+                }
+            }
+
+            if (allDead && miniEnemies.Length > 0)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null && lastDeadEnemy != null && MainCameraScript.Instance != null)
+                {
+                    // 最後に死んだ敵にフォーカス
+                    MainCameraScript.Instance.SetDefaultTarget(player.transform);
+                    MainCameraScript.Instance.FocusOn(lastDeadEnemy.transform, bossTime);
+                }
+
+                stage2Boss = true;
+                StartCoroutine(Stage2BossClear());
             }
         }
+
+
         if (isLevelUp)
         {
             levelUpPanel.SetActive(true);
@@ -133,6 +144,29 @@ public class GameManagement : MonoBehaviour
             levelUpPanel.SetActive(false);
         }
 
+    }
+    public void SetLastDeadEnemy(GameObject enemy)
+    {
+        lastDeadEnemy = enemy;
+    }
+    private IEnumerator Stage2BossClear()
+    {
+        yield return new WaitForSeconds(bossTime);
+
+        
+        GameObject[] miniEnemies = GameObject.FindGameObjectsWithTag("MiniEnemy");
+        foreach (GameObject enemy in miniEnemies)
+        {
+            if (enemy != null)
+            {
+                Destroy(enemy);
+            }
+        }
+
+        EnemySpawn.Instance.DestroyAllEnemies();
+        bgmSource.Stop();
+
+        SceneManager.LoadScene("GameClear");
     }
 
     public void SetBgmVolume(float volume)

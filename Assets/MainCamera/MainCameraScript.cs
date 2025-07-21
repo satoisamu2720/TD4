@@ -1,43 +1,53 @@
 using UnityEngine;
 using System.Collections;
-public class MainCameraScript: MonoBehaviour
+
+public class MainCameraScript : MonoBehaviour
 {
     public static MainCameraScript Instance { get; private set; }
-    //[SerializeField]
-    private Transform target;  // 追いかける対象（プレイヤーなど）
 
-    [SerializeField]
-    private Vector3 offset = new Vector3(0f, 0f, -15f); // カメラの位置のずれ
+    private Transform target;
+    private Vector3 offset = new Vector3(0f, 0f, -15f);
 
     [SerializeField, Range(0.01f, 1f)]
-    private float smoothSpeed = 0.125f; // 遅延のスピード（小さいとゆっくり追従）
+    private float smoothSpeed = 0.125f; // 通常時
 
+    public float focusMoveSpeed = 5f;   // フォーカス時の移動速度（大きくする）
     private bool isFocusing = false;
-    private float focusDuration = 3f;
-    private float focusSpeed = 3f;
+    private float focusDuration = 5f;
 
-    private Transform defaultTarget; // 通常追従するプレイヤーなどのターゲット
+    private Transform defaultTarget;
+    private Vector3 focusPosition; // Destroyされても追える座標
 
-    public void Start()
+    void Awake()
     {
-        // プレイヤーのTransformを取得
+        Instance = this;
+    }
+
+    void Start()
+    {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
             SetDefaultTarget(player.transform);
         }
     }
+
     void FixedUpdate()
     {
-        if (target == null) 
-        { 
-            return; 
+        if (isFocusing)
+        {
+            // Destroyされても最後の座標を追う
+            Vector3 desiredPosition = focusPosition + offset;
+            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, focusMoveSpeed * Time.fixedDeltaTime);
         }
-
-        Vector3 desiredPosition = target.position + offset;
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-        transform.position = smoothedPosition;
+        else if (target != null)
+        {
+            Vector3 desiredPosition = target.position + offset;
+            Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+            transform.position = smoothedPosition;
+        }
     }
+
     public void SetDefaultTarget(Transform newTarget)
     {
         defaultTarget = newTarget;
@@ -57,29 +67,25 @@ public class MainCameraScript: MonoBehaviour
     {
         isFocusing = true;
         GameManagement.Instance.isPause = true;
-        target = focusTarget;
 
-        yield return new WaitForSeconds(focusDuration);
+        float timer = focusDuration;
+        while (timer > 0f)
+        {
+            if (focusTarget != null)
+            {
+                focusPosition = focusTarget.position;
+            }
+            timer -= Time.deltaTime;
+            yield return null;
+        }
 
-        // 元のターゲットに戻す
+        // プレイヤーに戻る
         if (defaultTarget != null)
         {
             target = defaultTarget;
         }
+
         GameManagement.Instance.isPause = false;
         isFocusing = false;
-    }
-
-    void Awake()
-    {
-        Instance = this;
-    }
-
-    void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            Instance = null;
-        }
     }
 }

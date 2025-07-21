@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SplitEnemy : MonoBehaviour
@@ -30,7 +32,6 @@ public class SplitEnemy : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
     private Color originColor;
-
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
@@ -123,6 +124,13 @@ public class SplitEnemy : MonoBehaviour
         if (isInvincible || isDead) return;
 
         currentHP -= damage;
+
+        if (currentHP <= 0)
+        {
+            Die();
+            return;
+        }
+
         StartInvincibility();
     }
 
@@ -137,14 +145,18 @@ public class SplitEnemy : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;
+        GetComponent<Collider2D>().enabled = false;
+
+        // GameManagementÇ…ç≈å„Ç…éÄÇÒÇæìGÇí ím
+        GameManagement.Instance?.SetLastDeadEnemy(this.gameObject);
+
         if (itemPrefab != null)
         {
             Instantiate(itemPrefab, transform.position, Quaternion.identity);
         }
-
-        Destroy(gameObject);
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Bullet"))
