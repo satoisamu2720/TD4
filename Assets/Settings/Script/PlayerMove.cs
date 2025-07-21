@@ -16,9 +16,12 @@ public class PlayerMove : MonoBehaviour
 
     [SerializeField]
     private GameObject subWeapon;
-     
+
     [SerializeField]
     public Transform weaponPos;
+
+    [SerializeField]
+    private Animator animator;
 
     public bool isMainWeapon;
 
@@ -69,7 +72,7 @@ public class PlayerMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
 
@@ -85,8 +88,23 @@ public class PlayerMove : MonoBehaviour
     {
         if (TextBoxController.IsTalking) return; // 会話中は入力無効
         if (Player.IsNotMove) return; // 会話中は入力無効
-        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        Invincible();
+        movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+
+        if (movement.x > 0 || movement.y < 0 || movement.y > 0)
+        {
+            animator.SetBool("isRightWalk", true);
+            animator.SetBool("isLeftWalk", false);
+        }
+        else if (movement.x < 0)
+        {
+            animator.SetBool("isRightWalk", false);
+            animator.SetBool("isLeftWalk", true);
+        }
+        else
+        {
+            animator.SetBool("isRightWalk", false);
+            animator.SetBool("isLeftWalk", false);
+        }
 
         //Weapon();
 
@@ -95,16 +113,17 @@ public class PlayerMove : MonoBehaviour
             SwitchWeapon();
         }
 
-        PlayerDirection();
+        //PlayerDirection();
 
-       
 
-        if (StetusScript.Instance.PlayerHp <= 0) {
+
+        if (StetusScript.Instance.PlayerHp <= 0)
+        {
             StetusScript.Instance.PlayerHp = 10;
-            
+
             SceneManager.LoadScene("GameOver");
         }
-       
+
         //Animate();
     }
 
@@ -134,7 +153,7 @@ public class PlayerMove : MonoBehaviour
 
     private void MovePlayer()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
+        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
 
         if (Input.GetKey(KeyCode.Space) && !isDash)
         {
@@ -169,25 +188,7 @@ public class PlayerMove : MonoBehaviour
         ActivateCurrentWeapon();
     }
 
-    //public void Animate()
-    //{
-    //    if (Mathf.Abs(movement.x) > 0.5f)
-    //    {
-    //        lastMove.x = movement.x;
-    //        lastMove.y = 0;
-    //    }
-    //    if (Mathf.Abs(movement.y) > 0.5f)
-    //    {
-    //        lastMove.y = movement.y;
-    //        lastMove.x = 0;
-    //    }
 
-    //    animator.SetFloat("Dir_X", movement.x);
-    //    animator.SetFloat("Dir_Y", movement.y);
-    //    animator.SetFloat("LastMove_X", lastMove.x);
-    //    animator.SetFloat("LastMove_Y", lastMove.y);
-    //    animator.SetFloat("Input", movement.magnitude);
-    //}
 
 
     IEnumerator Dash()
@@ -288,8 +289,8 @@ public class PlayerMove : MonoBehaviour
         // 回転をZ軸に対して適用
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
-    
-    
+
+
 
     void Awake()
     {
