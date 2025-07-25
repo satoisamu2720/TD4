@@ -42,7 +42,6 @@ public class PlayerPresenter : MonoBehaviour
         Debug.Log("Ž~‚ß‚½");
         GameManagement.Instance.isLevelUp = true;
         GameManagement.Instance.isPause = true;
-
     }
 
 

@@ -131,7 +131,7 @@ public class GameManagement : MonoBehaviour
         {
             
             levelUpPanel.SetActive(true);
-            
+            //GetComponent<StetusChange>().PrepareLevelUpOptions();
             if (StartTutorialLeveUp) 
             {
                 tutorialLeveUpPlate = false;

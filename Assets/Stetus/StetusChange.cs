@@ -8,12 +8,13 @@ using static WeaponSpawn.WeaponCount;
 
 public class StetusChange : MonoBehaviour
 {
-
+    public TextMeshProUGUI messageText; // 表示するメッセージテキスト
     [SerializeField] private string _LoadScene;
-    
-    
-    
-    
+    int[] randomChoices = new int[3];  // 3ボタン分の選択肢
+
+    int randomChoice;
+
+
 
     public Gun gun;
 
@@ -50,41 +51,111 @@ public class StetusChange : MonoBehaviour
             //StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
             RsumeScene();
         }
+        if(randomChoice == 0)
+        {
+            messageText.text = "プレイヤーのHP + 2";
+           
+        }
+        if(randomChoice == 1)
+        {
+            messageText.text = "プレイヤーのダッシュクールタイム - 0.1秒";
+        }
+        if(randomChoice == 2)
+        {
+            messageText.text = "プレイヤーの移動スピード + 1";
+        }
     }
+    public void PrepareLevelUpOptions()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            randomChoices[i] = Random.Range(0, 3);  // 各ボタンの内容をランダムで決定
+        }
 
+        // 表示内容を決定
+        string[] descriptions = new string[3];
+        for (int i = 0; i < 3; i++)
+        {
+            descriptions[i] = GetDescription(randomChoices[i]);
+        }
+
+        // 例：messageText にまとめて表示（分けたい場合は別のTextもOK）
+        messageText.text =
+            $"① {descriptions[0]}\n" +
+            $"② {descriptions[1]}\n" +
+            $"③ {descriptions[2]}";
+    }
     public void OnAlpha1Button()
     {
-        if (!GameManagement.Instance.tutorialLeveUpPlate) 
-        { 
-            return; 
-        }
-        int randomChoice = Random.Range(0, 3);
-        StetusScript.Instance.level += 1;
-        //StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
-        //RsumeScene();
-        
+        if (!GameManagement.Instance.tutorialLeveUpPlate) return;
 
-        switch (randomChoice)
+        ApplyLevelUp(randomChoices[0]);
+    }
+    void ApplyLevelUp(int choice)
+    {
+        StetusScript.Instance.level += 1;
+
+        switch (choice)
         {
             case 0:
                 StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
-                Debug.Log("HP UP!");
-                RsumeScene();
                 break;
             case 1:
                 StetusScript.Instance.PlayerDashCoolTime -= StetusScript.Instance.LevelUpDashCoolTime;
-                Debug.Log("CoolTimeDown!");
-                RsumeScene();
                 break;
             case 2:
                 StetusScript.Instance.PlayerSpeed += StetusScript.Instance.LevelUpPlayerSpeed;
-                Debug.Log("Speed UP!");
-                RsumeScene();
                 break;
         }
 
-        
+        RsumeScene();
     }
+    string GetDescription(int choice)
+    {
+        switch (choice)
+        {
+            case 0: return "HP +2";
+            case 1: return "ダッシュクールタイム -0.1秒";
+            case 2: return "移動速度 +1";
+            default: return "";
+        }
+    }
+    //public void OnAlpha1Button()
+    //{
+    //    if (!GameManagement.Instance.tutorialLeveUpPlate)
+    //    {
+    //        return;
+    //    }
+    //    randomChoice = Random.Range(0, 3);
+    //    StetusScript.Instance.level += 1;
+    //    StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
+    //    RsumeScene();
+
+
+    //    switch (randomChoice)
+    //    {
+    //        case 0:
+    //            StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
+    //            Debug.Log("HP UP!");
+
+    //            RsumeScene();
+    //            break;
+    //        case 1:
+    //            StetusScript.Instance.PlayerDashCoolTime -= StetusScript.Instance.LevelUpDashCoolTime;
+    //            Debug.Log("CoolTimeDown!");
+
+    //            RsumeScene();
+    //            break;
+    //        case 2:
+    //            StetusScript.Instance.PlayerSpeed += StetusScript.Instance.LevelUpPlayerSpeed;
+    //            Debug.Log("Speed UP!");
+
+    //            RsumeScene();
+    //            break;
+    //    }
+
+
+    //}
 
     public void OnAlpha3Button()
     {
