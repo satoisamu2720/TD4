@@ -4,15 +4,20 @@ using TMPro;
 
 public class TextBoxController : MonoBehaviour
 {
+    public static TextBoxController Instance { get; private set; }
+
     public TextMeshProUGUI messageText; // 表示するメッセージテキスト
     public GameObject textBoxPanel;     // テキストボックス背景
     public GameObject nextIcon;         // 次へ進むアイコン（▼など）
+    public CanvasGroup textBoxCanvasGroup;
     public float textSpeed = 0.05f;     // 文字送り速度
 
     private string[] messages;          // 表示するメッセージ配列
     private int currentMessageIndex;    // 現在表示中のインデックス
     private bool isTyping;              // タイピング中かどうか
     private bool canProceed;            // 次に進めるか
+
+    public bool IsShowing { get; private set; }
     void Start()
     {
         
@@ -25,10 +30,16 @@ public class TextBoxController : MonoBehaviour
     // 会話スタート
     public void ShowMessages(string[] lines)
     {
+        if (IsShowing)
+        { 
+            return; 
+        }
+        IsShowing = true;
         GameManagement.Instance.isPause  = true; // 会話開始
         messages = lines;
         currentMessageIndex = 0;
         textBoxPanel.SetActive(true);
+        textBoxCanvasGroup.blocksRaycasts = true;
         StartCoroutine(TypeText(messages[currentMessageIndex]));
     }
 
@@ -91,16 +102,35 @@ public class TextBoxController : MonoBehaviour
     void HideTextBox()
     {
         textBoxPanel.SetActive(false);
+        textBoxCanvasGroup.blocksRaycasts = false;
+        GameManagement.Instance.tutorialLeveUpPlate = true;
         messageText.text = "";
         nextIcon.SetActive(false);
         messages = null;
         currentMessageIndex = 0;
         isTyping = false;
         canProceed = false;
-        GameManagement.Instance.isPause  = false; // 会話終了
+        IsShowing = false;
+        if (!GameManagement.Instance.isLevelUp)
+        {
+            GameManagement.Instance.isPause  = false; // 会話終了
+        }
         if (UIFollowWorldObject.Instance != null)
         {
             UIFollowWorldObject.Instance.ShowUI(true);
+        }
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
         }
     }
 }

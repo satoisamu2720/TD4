@@ -31,8 +31,8 @@ public class LevelUp : MonoBehaviour
     public void StopScene()
     {
         //SceneManager.LoadScene(_LoadScene);
-        GameManagement.Instance.isLevelUp = true;
-        //StopManager.Instance.Pause();
+        //GameManagement.Instance.isLevelUp = true;
+        //GameManagement.Instance.isPause = true;
     }
 
 }

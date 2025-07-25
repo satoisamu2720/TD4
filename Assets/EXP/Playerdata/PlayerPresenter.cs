@@ -40,9 +40,9 @@ public class PlayerPresenter : MonoBehaviour
     {
         //SceneManager.LoadScene(_LoadScene, LoadSceneMode.Additive);
         Debug.Log("Ž~‚ß‚½");
-
         GameManagement.Instance.isLevelUp = true;
         GameManagement.Instance.isPause = true;
+
     }
 
 

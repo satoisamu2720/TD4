@@ -57,7 +57,7 @@ public class Gun : MonoBehaviour
             case "handgun":
                 bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
                 fireInterval = StetusScript.Instance.handgunFireInterval;
-                reloadTime = StetusScript.Instance.handgunReloadTime;
+                reloadTime = StetusScript.Instance.HandgunReloadTime;
                 MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                 break;
 
@@ -76,7 +76,7 @@ public class Gun : MonoBehaviour
             default:
                 bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
                 fireInterval = StetusScript.Instance.handgunFireInterval;
-                reloadTime = StetusScript.Instance.handgunReloadTime;
+                reloadTime = StetusScript.Instance.HandgunReloadTime;
                 MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                 break;
         }
@@ -169,7 +169,7 @@ public class Gun : MonoBehaviour
                     case "handgun":
                         bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
                         fireInterval = StetusScript.Instance.handgunFireInterval;
-                        reloadTime = StetusScript.Instance.handgunReloadTime;
+                        reloadTime = StetusScript.Instance.HandgunReloadTime;
                         //MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                         break;
 
@@ -190,7 +190,7 @@ public class Gun : MonoBehaviour
                     default:
                         bulletSpeed = StetusScript.Instance.handgunBulletSpeed;
                         fireInterval = StetusScript.Instance.handgunFireInterval;
-                        reloadTime = StetusScript.Instance.handgunReloadTime;
+                        reloadTime = StetusScript.Instance.HandgunReloadTime;
                         MaxAmmo = StetusScript.Instance.handgunMaxAmmo;
                         break;
                 }
@@ -272,7 +272,7 @@ public class Gun : MonoBehaviour
         {
             case "handgun":
                 bulletDamage = StetusScript.Instance.handgunDamage;
-                bulletLife = StetusScript.Instance.handgunBalletLife;
+                bulletLife = StetusScript.Instance.HandgunBalletLife;
                 StetusScript.Instance.HandgunAmmo--;
                 break;
             case "ar":

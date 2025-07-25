@@ -102,12 +102,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 759b5f6eb2e3e3d44a00075dc67a289e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 8
   maxHP: 3
-  rushDistance: 8
-  waitTime: 1.5
+  rushDistance: 6
+  waitTime: 1
   itemPrefab: {fileID: 8442228131798896307, guid: 978a81747381cc043896e181a9f0fb69, type: 3}
   arrowUIPrefab: {fileID: 0}
+  startImmediate: 0
   invincibilityDuration: 2
   rushTimeout: 1
 --- !u!58 &-5490315343968452374

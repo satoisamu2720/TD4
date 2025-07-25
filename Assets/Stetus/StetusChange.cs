@@ -54,7 +54,10 @@ public class StetusChange : MonoBehaviour
 
     public void OnAlpha1Button()
     {
-
+        if (!GameManagement.Instance.tutorialLeveUpPlate) 
+        { 
+            return; 
+        }
         int randomChoice = Random.Range(0, 3);
         StetusScript.Instance.level += 1;
         //StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
@@ -69,7 +72,7 @@ public class StetusChange : MonoBehaviour
                 RsumeScene();
                 break;
             case 1:
-                StetusScript.Instance.PlayerSpeed -= StetusScript.Instance.LevelUpDashCoolTime;
+                StetusScript.Instance.PlayerDashCoolTime -= StetusScript.Instance.LevelUpDashCoolTime;
                 Debug.Log("CoolTimeDown!");
                 RsumeScene();
                 break;
@@ -83,8 +86,12 @@ public class StetusChange : MonoBehaviour
         
     }
 
-    public void OnAlpha2Button()
+    public void OnAlpha3Button()
     {
+        if (!GameManagement.Instance.tutorialLeveUpPlate)
+        {
+            return;
+        }
         int randomChoice2 = Random.Range(0, 3);
 
         string weaponID = Gun.Instance.GetCurrentWeaponID();
@@ -102,12 +109,12 @@ public class StetusChange : MonoBehaviour
                 switch (randomChoice2)
                 {
                     case 0:
-                        gun.reloadTime = StetusScript.Instance.handgunReloadTime -= 0.1f;
+                        gun.reloadTime = StetusScript.Instance.HandgunReloadTime -= 0.1f;
                         Debug.Log("リロード速度　UP hn");
                         RsumeScene();
                         break;
                     case 1:
-                        gun.bulletLife = StetusScript.Instance.handgunBalletLife += 1;
+                        gun.bulletLife = StetusScript.Instance.HandgunBalletLife += 1;
                         Debug.Log("敵の貫通する数　UP hn");
                         RsumeScene();
                         break;
@@ -195,8 +202,12 @@ public class StetusChange : MonoBehaviour
     }
 
     //武器関連
-    public void OnAlpha3Button()
+    public void OnAlpha2Button()
     {
+        if (!GameManagement.Instance.tutorialLeveUpPlate)
+        {
+            return;
+        }
         int randomChoice3 = Random.Range(0, 3);
 
         StetusScript.Instance.level += 1;

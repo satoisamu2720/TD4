@@ -22,9 +22,9 @@ public class PlayerMove : MonoBehaviour
 
     public bool isMainWeapon;
 
-    //移動速度
-    [SerializeField]
-    private float moveSpeed;
+    ////移動速度
+    //[SerializeField]
+    //private float moveSpeed;
     // リギドボディ2D
     public Rigidbody2D rb;
     // 移動用変数
@@ -34,9 +34,9 @@ public class PlayerMove : MonoBehaviour
     // ダッシュ機能フラグ
     [SerializeField]
     private bool isDash;
-    // ダッシュスピード
-    [SerializeField]
-    private float dashSpeed;
+    //// ダッシュスピード
+    //[SerializeField]
+    //private float dashSpeed;
     // ダッシュの再利用時間
     //[SerializeField]
     //private float dashDuration;
@@ -138,7 +138,7 @@ public class PlayerMove : MonoBehaviour
 
     private void MovePlayer()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.deltaTime);
+        rb.MovePosition(rb.position + movement * StetusScript.Instance.PlayerSpeed * Time.deltaTime);
 
         if (Input.GetKey(KeyCode.Space) && !isDash)
         {
@@ -200,9 +200,9 @@ public class PlayerMove : MonoBehaviour
     {
         isDash = true;
 
-        rb.MovePosition(rb.position + movement * dashSpeed * Time.deltaTime);
+        rb.MovePosition(rb.position + movement * StetusScript.Instance.PlayerDashSpeed * Time.deltaTime);
 
-        yield return new WaitForSeconds(StetusScript.Instance.PlayerSpeed);
+        yield return new WaitForSeconds(StetusScript.Instance.PlayerDashCoolTime);
 
         isDash = false;
 

@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class Approachingenemy : MonoBehaviour
 {
-    public float speed = 5f;
-    public int maxHP = 2;
-    public float rushDistance = 5f;
+    //public float speed = 15f;
+    //public int maxHP = 2;
+    public float rushDistance = 1.5f;
     public float waitTime = 1.5f;
     public GameObject itemPrefab;
     public GameObject arrowUIPrefab;
@@ -36,10 +36,12 @@ public class Approachingenemy : MonoBehaviour
 
     private bool isDead = false;
 
+    float randomChoice;
+
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
-        currentHP = maxHP;
+        currentHP = StetusScript.Instance.EnemyHp;
         mainCamera = Camera.main;
 
         if (arrowUIPrefab != null)
@@ -59,10 +61,11 @@ public class Approachingenemy : MonoBehaviour
             startPosition = transform.position;
             state = State.Rushing;
             rushTimer = rushTimeout;
+            randomChoice = Random.Range(0.1f, 1.0f);
         }
         else
         {
-            waitTimer = waitTime;
+            waitTimer = randomChoice;
         }
     }
 
@@ -106,14 +109,15 @@ public class Approachingenemy : MonoBehaviour
                 break;
 
             case State.Rushing:
-                transform.Translate(moveDirection * speed * Time.deltaTime);
+                transform.Translate(moveDirection * StetusScript.Instance.EnemySpeed * Time.deltaTime);
                 float traveled = Vector2.Distance(startPosition, transform.position);
                 rushTimer -= Time.deltaTime;
 
                 if (traveled >= rushDistance || rushTimer <= 0f)
                 {
+                    randomChoice = Random.Range(0.1f, 1.0f);
+                    waitTimer = randomChoice;
                     state = State.Idle;
-                    waitTimer = waitTime;
                 }
                 break;
         }

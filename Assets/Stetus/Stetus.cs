@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StetusScript : MonoBehaviour
 {
+   
     public static StetusScript Instance { get; private set; }
 
     public PlayerExp playerExp;
@@ -11,7 +12,9 @@ public class StetusScript : MonoBehaviour
     [Header("プレイヤーステータス")]
     public int PlayerHp = 5;
     public float PlayerSpeed = 1.0f;
-    
+    public float PlayerDashSpeed = 1.0f;
+    public float PlayerDashCoolTime = 2.0f;
+
     //public int Exp;
     public int level = 1;
 
@@ -21,8 +24,8 @@ public class StetusScript : MonoBehaviour
     public int handgunMaxAmmo = 7;
     public float handgunBulletSpeed = 10.0f;
     public float handgunFireInterval = 0.8f;
-    public float handgunReloadTime = 1.0f;
-    public int handgunBalletLife = 1;
+    public float HandgunReloadTime = 1.0f;
+    public int HandgunBalletLife = 1;
 
     [Header("アサルトライフルステータス")]
     public int ArAmmo = 30;
@@ -46,23 +49,45 @@ public class StetusScript : MonoBehaviour
     [System.Serializable]
     public class UserData
     {
+        //プレイヤー
         public Vector3 position;
+        public int playerLevel;
         public int health;
         public float speed;
+        public float dashSpeed;
+        public float dashCoolTime;
+
+        //ハンドガン
+        public int handgunAmmo;
+        public int handgunBalletLife;
+        public float handgunReloadTime;
+
+        //アサルトライフル
+        public int arAmmo;
+        public int arBalletLife;
+        public float arReloadTime;
+
+        //ショットガン
+        public int sgAmmo;
+        public int sgBalletLife;
+        public float sgReloadTime;
+
         public int bullet;
-        public int playerLevel;
+
         public bool mainWeapon;
         public string mainWeaponID;
         public string subWeaponID;
-        public int handgunAmmo;
-        public int arAmmo;
-        public int sgAmmo;
+
     }
 
-    [Header("各ボスステータス")]
+    [Header("敵ステータス")]
+    public int EnemyHp = 3;
+    public float EnemySpeed = 5;
     public int TutorialBossEnemyHp = 0;
     public int Stage1BossEnemyHp = 0;
     public int Stage2BossEnemyHp = 0;
+
+
 
     [Header("レベルアップステータス")]
     public int LevelUpPlayerHp = 2;
@@ -85,89 +110,42 @@ public class StetusScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             Debug.Log("セーブされました");
-            UserData data = new UserData()
-            {
-                position = PlayerMove.Instance.transform.position,
-                health = PlayerHp,
-                speed = PlayerSpeed,
-                handgunAmmo = HandgunAmmo,
-                arAmmo = ArAmmo,
-                sgAmmo = SGAmmo,
-                playerLevel = level,
-                mainWeaponID = PlayerMove.Instance.GetWeaponID(true), 
-                subWeaponID = PlayerMove.Instance.GetWeaponID(false),
-                mainWeapon = PlayerMove.Instance.isMainWeapon,
-            };
-            string json = JsonUtility.ToJson(data, true);
-            Debug.Log(json);
-
-            PlayerPrefs.SetString("PlayerUserData", json);
-            PlayerPrefs.Save();
+            Save();
         }
         if (Input.GetKeyDown(KeyCode.L))
         {
             Debug.Log("ロードされました");
-            if (PlayerPrefs.HasKey("PlayerUserData"))
-            {
-                string json = PlayerPrefs.GetString("PlayerUserData");
-                UserData data = JsonUtility.FromJson<UserData>(json);
-
-                PlayerMove.Instance.transform.position = data.position;
-                PlayerHp = data.health;
-                PlayerSpeed = data.speed;
-                HandgunAmmo = data.handgunAmmo;
-                ArAmmo = data.arAmmo;
-                SGAmmo = data.sgAmmo;
-                level = data.playerLevel;
-
-                PlayerMove.Instance.isMainWeapon = data.mainWeapon;
-
-                // メイン武器ロード
-                if (!string.IsNullOrEmpty(data.mainWeaponID))
-                {
-                    GameObject mainPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.mainWeaponID);
-                    if (mainPrefab != null)
-                    {
-                        mainPrefab.GetComponent<Weapon>().SetID(data.mainWeaponID);
-                        PlayerMove.Instance.EquipWeaponAsSlot(mainPrefab, true); // true = main
-                    }
-                }
-
-                // サブ武器ロード
-                if (!string.IsNullOrEmpty(data.subWeaponID))
-                {
-                    GameObject subPrefab = WeaponDatabase.Instance.GetWeaponPrefabByID(data.subWeaponID);
-                    if (subPrefab != null)
-                    {
-                        subPrefab.GetComponent<Weapon>().SetID(data.subWeaponID);
-                        PlayerMove.Instance.EquipWeaponAsSlot(subPrefab, false); // false = sub
-                    }
-                }
-
-                Debug.Log(json);
-                Debug.Log($"メイン: {PlayerMove.Instance.GetWeaponID(true)}, サブ: {PlayerMove.Instance.GetWeaponID(false)}");
-            }
-            else
-            {
-                Debug.Log("PlayerUserDataが存在しません");
-            }
+            Load();
         }
 
         
     }
     public void Save()
     {
-
+        
         Debug.Log("セーブされました");
         UserData data = new UserData()
         {
+            //プレイヤー
             position = PlayerMove.Instance.transform.position,
+            playerLevel = level,
             health = PlayerHp,
             speed = PlayerSpeed,
+            dashSpeed = PlayerDashSpeed,
+            dashCoolTime = PlayerDashCoolTime,
+            //ハンドガン
             handgunAmmo = HandgunAmmo,
+            handgunBalletLife = HandgunBalletLife,
+            handgunReloadTime = HandgunReloadTime,
+            //アサルトライフル
             arAmmo = ArAmmo,
+            arBalletLife = ArBalletLife,
+            arReloadTime = ArReloadTime,
+            //ショットガン
             sgAmmo = SGAmmo,
-            playerLevel = level,
+            sgBalletLife = SGBalletLife,
+            sgReloadTime = SGReloadTime,
+
             mainWeaponID = PlayerMove.Instance.GetWeaponID(true),
             subWeaponID = PlayerMove.Instance.GetWeaponID(false),
             mainWeapon = PlayerMove.Instance.isMainWeapon,
@@ -178,6 +156,7 @@ public class StetusScript : MonoBehaviour
         PlayerPrefs.SetString("PlayerUserData", json);
         PlayerPrefs.Save();
 
+        
     }
 
     public void Load()
@@ -188,14 +167,27 @@ public class StetusScript : MonoBehaviour
             string json = PlayerPrefs.GetString("PlayerUserData");
             UserData data = JsonUtility.FromJson<UserData>(json);
 
+            //プレイヤー
             PlayerMove.Instance.transform.position = data.position;
+            level = data.playerLevel;
             PlayerHp = data.health;
             PlayerSpeed = data.speed;
+            PlayerDashSpeed = data.dashSpeed;
+            PlayerDashCoolTime = data.dashCoolTime;
+            //ハンドガン
             HandgunAmmo = data.handgunAmmo;
+            HandgunBalletLife = data.handgunBalletLife;
+            HandgunReloadTime = data.handgunReloadTime;
+            //アサルトライフル
             ArAmmo = data.arAmmo;
+            ArBalletLife = data.arBalletLife;
+            ArReloadTime = data.arReloadTime;
+            //ショットガン
             SGAmmo = data.sgAmmo;
-            level = data.playerLevel;
+            SGBalletLife = data.sgBalletLife;
+            SGReloadTime = data.sgReloadTime;
 
+            
             PlayerMove.Instance.isMainWeapon = data.mainWeapon;
 
             // メイン武器ロード

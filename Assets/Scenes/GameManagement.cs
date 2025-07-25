@@ -26,6 +26,9 @@ public class GameManagement : MonoBehaviour
 
     public GameObject levelUpPanel;
     public bool isLevelUp = false;
+    public bool StartTutorialLeveUp = true;
+    public bool tutorialLeveUp = false;
+    public bool tutorialLeveUpPlate = false;
 
     private GameObject lastDeadEnemy;
     void Start()
@@ -43,11 +46,12 @@ public class GameManagement : MonoBehaviour
         {
             
             TutorialStepController.Instance.ProgressToNextStep();
-            
+            StetusScript.Instance.EnemySpeed = 8;
             PlayerMove.Instance.transform.position = playerSpawnStage1;
             PlayerPrefs.DeleteKey("StartLoad");
+            StartTutorialLeveUp = false;
         }
-        
+        StartTutorialLeveUp = true;
     }
 
     
@@ -125,11 +129,20 @@ public class GameManagement : MonoBehaviour
 
         if (isLevelUp)
         {
+            
             levelUpPanel.SetActive(true);
+            
+            if (StartTutorialLeveUp) 
+            {
+                tutorialLeveUpPlate = false;
+                tutorialLeveUp = true;
+                StartTutorialLeveUp = false;
+            }
         }
         else
         {
             levelUpPanel.SetActive(false);
+            tutorialLeveUp = false;
         }
 
     }
@@ -140,40 +153,40 @@ public class GameManagement : MonoBehaviour
     private IEnumerator TutorialBossClear()
     {
         ShootEnemy.Instance.Die();
-        // カメラフォーカス時間待機
-        yield return new WaitForSeconds(5f);
+        EnemySpawn.Instance.DestroyAllEnemies();
 
+        // カメラフォーカス時間待機
+        yield return new WaitForSeconds(3f);
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeOut());
         }
 
-        EnemySpawn.Instance.DestroyAllEnemies();
-        bgmSource.Stop();
         PlayerMove.Instance.transform.position = playerSpawnStage1;
+        StetusScript.Instance.EnemySpeed = 8;
         StetusScript.Instance.Save();
-
+        yield return new WaitForSeconds(2f);
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeIn());
         }
+        
     }
     private IEnumerator Stage1BossClear()
     {
         nWayBullet.Instance.Die();
-        // カメラフォーカス時間待機
-        yield return new WaitForSeconds(5f);
 
+        EnemySpawn.Instance.DestroyAllEnemies();
+        // カメラフォーカス時間待機
+        yield return new WaitForSeconds(3f);
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeOut());
         }
 
-        EnemySpawn.Instance.DestroyAllEnemies();
-        bgmSource.Stop();
         PlayerMove.Instance.transform.position = playerSpawnStage2;
         StetusScript.Instance.Save();
-
+        yield return new WaitForSeconds(2f);
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeIn());
@@ -182,16 +195,17 @@ public class GameManagement : MonoBehaviour
 
     private IEnumerator Stage2BossClear()
     {
-        // カメラフォーカス時間待機
-        yield return new WaitForSeconds(5f);
 
         
+        // カメラフォーカス時間待機
+        yield return new WaitForSeconds(3f);
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeOut());
         }
 
         
+        EnemySpawn.Instance.DestroyAllEnemies();
         GameObject[] miniEnemies = GameObject.FindGameObjectsWithTag("MiniEnemy");
         foreach (GameObject enemy in miniEnemies)
         {
@@ -200,16 +214,12 @@ public class GameManagement : MonoBehaviour
                 Destroy(enemy);
             }
         }
-        EnemySpawn.Instance.DestroyAllEnemies();
         bgmSource.Stop();
-
-        if (FadeController.Instance != null)
-        {
-            yield return StartCoroutine(FadeController.Instance.FadeIn());
-        }
-
         //シーン切り替え
         SceneManager.LoadScene("GameClear");
+
+        
+
     }
     public void SetBgmVolume(float volume)
     {
