@@ -56,7 +56,7 @@ public class PlayerMove : MonoBehaviour
     // –³“GŽžŠÔ‚Ì’·‚³
     [SerializeField]
     private float invincibilityDuration = 2f;
-    private bool isInvincible = false;
+    public bool isInvincible = false;
     // –³“GŽžŠÔ‚ÌŽc‚èŽžŠÔ
     private float invincibilityTimer = 0f;
 
