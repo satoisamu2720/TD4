@@ -26,6 +26,7 @@ public class GameManagement : MonoBehaviour
 
     public GameObject levelUpPanel;
     public bool isLevelUp = false;
+    public bool levelUpRandom = true;
     public bool StartTutorialLeveUp = true;
     public bool tutorialLeveUp = false;
     public bool tutorialLeveUpPlate = false;
@@ -52,6 +53,9 @@ public class GameManagement : MonoBehaviour
             StartTutorialLeveUp = false;
         }
         StartTutorialLeveUp = true;
+
+        levelUpPanel.SetActive(true);
+        levelUpPanel.SetActive(false);
     }
 
     
@@ -129,11 +133,22 @@ public class GameManagement : MonoBehaviour
 
         if (isLevelUp)
         {
+            if (levelUpPanel != null)
+                levelUpPanel.SetActive(true);
             
-            levelUpPanel.SetActive(true);
-            //GetComponent<StetusChange>().PrepareLevelUpOptions();
-            if (StartTutorialLeveUp) 
+            
+
+            if (levelUpRandom)
             {
+                if (StetusChange.Instance != null)
+                    StetusChange.Instance.PrepareLevelUpOptions();
+                levelUpRandom = false;
+            }
+
+            if (StartTutorialLeveUp)
+            {
+                
+
                 tutorialLeveUpPlate = false;
                 tutorialLeveUp = true;
                 StartTutorialLeveUp = false;
@@ -141,7 +156,9 @@ public class GameManagement : MonoBehaviour
         }
         else
         {
-            levelUpPanel.SetActive(false);
+            if (levelUpPanel != null)
+                levelUpPanel.SetActive(false);
+            levelUpRandom = true;
             tutorialLeveUp = false;
         }
 
@@ -237,6 +254,7 @@ public class GameManagement : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
     }
 
     void OnDestroy()

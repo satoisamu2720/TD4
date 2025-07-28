@@ -5,16 +5,16 @@ using Unity.VisualScripting;
 using UnityEngine.Audio;
 using UnityEditor;
 using static WeaponSpawn.WeaponCount;
+using System.Collections.Generic;
 
 public class StetusChange : MonoBehaviour
 {
-    public TextMeshProUGUI messageText; // 表示するメッセージテキスト
+    public static StetusChange Instance { get; private set; }
+    public TextMeshProUGUI[] levelUpTexts = new TextMeshProUGUI[3];
     [SerializeField] private string _LoadScene;
     int[] randomChoices = new int[3];  // 3ボタン分の選択肢
 
     int randomChoice;
-
-
 
     public Gun gun;
 
@@ -51,47 +51,44 @@ public class StetusChange : MonoBehaviour
             //StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
             RsumeScene();
         }
-        if(randomChoice == 0)
-        {
-            messageText.text = "プレイヤーのHP + 2";
-           
-        }
-        if(randomChoice == 1)
-        {
-            messageText.text = "プレイヤーのダッシュクールタイム - 0.1秒";
-        }
-        if(randomChoice == 2)
-        {
-            messageText.text = "プレイヤーの移動スピード + 1";
-        }
     }
     public void PrepareLevelUpOptions()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            randomChoices[i] = Random.Range(0, 3);  // 各ボタンの内容をランダムで決定
-        }
+        randomChoices[0] = Random.Range(0, 3);
+        randomChoices[1] = Random.Range(3, 6);    
 
-        // 表示内容を決定
+        List<int> mixCandidates = new List<int>() { 0, 1, 2, 3, 4, 5 };
+        mixCandidates.Remove(randomChoices[0]);
+        mixCandidates.Remove(randomChoices[1]);
+
+        randomChoices[2] = mixCandidates[Random.Range(0, mixCandidates.Count)]; // Mix
+
+        // 各選択肢に応じた説明文を取得
         string[] descriptions = new string[3];
-        for (int i = 0; i < 3; i++)
-        {
-            descriptions[i] = GetDescription(randomChoices[i]);
-        }
+        descriptions[0] = GetPlayerDescription(randomChoices[0]);
+        descriptions[1] = GetGunDescription(randomChoices[1]);
+        descriptions[2] = GetMixDescription(randomChoices[2]);
 
-        // 例：messageText にまとめて表示（分けたい場合は別のTextもOK）
-        messageText.text =
-            $"① {descriptions[0]}\n" +
-            $"② {descriptions[1]}\n" +
-            $"③ {descriptions[2]}";
+        // すべてのTextに説明を反映（配列順と合わせる）
+        for (int i = 0; i < levelUpTexts.Length; i++)
+        {
+            if (levelUpTexts[i] != null)
+            {
+                levelUpTexts[i].text = descriptions[i];
+            }
+            else
+            {
+                Debug.LogWarning($"levelUpTexts[{i}] が設定されていません");
+            }
+        }
     }
     public void OnAlpha1Button()
     {
         if (!GameManagement.Instance.tutorialLeveUpPlate) return;
 
-        ApplyLevelUp(randomChoices[0]);
+        PlayerLevelUp(randomChoices[0]);
     }
-    void ApplyLevelUp(int choice)
+    void PlayerLevelUp(int choice)
     {
         StetusScript.Instance.level += 1;
 
@@ -110,121 +107,110 @@ public class StetusChange : MonoBehaviour
 
         RsumeScene();
     }
-    string GetDescription(int choice)
+    string GetPlayerDescription(int choice)
     {
         switch (choice)
         {
-            case 0: return "HP +2";
-            case 1: return "ダッシュクールタイム -0.1秒";
-            case 2: return "移動速度 +1";
+            case 0: return "HP + 2";
+            case 1: return "ダッシュクールタイム - 0.1秒";
+            case 2: return "移動速度 + 1";
             default: return "";
         }
     }
-    //public void OnAlpha1Button()
-    //{
-    //    if (!GameManagement.Instance.tutorialLeveUpPlate)
-    //    {
-    //        return;
-    //    }
-    //    randomChoice = Random.Range(0, 3);
-    //    StetusScript.Instance.level += 1;
-    //    StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
-    //    RsumeScene();
-
-
-    //    switch (randomChoice)
-    //    {
-    //        case 0:
-    //            StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
-    //            Debug.Log("HP UP!");
-
-    //            RsumeScene();
-    //            break;
-    //        case 1:
-    //            StetusScript.Instance.PlayerDashCoolTime -= StetusScript.Instance.LevelUpDashCoolTime;
-    //            Debug.Log("CoolTimeDown!");
-
-    //            RsumeScene();
-    //            break;
-    //        case 2:
-    //            StetusScript.Instance.PlayerSpeed += StetusScript.Instance.LevelUpPlayerSpeed;
-    //            Debug.Log("Speed UP!");
-
-    //            RsumeScene();
-    //            break;
-    //    }
-
-
-    //}
-
-    public void OnAlpha3Button()
+    public void OnAlpha2Button()
     {
-        if (!GameManagement.Instance.tutorialLeveUpPlate)
-        {
-            return;
-        }
-        int randomChoice2 = Random.Range(0, 3);
+        if (!GameManagement.Instance.tutorialLeveUpPlate) return;
 
+        MixLevelUp(randomChoices[2]);
+    }
+    void MixLevelUp(int choice)
+    {
         string weaponID = Gun.Instance.GetCurrentWeaponID();
-        Debug.Log("現在の武器ID: " + weaponID);
         StetusScript.Instance.level += 1;
-        //StetusScript.Instance.PlayerSpeed -= StetusScript.Instance.LevelUpDashCoolTime;
-        //RsumeScene();
-
 
         switch (weaponID)
         {
             case "handgun":
-
-
-                switch (randomChoice2)
+                 
+                switch (choice)
                 {
+
                     case 0:
+                        StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
+                        Debug.Log("HP　UP ");
+                        break;
+                    case 1:
+                        StetusScript.Instance.PlayerDashCoolTime -= StetusScript.Instance.LevelUpDashCoolTime;
+                        Debug.Log("回避クールタイム速度　UP ");
+                        break;
+                    case 2:
+                        StetusScript.Instance.PlayerSpeed += StetusScript.Instance.LevelUpPlayerSpeed;
+                        Debug.Log("移動速度　UP ");
+                        break;
+                    case 3:
                         gun.reloadTime = StetusScript.Instance.HandgunReloadTime -= 0.1f;
                         Debug.Log("リロード速度　UP hn");
-                        RsumeScene();
                         break;
-                    case 1:
+                    case 4:
                         gun.bulletLife = StetusScript.Instance.HandgunBalletLife += 1;
                         Debug.Log("敵の貫通する数　UP hn");
-                        RsumeScene();
                         break;
-                    case 2:
+                    case 5:
                         StetusScript.Instance.PlayerSpeed -= 0.3f;
                         Debug.Log("弾の大きさ　UP hn");
-                        RsumeScene();
                         break;
-
                 }
 
-                break;
+            break;
+
             case "ar":
-                switch (randomChoice2)
+                switch (choice)
                 {
                     case 0:
-                        gun.reloadTime = StetusScript.Instance.ArReloadTime -= 0.1f;
-                        Debug.Log("リロード速度　UP");
-                        RsumeScene();
+                        StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
+                        Debug.Log("HP　UP ");
                         break;
                     case 1:
-                        gun.bulletLife = StetusScript.Instance.ArBalletLife += 1;
-                        Debug.Log("敵の貫通する数　UP");
-                        RsumeScene();
+                        StetusScript.Instance.PlayerDashCoolTime -= StetusScript.Instance.LevelUpDashCoolTime;
+                        Debug.Log("回避クールタイム速度　UP ");
                         break;
                     case 2:
+                        StetusScript.Instance.PlayerSpeed += StetusScript.Instance.LevelUpPlayerSpeed;
+                        Debug.Log("移動速度　UP ");
+                        break;
+                    case 3:
+                        gun.reloadTime = StetusScript.Instance.ArReloadTime -= 0.1f;
+                        Debug.Log("リロード速度　UP");                        
+                        break;
+                    case 4:
+                        gun.bulletLife = StetusScript.Instance.ArBalletLife += 1;
+                        Debug.Log("敵の貫通する数　UP");
+                         break;
+                    case 5:
                         StetusScript.Instance.PlayerSpeed -= 0.3f;
                         Debug.Log("弾の大きさ　UP");
-                        RsumeScene();
                         break;
-
                 }
 
                 break;
+
             case "sg":
 
-                switch (randomChoice2)
+                switch (choice)
                 {
                     case 0:
+                        StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
+                        Debug.Log("HP　UP ");
+                        break;
+                    case 1:
+                        StetusScript.Instance.PlayerDashCoolTime -= StetusScript.Instance.LevelUpDashCoolTime;
+                        Debug.Log("回避クールタイム速度　UP ");
+                        break;
+                    case 2:
+                        StetusScript.Instance.PlayerSpeed += StetusScript.Instance.LevelUpPlayerSpeed;
+                        Debug.Log("移動速度　UP ");
+                        break;
+                    case 3:
                         if (Gun.Instance != null)
                         {
                             Gun.Instance.reloadTime = StetusScript.Instance.SGReloadTime -= 0.3f;
@@ -235,9 +221,8 @@ public class StetusChange : MonoBehaviour
                         }
 
                         Debug.Log("リロード速度　UP sg");
-                        RsumeScene();
                         break;
-                    case 1:
+                    case 4:
                         if (Gun.Instance != null)
                         {
                             Gun.Instance.bulletLife = StetusScript.Instance.SGBalletLife += 1;
@@ -247,9 +232,8 @@ public class StetusChange : MonoBehaviour
                             Debug.LogError("Gun.Instance が null です！");
                         }
                         Debug.Log("敵の貫通する数　UP sg");
-                        RsumeScene();
                         break;
-                    case 2:
+                    case 5:
                         if (Gun.Instance != null)
                         {
                             Gun.Instance.reloadTime = StetusScript.Instance.SGReloadTime -= 0.1f;
@@ -259,7 +243,6 @@ public class StetusChange : MonoBehaviour
                             Debug.LogError("Gun.Instance が null です！");
                         }
                         Debug.Log("弾の大きさ　UP sg");
-                        RsumeScene();
                         break;
 
                 }
@@ -267,47 +250,196 @@ public class StetusChange : MonoBehaviour
                 break;
         }
 
-
-
-
-    }
-
-    //武器関連
-    public void OnAlpha2Button()
-    {
-        if (!GameManagement.Instance.tutorialLeveUpPlate)
-        {
-            return;
-        }
-        int randomChoice3 = Random.Range(0, 3);
-
-        StetusScript.Instance.level += 1;
-        //StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
         RsumeScene();
-        
+    }
+    string GetMixDescription(int choice)
+    {
+        string weaponID = Gun.Instance.GetCurrentWeaponID();
 
-        switch (randomChoice3)
+        switch (weaponID)
         {
-            case 0:
-                StetusScript.Instance.PlayerSpeed -= 0.1f;
-                Debug.Log("リロード速度　UP");
-                RsumeScene();
-                break;
-            case 1:
-                StetusScript.Instance.PlayerSpeed -= 0.2f;
-                Debug.Log("敵の貫通する数　UP");
-                RsumeScene();
-                break;
-            case 2:
-                StetusScript.Instance.PlayerSpeed -= 0.3f;
-                Debug.Log("弾の大きさ　UP");
-                RsumeScene();
-                break;
+            case "handgun":
 
+                switch (choice)
+                {
+                    case 0: return "HP + 2";
+                    case 1: return "ダッシュクールタイム - 0.1秒";
+                    case 2: return "移動速度 + 1";
+                    case 3: return "ハンドガンのリロード速度 - 0.3秒";
+                    case 4: return "ハンドガンの貫通力 + 1";
+                    case 5: return "ハンドガンの球の大きさ + 1";
+                    default: return "";
+                }
+
+            case "ar":
+                switch (choice)
+                {
+                    case 0: return "HP + 2";
+                    case 1: return "ダッシュクールタイム - 0.1秒";
+                    case 2: return "移動速度 + 1";
+                    case 3: return "アサルトライフルのリロード速度 - 0.3秒";
+                    case 4: return "アサルトライフルの貫通力 + 1";
+                    case 5: return "アサルトライフルの球の大きさ + 1";
+                    default: return "";
+                }
+
+            case "sg":
+                switch (choice)
+                {
+                    case 0: return "HP + 2";
+                    case 1: return "ダッシュクールタイム - 0.1秒";
+                    case 2: return "移動速度 + 1";
+                    case 3: return "ショットガンのリロード速度 - 0.3秒";
+                    case 4: return "ショットガンの貫通力 + 1";
+                    case 5: return "ショットガンの球の大きさ + 1";
+                    default: return "";
+                }
+
+            default:
+                return "";
+        }
+    }
+
+    public void OnAlpha3Button()
+    {
+        if (!GameManagement.Instance.tutorialLeveUpPlate) return;
+
+        GunLevelUp(randomChoices[1]);
+    }
+    void GunLevelUp(int choice)
+    {
+        string weaponID = Gun.Instance.GetCurrentWeaponID();
+        StetusScript.Instance.level += 1;
+
+        switch (weaponID)
+        {
+            case "handgun":
+
+
+                switch (choice)
+                {
+                    case 3:
+                        gun.reloadTime = StetusScript.Instance.HandgunReloadTime -= 0.1f;
+                        Debug.Log("リロード速度　UP hn");
+                        break;
+                    case 4:
+                        gun.bulletLife = StetusScript.Instance.HandgunBalletLife += 1;
+                        Debug.Log("敵の貫通する数　UP hn");
+                        break;
+                    case 5:
+                        StetusScript.Instance.PlayerSpeed -= 0.3f;
+                        Debug.Log("弾の大きさ　UP hn");
+                        break;
+
+                }
+
+                break;
+            case "ar":
+                switch (choice)
+                {
+                    case 3:
+                        gun.reloadTime = StetusScript.Instance.ArReloadTime -= 0.1f;
+                        Debug.Log("リロード速度　UP");
+                        break;
+                    case 4:
+                        gun.bulletLife = StetusScript.Instance.ArBalletLife += 1;
+                        Debug.Log("敵の貫通する数　UP");
+                        break;
+                    case 5:
+                        StetusScript.Instance.PlayerSpeed -= 0.3f;
+                        Debug.Log("弾の大きさ　UP");
+                        break;
+
+                }
+
+                break;
+            case "sg":
+
+                switch (choice)
+                {
+                    case 3:
+                        if (Gun.Instance != null)
+                        {
+                            Gun.Instance.reloadTime = StetusScript.Instance.SGReloadTime -= 0.3f;
+                        }
+                        else
+                        {
+                            Debug.LogError("Gun.Instance が null です！");
+                        }
+
+                        Debug.Log("リロード速度　UP sg");
+                        break;
+                    case 4:
+                        if (Gun.Instance != null)
+                        {
+                            Gun.Instance.bulletLife = StetusScript.Instance.SGBalletLife += 1;
+                        }
+                        else
+                        {
+                            Debug.LogError("Gun.Instance が null です！");
+                        }
+                        Debug.Log("敵の貫通する数　UP sg");
+                        break;
+                    case 5:
+                        if (Gun.Instance != null)
+                        {
+                            Gun.Instance.reloadTime = StetusScript.Instance.SGReloadTime -= 0.1f;
+                        }
+                        else
+                        {
+                            Debug.LogError("Gun.Instance が null です！");
+                        }
+                        Debug.Log("弾の大きさ　UP sg");
+                        break;
+
+                }
+
+                break;
         }
 
-        
+        RsumeScene();
     }
+    string GetGunDescription(int choice)
+    {
+        string weaponID = Gun.Instance.GetCurrentWeaponID();
+
+        switch (weaponID)
+        {
+            case "handgun":
+
+                switch (choice)
+                {
+                    case 3: return "ハンドガンのリロード速度 - 0.3秒";
+                    case 4: return "ハンドガンの貫通力 + 1";
+                    case 5: return "ハンドガンの球の大きさ + 1";
+                    default: return "";
+                }
+
+            case "ar":
+                switch (choice)
+                {
+                    
+                    case 3: return "アサルトライフルのリロード速度 - 0.3秒";
+                    case 4: return "アサルトライフルの貫通力 + 1";
+                    case 5: return "アサルトライフルの球の大きさ + 1";
+                    default: return "";
+                }
+
+            case "sg":
+                switch (choice)
+                {
+                    
+                    case 3: return "ショットガンのリロード速度 - 0.3秒";
+                    case 4: return "ショットガンの貫通力 + 1";
+                    case 5: return "ショットガンの球の大きさ + 1";
+                    default: return "";
+                }
+
+            default:
+                return "";
+        }
+    }
+    
 
     public void RsumeScene()
     {
@@ -320,5 +452,16 @@ public class StetusChange : MonoBehaviour
 
     }
 
+    void Awake()
+    {
+        Instance = this;
+    }
 
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 }
