@@ -188,6 +188,10 @@ public class GameManagement : MonoBehaviour
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeIn());
+            if (UIFollowWorldObject.Instance != null)
+            {
+                UIFollowWorldObject.Instance.ShowUI(true);
+            }
         }
         
     }
@@ -209,6 +213,10 @@ public class GameManagement : MonoBehaviour
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeIn());
+            if (UIFollowWorldObject.Instance != null)
+            {
+                UIFollowWorldObject.Instance.ShowUI(true);
+            }
         }
     }
 

@@ -11,7 +11,7 @@ public class TutorialText4 : MonoBehaviour
     
             if (GameManagement.Instance != null)
             {
-                if (other.CompareTag("Player") && GameManagement.Instance.tutorialLeveUp && !TextFlag && !TextBoxController.Instance.IsShowing)
+                if (other.CompareTag("Player") && !GameManagement.Instance.StartTutorialLeveUp && !TextFlag && !TextBoxController.Instance.IsShowing)
                 {
                     TextFlag = true;
                     string[] lines = {
