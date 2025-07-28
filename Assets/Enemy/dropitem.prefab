@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927b39634f48f9547a7ae431bc655eec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  expAmount: 250
+  expAmount: 1000
   isCollected: 0
 --- !u!58 &-6459494493176561033
 CircleCollider2D:

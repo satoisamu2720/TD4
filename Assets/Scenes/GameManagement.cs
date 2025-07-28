@@ -31,6 +31,7 @@ public class GameManagement : MonoBehaviour
     public bool tutorialLeveUp = false;
     public bool tutorialLeveUpPlate = false;
 
+
     private GameObject lastDeadEnemy;
     void Start()
     {
@@ -142,6 +143,7 @@ public class GameManagement : MonoBehaviour
             {
                 if (StetusChange.Instance != null)
                     StetusChange.Instance.PrepareLevelUpOptions();
+                    
                 levelUpRandom = false;
             }
 

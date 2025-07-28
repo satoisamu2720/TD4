@@ -26,34 +26,35 @@ public class TutorialText3 : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && isWeaponEquipped && TextFlag)
+        if (ExpItem.Instance != null)
         {
-            TextFlag = false;
-
-            string[] lines;
-
-            switch (equippedWeaponID)
+            if (other.CompareTag("Player") && isWeaponEquipped && TextFlag)
             {
-                case "handgun":
-                    lines = new string[]
-                    {
-                        "倒すと経験値が落ちる",
+                TextFlag = false;
+
+                string[] lines;
+
+                switch (equippedWeaponID)
+                {
+                    case "handgun":
+                        lines = new string[]
+                        {
                         "経験値を拾うとレベルアップし",
                         "自身を強化することができる",
-                        "敵を倒し切らなくてもボスとは戦える"
-                    };
-                    break;
+                        };                        
+                        break;
 
-                default:
-                    lines = new string[]
-                    {
+                    default:
+                        lines = new string[]
+                        {
                         "武器を拾った！",
                         "使い方は画面を見ながら試してみよう！"
-                    };
-                    break;
-            }
+                        };
+                        break;
+                }
 
-            textBox.ShowMessages(lines);
+                textBox.ShowMessages(lines);
+            }
         }
     }
 }
