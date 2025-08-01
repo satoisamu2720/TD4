@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 699d556386da94a449367673629ea7ef
+guid: c4006c0341f94d94b921944e19692f9e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7042046090950062820
-    second: PlayerHP3_0
+      213: -7134224125491679639
+    second: Heart2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerHP3_0
+      name: Heart2_0
       rect:
         serializedVersion: 2
-        x: 31
-        y: 3
-        width: 30
-        height: 51
+        x: 8
+        y: 23
+        width: 109
+        height: 85
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c1d4ef00460a54e90800000000000000
-      internalID: -7042046090950062820
+      spriteID: 96eeb04e4f42efc90800000000000000
+      internalID: -7134224125491679639
       vertices: []
       indices: 
       edges: []
