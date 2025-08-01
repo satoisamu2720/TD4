@@ -115,6 +115,7 @@ public class nWayBullet : MonoBehaviour
                 if (fireTimer <= 0f)
                 {
                     FireNWays();
+                     sgSE.PlayOneShot(SGSE);
                     fireTimer = fireCooldown;
                     shotCount++;
 
@@ -149,13 +150,13 @@ public class nWayBullet : MonoBehaviour
     {      
 
         GameManagement.Instance.OnEnemyKilled(this); // © ‚±‚Ì“G‚ª“|‚ê‚½‚±‚Æ‚ð’Ê’m
-        
-        
+        sgSE.Stop();
+
     }
  
     void FireNWays()
     {
-        sgSE.PlayOneShot(SGSE);
+       
         Vector2 direction = (player.position - transform.position).normalized;
         float baseAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         float startAngle = baseAngle - Degree / 2f;

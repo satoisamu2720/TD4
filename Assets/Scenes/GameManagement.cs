@@ -68,7 +68,7 @@ public class GameManagement : MonoBehaviour
             StartTutorialLeveUp = true;
         }
 
-        levelUpPanel.SetActive(true);
+        
         levelUpPanel.SetActive(false);
     }
 
@@ -101,7 +101,7 @@ public class GameManagement : MonoBehaviour
         {
             if (stage1Boss)
             {               
-                StartCoroutine(Stage1BossClear());
+                
             }
             
         }
@@ -192,7 +192,7 @@ public class GameManagement : MonoBehaviour
     }
     private IEnumerator Stage1BossClear()
     {
-        nWayBullet.Instance.Die();
+        
 
         EnemySpawn.Instance.DestroyAllEnemies();
         // カメラフォーカス時間待機
@@ -235,6 +235,7 @@ public class GameManagement : MonoBehaviour
     {
         MainCameraScript.Instance.FocusOn(enemy.transform, 3f);
         stage1Boss = true;
+        StartCoroutine(Stage1BossClear());
         yield return new WaitForSeconds(3f); // フォーカス時間に合わせる
         Destroy(enemy.gameObject);
     }

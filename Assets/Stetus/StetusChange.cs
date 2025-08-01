@@ -85,7 +85,7 @@ public class StetusChange : MonoBehaviour
     public void OnAlpha1Button()
     {
         if (!GameManagement.Instance.tutorialLeveUpPlate) return;
-
+        if (!PlayerPresenter.Instance.canInput) return;
         PlayerLevelUp(randomChoices[0]);
     }
     void PlayerLevelUp(int choice)
@@ -120,7 +120,7 @@ public class StetusChange : MonoBehaviour
     public void OnAlpha2Button()
     {
         if (!GameManagement.Instance.tutorialLeveUpPlate) return;
-
+        if (!PlayerPresenter.Instance.canInput) return;
         MixLevelUp(randomChoices[2]);
     }
     void MixLevelUp(int choice)
@@ -303,7 +303,7 @@ public class StetusChange : MonoBehaviour
     public void OnAlpha3Button()
     {
         if (!GameManagement.Instance.tutorialLeveUpPlate) return;
-
+        if (!PlayerPresenter.Instance.canInput) return;
         GunLevelUp(randomChoices[1]);
     }
     void GunLevelUp(int choice)

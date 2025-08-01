@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEditor.EditorTools;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,7 +11,7 @@ public class PlayerPresenter : MonoBehaviour
 
     public int ExpBox;
     public int ExpBox2;
-
+    public bool canInput = true;
     [SerializeField] int _currentValue = 1;
     [SerializeField] private string _LoadScene;
 
@@ -42,9 +43,16 @@ public class PlayerPresenter : MonoBehaviour
         Debug.Log("Ž~‚ß‚½");
         GameManagement.Instance.isLevelUp = true;
         GameManagement.Instance.isPause = true;
+
+        canInput = false;
+        StartCoroutine(EnableInputAfterDelay(0.5f));
     }
 
-
+    private IEnumerator EnableInputAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        canInput = true;
+    }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("ExpItem"))
