@@ -59,8 +59,10 @@ public class GameManagement : MonoBehaviour
             StetusScript.Instance.EnemySpeed = 8;
             StetusScript.Instance.EnemyHp = 3;
             PlayerMove.Instance.transform.position = playerSpawnStage1;
-            PlayerPrefs.DeleteKey("StartLoad");
+            StetusScript.Instance.Save();
             StartTutorialLeveUp = false;
+            PlayerPrefs.DeleteKey("StartLoad");
+
         }
         else
         {

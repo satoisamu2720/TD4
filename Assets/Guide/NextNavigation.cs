@@ -15,6 +15,7 @@ public class NextNavigation : MonoBehaviour
             //{
             //    UIFollowWorldObject.Instance.ShowUI(true);
             //}
+            GameManagement.Instance.StartTutorialLeveUp = false;
 
         }
     }

@@ -21,7 +21,7 @@ public class GameOver : MonoBehaviour
     public void OnAlpha2Button()
     {
 
-        PlayerPrefs.SetInt("ShouldLoad", 1);
+        PlayerPrefs.SetInt("StartLoad", 1);
         SceneManager.LoadScene("Stage1");
     }
 }
