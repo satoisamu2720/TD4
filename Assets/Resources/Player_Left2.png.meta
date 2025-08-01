@@ -103,10 +103,10 @@ TextureImporter:
       name: Player_Left2_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 5
-        width: 34
-        height: 48
+        x: 80
+        y: 29
+        width: 166
+        height: 236
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      Player_Left2_0: 5995288995466585663
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

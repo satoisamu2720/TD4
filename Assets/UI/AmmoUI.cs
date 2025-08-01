@@ -16,7 +16,7 @@ public class AmmoUI : MonoBehaviour
             int currentAmmo = Gun.Instance.GetCurrentAmmo();
             if (currentAmmo != lastammo)
             {
-                ammoText.text = "íeêî: " + Gun.Instance.GetCurrentAmmo();
+                ammoText.text = ": " + Gun.Instance.GetCurrentAmmo();
                 lastammo = currentAmmo;
             }
         }

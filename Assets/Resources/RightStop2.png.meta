@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 063e4b6e695d5ac4faabf3ff24e2007f
+guid: 9a8f88951b036e245b5ec8c5adb8d277
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -3244788719878577433
-    second: RighttStop2_0
+      213: 8800416707843979136
+    second: RightStop2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: RighttStop2_0
+      name: RightStop2_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 5
-        width: 34
-        height: 48
+        x: 89
+        y: 29
+        width: 166
+        height: 236
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7e26174d9d138f2d0800000000000000
-      internalID: -3244788719878577433
+      spriteID: 087f3728e5c512a70800000000000000
+      internalID: 8800416707843979136
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      RighttStop2_0: -3244788719878577433
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
