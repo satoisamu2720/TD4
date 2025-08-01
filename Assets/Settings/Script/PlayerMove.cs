@@ -36,7 +36,7 @@ public class PlayerMove : MonoBehaviour
 
     // ダッシュ機能フラグ
     [SerializeField]
-    private bool isDash;
+    public bool isDash;
     //// ダッシュスピード
     //[SerializeField]
     //private float dashSpeed;
@@ -59,7 +59,7 @@ public class PlayerMove : MonoBehaviour
     // 無敵時間の長さ
     [SerializeField]
     private float invincibilityDuration = 2f;
-    private bool isInvincible = false;
+    public bool isInvincible = false;
     // 無敵時間の残り時間
     private float invincibilityTimer = 0f;
 
@@ -138,20 +138,29 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("EnemyBullet") || collision.CompareTag("Enemy") || collision.CompareTag("BossEnemy")　|| collision.CompareTag("MiniEnemy"))
+    //    {
+
+    //        if (!isInvincible)
+    //        {
+    //            StetusScript.Instance.PlayerHp--;
+    //            StartInvincibility();
+    //        }
+
+
+    //        //Debug.Log("当たった");
+    //        //Destroy(collision.gameObject);
+    //    }
+    //}
+    public void PlayerDamage()
     {
-        if (collision.CompareTag("EnemyBullet") || collision.CompareTag("Enemy") || collision.CompareTag("BossEnemy")　|| collision.CompareTag("MiniEnemy"))
+        if (!isDash)
         {
+            StetusScript.Instance.PlayerHp--;
+            StartInvincibility();
 
-            if (!isInvincible)
-            {
-                StetusScript.Instance.PlayerHp--;
-                StartInvincibility();
-            }
-
-
-            //Debug.Log("当たった");
-            //Destroy(collision.gameObject);
         }
     }
 
@@ -220,7 +229,6 @@ public class PlayerMove : MonoBehaviour
         isDash = true;
 
         rb.MovePosition(rb.position + movement * StetusScript.Instance.PlayerDashSpeed * Time.deltaTime);
-
         yield return new WaitForSeconds(StetusScript.Instance.PlayerDashCoolTime);
 
         isDash = false;
@@ -230,7 +238,7 @@ public class PlayerMove : MonoBehaviour
     /// <summary>
     /// 無敵時間の開始
     /// </summary>
-    private void StartInvincibility()
+    public void StartInvincibility()
     {
         isInvincible = true;
         invincibilityTimer = invincibilityDuration;

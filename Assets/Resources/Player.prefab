@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6668915095736606332}
   - component: {fileID: 149627071989221496}
   - component: {fileID: 4859756672309795294}
-  - component: {fileID: 2123745260666041360}
   - component: {fileID: 3946296548055704098}
   - component: {fileID: 63506675575615812}
   - component: {fileID: 3503844762392127739}
@@ -145,42 +144,6 @@ MonoBehaviour:
   currentWeapon2: {fileID: 0}
   isWeapon: 0
   invincibilityDuration: 2
---- !u!58 &2123745260666041360
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1720903118681826204}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.25
 --- !u!82 &3946296548055704098
 AudioSource:
   m_ObjectHideFlags: 0
