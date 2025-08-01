@@ -111,7 +111,7 @@ public class StetusChange : MonoBehaviour
     {
         switch (choice)
         {
-            case 0: return "HP + 2";
+            case 0: return "HP + 1";
             case 1: return "ダッシュクールタイム - 0.1秒";
             case 2: return "移動速度 + 1";
             default: return "";
@@ -156,7 +156,7 @@ public class StetusChange : MonoBehaviour
                         Debug.Log("敵の貫通する数　UP hn");
                         break;
                     case 5:
-                        StetusScript.Instance.PlayerSpeed -= 0.3f;
+                        StetusScript.Instance.HandgunSize += StetusScript.Instance.LevelUpBulletSize;
                         Debug.Log("弾の大きさ　UP hn");
                         break;
                 }
@@ -187,7 +187,7 @@ public class StetusChange : MonoBehaviour
                         Debug.Log("敵の貫通する数　UP");
                          break;
                     case 5:
-                        StetusScript.Instance.PlayerSpeed -= 0.3f;
+                        StetusScript.Instance.ArSize += StetusScript.Instance.LevelUpBulletSize;
                         Debug.Log("弾の大きさ　UP");
                         break;
                 }
@@ -236,7 +236,7 @@ public class StetusChange : MonoBehaviour
                     case 5:
                         if (Gun.Instance != null)
                         {
-                            Gun.Instance.reloadTime = StetusScript.Instance.SGReloadTime -= 0.1f;
+                            StetusScript.Instance.SGSize += StetusScript.Instance.LevelUpBulletSize;
                         }
                         else
                         {
@@ -262,7 +262,7 @@ public class StetusChange : MonoBehaviour
 
                 switch (choice)
                 {
-                    case 0: return "HP + 2";
+                    case 0: return "HP + 1";
                     case 1: return "ダッシュクールタイム - 0.1秒";
                     case 2: return "移動速度 + 1";
                     case 3: return "ハンドガンのリロード速度 - 0.3秒";
@@ -274,7 +274,7 @@ public class StetusChange : MonoBehaviour
             case "ar":
                 switch (choice)
                 {
-                    case 0: return "HP + 2";
+                    case 0: return "HP + 1";
                     case 1: return "ダッシュクールタイム - 0.1秒";
                     case 2: return "移動速度 + 1";
                     case 3: return "アサルトライフルのリロード速度 - 0.3秒";
@@ -286,7 +286,7 @@ public class StetusChange : MonoBehaviour
             case "sg":
                 switch (choice)
                 {
-                    case 0: return "HP + 2";
+                    case 0: return "HP + 1";
                     case 1: return "ダッシュクールタイム - 0.1秒";
                     case 2: return "移動速度 + 1";
                     case 3: return "ショットガンのリロード速度 - 0.3秒";
@@ -327,7 +327,7 @@ public class StetusChange : MonoBehaviour
                         Debug.Log("敵の貫通する数　UP hn");
                         break;
                     case 5:
-                        StetusScript.Instance.PlayerSpeed -= 0.3f;
+                        StetusScript.Instance.HandgunSize += StetusScript.Instance.LevelUpBulletSize;
                         Debug.Log("弾の大きさ　UP hn");
                         break;
 
@@ -346,7 +346,7 @@ public class StetusChange : MonoBehaviour
                         Debug.Log("敵の貫通する数　UP");
                         break;
                     case 5:
-                        StetusScript.Instance.PlayerSpeed -= 0.3f;
+                        StetusScript.Instance.ArSize += StetusScript.Instance.LevelUpBulletSize;
                         Debug.Log("弾の大きさ　UP");
                         break;
 
@@ -383,7 +383,7 @@ public class StetusChange : MonoBehaviour
                     case 5:
                         if (Gun.Instance != null)
                         {
-                            Gun.Instance.reloadTime = StetusScript.Instance.SGReloadTime -= 0.1f;
+                            StetusScript.Instance.SGSize += StetusScript.Instance.LevelUpBulletSize;
                         }
                         else
                         {

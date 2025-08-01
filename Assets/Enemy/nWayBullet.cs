@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class nWayBullet : MonoBehaviour
 {
@@ -39,8 +40,17 @@ public class nWayBullet : MonoBehaviour
     //　元のカラー
     private Color originColor;
 
+    [Header("ショットガンSE")]
+    public AudioClip SGSE;
+    public AudioClip SGRSE;
+    AudioSource sgSE;
+    AudioSource sgReloadSE;
+
     void Start()
     {
+        sgSE = GetComponent<AudioSource>();
+        sgReloadSE = GetComponent<AudioSource>();
+
         currentHP = StetusScript.Instance.TutorialBossEnemyHp;
         GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
         if (playerObj != null)
@@ -49,6 +59,7 @@ public class nWayBullet : MonoBehaviour
         }
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
+
     }
 
     void OnEnable()
@@ -78,6 +89,7 @@ public class nWayBullet : MonoBehaviour
 
                 if (Mathf.Abs(distance - followDistance) > 0.1f)
                 {
+                    
                     Vector2 moveDir = directionToPlayer.normalized;
                     float moveStep = moveSpeed * Time.deltaTime;
                     transform.position = Vector3.MoveTowards(transform.position, player.position - (Vector3)(moveDir * followDistance), moveStep);
@@ -85,9 +97,13 @@ public class nWayBullet : MonoBehaviour
 
                 if (isReloading)
                 {
+                    sgReloadSE.loop = true;
+                    sgReloadSE.Play();
                     reloadTimer -= Time.deltaTime;
                     if (reloadTimer <= 0f)
                     {
+                        sgReloadSE.Stop();
+                        sgReloadSE.loop = false;
                         isReloading = false;
                         shotCount = 0;
                     }
@@ -129,15 +145,17 @@ public class nWayBullet : MonoBehaviour
 
     }
 
-    public void Die()
+    public void　Die()
     {      
 
         GameManagement.Instance.OnEnemyKilled(this); // ← この敵が倒れたことを通知
-        //GameManagement.Instance.stage1Boss = true;
+        
+        
     }
  
     void FireNWays()
     {
+        sgSE.PlayOneShot(SGSE);
         Vector2 direction = (player.position - transform.position).normalized;
         float baseAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         float startAngle = baseAngle - Degree / 2f;

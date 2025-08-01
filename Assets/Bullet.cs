@@ -13,6 +13,23 @@ public class Bullet : MonoBehaviour
         currentWeaponID = weaponID;
         life = bulletLife;
         damage = bulletDamage;
+
+        // IDによって弾のサイズを変える
+        switch (weaponID)
+        {
+            case "handgun":
+                transform.localScale = Vector3.one * StetusScript.Instance.HandgunSize;
+                break;
+            case "ar":
+                transform.localScale = Vector3.one * StetusScript.Instance.ArSize;  // 任意のサイズに変更
+                break;
+            case "sg":
+                transform.localScale = Vector3.one * StetusScript.Instance.SGSize;
+                break;
+            default:
+                transform.localScale = Vector3.one;
+                break;
+        }
     }
     private void Start()
     {

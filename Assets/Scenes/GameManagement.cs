@@ -103,7 +103,6 @@ public class GameManagement : MonoBehaviour
             {               
                 StartCoroutine(Stage1BossClear());
             }
-
             
         }
         if (!stage2Boss)
