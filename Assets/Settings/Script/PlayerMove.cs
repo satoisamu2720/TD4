@@ -20,6 +20,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     public Transform weaponPos;
 
+    [SerializeField]
+    private Animator animator;
+
     public bool isMainWeapon;
 
     ////移動速度
@@ -93,17 +96,33 @@ public class PlayerMove : MonoBehaviour
     {
         if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
         {
-            movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
             Invincible();
 
             //Weapon();
+
+            if (movement.x > 0 || movement.y < 0 || movement.y > 0)
+            {
+                animator.SetBool("isRightWalk", true);
+                animator.SetBool("isLeftWalk", false);
+            }
+            else if (movement.x < 0)
+            {
+                animator.SetBool("isRightWalk", false);
+                animator.SetBool("isLeftWalk", true);
+            }
+            else
+            {
+                animator.SetBool("isRightWalk", false);
+                animator.SetBool("isLeftWalk", false);
+            }
 
             if (Input.GetKeyDown(KeyCode.Q)) // Qキーで切り替え
             {
                 SwitchWeapon();
             }
 
-            PlayerDirection();
+            //PlayerDirection();
 
 
 
@@ -278,22 +297,22 @@ public class PlayerMove : MonoBehaviour
     /// <summary>
     /// マウスの位置にプレイヤーを向ける
     /// </summary>
-    private void PlayerDirection()
-    {
-        // マウスのスクリーン座標を取得してワールド座標に変換
-        Vector3 mousePosition = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0f; // 2DなのでZ座標は無視
+    //private void PlayerDirection()
+    //{
+    //    // マウスのスクリーン座標を取得してワールド座標に変換
+    //    Vector3 mousePosition = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    //    mousePosition.z = 0f; // 2DなのでZ座標は無視
 
-        // プレイヤーの位置からマウスの位置への方向ベクトルを取得
-        Vector3 direction = mousePosition - transform.position;
+    //    // プレイヤーの位置からマウスの位置への方向ベクトルを取得
+    //    Vector3 direction = mousePosition - transform.position;
 
-        // 角度を計算（atan2はラジアンで返すので、Degに変換）
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        angle -= 90f; // 必要に応じて調整
+    //    // 角度を計算（atan2はラジアンで返すので、Degに変換）
+    //    float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+    //    angle -= 90f; // 必要に応じて調整
 
-        // 回転をZ軸に対して適用
-        transform.rotation = Quaternion.Euler(0f, 0f, angle);
-    }
+    //    // 回転をZ軸に対して適用
+    //    transform.rotation = Quaternion.Euler(0f, 0f, angle);
+    //}
     
     
 
