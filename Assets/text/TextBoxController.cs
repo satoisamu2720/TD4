@@ -17,6 +17,8 @@ public class TextBoxController : MonoBehaviour
     private bool isTyping;              // タイピング中かどうか
     private bool canProceed;            // 次に進めるか
 
+    public static bool IsTalking { get; private set; } = false;
+
     public bool IsShowing { get; private set; }
     void Start()
     {

@@ -89,7 +89,7 @@ public class PlayerMove : MonoBehaviour
     void Update()
     {
         if (TextBoxController.IsTalking) return; // 会話中は入力無効
-        if (Player.IsNotMove) return; // 会話中は入力無効
+        if (PlayerPresenter.IsNotMove) return; // 会話中は入力無効
         movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
 
         if (movement.x > 0 || movement.y < 0 || movement.y > 0)
@@ -132,7 +132,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         if (TextBoxController.IsTalking) return; // 会話中は移動も無効
-        if (Player.IsNotMove) return; // 会話中は入力無効
+        if (PlayerPresenter.IsNotMove) return; // 会話中は入力無効
         MovePlayer();
     }
 
@@ -155,7 +155,7 @@ public class PlayerMove : MonoBehaviour
 
     private void MovePlayer()
     {
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + movement * StetusScript.Instance.PlayerSpeed * Time.fixedDeltaTime);
 
         if (Input.GetKey(KeyCode.Space) && !isDash)
         {
