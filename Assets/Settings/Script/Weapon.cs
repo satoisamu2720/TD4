@@ -49,6 +49,11 @@ public class Weapon : MonoBehaviour
                 OnWeaponPickedUp?.Invoke(ID);
                 // •Ší‚ğíœ‚µ‚ÄÁ‚·
                 Destroy(this.gameObject);
+
+                if (UIFollowWorldObject.Instance != null)
+                {
+                    UIFollowWorldObject.Instance.ShowUI(true);
+                }
             }
         }
     }

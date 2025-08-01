@@ -8,7 +8,11 @@ public class ExpItem : MonoBehaviour
 
     public void Collect(PlayerExp playerExp)
     {
-        if (!GameManagement.Instance.StartTutorialLeveUp) { expAmount = 250; }
+        if (!GameManagement.Instance.StartTutorialLeveUp) 
+        { 
+            expAmount = 250;
+            StetusScript.Instance.EnemyHp = 3;
+        }
         
         Destroy(gameObject);         // é©ï™Çè¡Ç∑
         if (isCollected)

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -120,18 +121,21 @@ public class nWayBullet : MonoBehaviour
 
         }
            currentHP -= damage;
-        
+        if (currentHP < 0)
+        {
+            Die();
+        }
+
+
     }
 
     public void Die()
-    { 
-        if (itemPrefab != null)
-        {
-            Instantiate(itemPrefab, transform.position, Quaternion.identity);
-        }
-        Destroy(gameObject);
-    }
+    {      
 
+        GameManagement.Instance.OnEnemyKilled(this); // © ‚±‚Ì“G‚ª“|‚ê‚½‚±‚Æ‚ð’Ê’m
+        //GameManagement.Instance.stage1Boss = true;
+    }
+ 
     void FireNWays()
     {
         Vector2 direction = (player.position - transform.position).normalized;

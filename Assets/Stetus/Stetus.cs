@@ -117,8 +117,20 @@ public class StetusScript : MonoBehaviour
             Debug.Log("ロードされました");
             Load();
         }
+        if (Input.GetKey(KeyCode.P))
+        {
+            PlayerHp = 1000;
+            PlayerSpeed = 8.0f;
+            PlayerDashSpeed = 100.0f;
+            PlayerDashCoolTime = 0.1f;
+            ArAmmo = 1000;
+            ArMaxAmmo = 1000;
+            ArBulletSpeed = 30.0f;
+            ArFireInterval = 0.1f;
+            ArReloadTime = 0.1f;
+            ArBalletLife = 10;
 
-        
+        }
     }
     public void Save()
     {

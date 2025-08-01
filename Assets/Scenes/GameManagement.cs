@@ -33,10 +33,18 @@ public class GameManagement : MonoBehaviour
 
 
     private GameObject lastDeadEnemy;
+
+    private int enemyKillCount = 0;
+    public int totalEnemyCount = 3;
     void Start()
     {
         
         PlayerHP = StetusScript.Instance.PlayerHp;
+
+        if (UIFollowWorldObject.Instance != null)
+        {
+            UIFollowWorldObject.Instance.ShowUI(false);
+        }
 
         bgmSource = GetComponent<AudioSource>();
         if (bgmSource != null)
@@ -47,13 +55,18 @@ public class GameManagement : MonoBehaviour
         if (PlayerPrefs.HasKey("StartLoad") && PlayerPrefs.GetInt("StartLoad") == 1)
         {
             
-            TutorialStepController.Instance.ProgressToNextStep();
+            //TutorialStepController.Instance.ProgressToNextStep();
             StetusScript.Instance.EnemySpeed = 8;
+            StetusScript.Instance.EnemyHp = 3;
             PlayerMove.Instance.transform.position = playerSpawnStage1;
             PlayerPrefs.DeleteKey("StartLoad");
             StartTutorialLeveUp = false;
         }
-        StartTutorialLeveUp = true;
+        else
+        {
+
+            StartTutorialLeveUp = true;
+        }
 
         levelUpPanel.SetActive(true);
         levelUpPanel.SetActive(false);
@@ -86,16 +99,8 @@ public class GameManagement : MonoBehaviour
 
         if (nWayBullet.Instance != null)
         {
-            if (nWayBullet.Instance.currentHP <= 0 && !stage1Boss)
-            {
-                GameObject player = GameObject.FindGameObjectWithTag("Player");
-                GameObject bossEnemy = GameObject.FindGameObjectWithTag("BossEnemy");
-                if (player != null)
-                {
-                    MainCameraScript.Instance.SetDefaultTarget(player.transform);
-                    MainCameraScript.Instance.FocusOn(bossEnemy.transform, bossTime); // 3秒間ボスにフォーカス
-                }
-                stage1Boss = true;
+            if (stage1Boss)
+            {               
                 StartCoroutine(Stage1BossClear());
             }
 
@@ -181,18 +186,9 @@ public class GameManagement : MonoBehaviour
             yield return StartCoroutine(FadeController.Instance.FadeOut());
         }
 
-        PlayerMove.Instance.transform.position = playerSpawnStage1;
-        StetusScript.Instance.EnemySpeed = 8;
-        StetusScript.Instance.Save();
-        yield return new WaitForSeconds(2f);
-        if (FadeController.Instance != null)
-        {
-            yield return StartCoroutine(FadeController.Instance.FadeIn());
-            if (UIFollowWorldObject.Instance != null)
-            {
-                UIFollowWorldObject.Instance.ShowUI(true);
-            }
-        }
+        bgmSource.Stop();
+        //シーン切り替え
+        SceneManager.LoadScene("Title");
         
     }
     private IEnumerator Stage1BossClear()
@@ -220,6 +216,29 @@ public class GameManagement : MonoBehaviour
         }
     }
 
+    public void OnEnemyKilled(nWayBullet enemy)
+    {
+        enemyKillCount++;
+
+        if (enemyKillCount == totalEnemyCount)
+        {
+            // 最後の敵 → カメラフォーカス → 遅延削除
+            enemy.StartCoroutine(DelayedDestroyWithFocus(enemy));
+        }
+        else
+        {
+            // 即時削除（先に倒された敵）
+            Destroy(enemy.gameObject);
+        }
+    }
+
+    private IEnumerator DelayedDestroyWithFocus(nWayBullet enemy)
+    {
+        MainCameraScript.Instance.FocusOn(enemy.transform, 3f);
+        stage1Boss = true;
+        yield return new WaitForSeconds(3f); // フォーカス時間に合わせる
+        Destroy(enemy.gameObject);
+    }
     private IEnumerator Stage2BossClear()
     {
 
