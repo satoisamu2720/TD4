@@ -97,13 +97,9 @@ public class GameManagement : MonoBehaviour
             }
         }
 
-        if (nWayBullet.Instance != null)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (stage1Boss)
-            {               
-                
-            }
-            
+            SceneManager.LoadScene("Title");
         }
         if (!stage2Boss)
         {

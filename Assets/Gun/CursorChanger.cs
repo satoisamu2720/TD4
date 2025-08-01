@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class CursorChanger : MonoBehaviour
 {
-    public Texture2D cursorTexture;       // Inspector‚ÅŠ„‚è“–‚Ä
-    public CursorMode cursorMode = CursorMode.Auto;
+    public Texture2D cursorTexture;
+    public CursorMode cursorMode = CursorMode.ForceSoftware; // ForceSoftware‚É•ÏX
 
     void Start()
     {
         Vector2 center = new Vector2(cursorTexture.width / 2f, cursorTexture.height / 2f);
-        Cursor.SetCursor(cursorTexture, center, CursorMode.Auto);
+        Cursor.SetCursor(cursorTexture, center, CursorMode.ForceSoftware);
     }
 }
