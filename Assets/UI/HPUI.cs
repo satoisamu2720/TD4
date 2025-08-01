@@ -18,17 +18,17 @@ public class HPUI : MonoBehaviour
         if (StetusScript.Instance == null) return;
 
         int currentHP = StetusScript.Instance.PlayerHp;
-        int maxHP = Mathf.Max(currentHP, StetusScript.Instance.PlayerHp); // MaxHp を用意しておいてください
+        int maxHP = Mathf.Max(currentHP, StetusScript.Instance.PlayerHp); 
         int heartCountNeeded = Mathf.CeilToInt(maxHP / 2f);
 
-        // ハート数が変わったら再生成（増やす or 減らす）
+        
         if (heartCountNeeded != lastMaxHeartCount)
         {
             AdjustHeartCount(heartCountNeeded);
             lastMaxHeartCount = heartCountNeeded;
         }
 
-        // HPが変わっていなければ何もしない（パフォーマンス向上）
+        
         if (currentHP == lastHP) return;
         lastHP = currentHP;
 
@@ -37,14 +37,14 @@ public class HPUI : MonoBehaviour
 
     void AdjustHeartCount(int requiredCount)
     {
-        // 多すぎたら削除
+        
         while (hearts.Count > requiredCount)
         {
             Destroy(hearts[hearts.Count - 1].gameObject);
             hearts.RemoveAt(hearts.Count - 1);
         }
 
-        // 足りなければ追加
+        
         while (hearts.Count < requiredCount)
         {
             Image newHeart = CreateHeartImage();
@@ -73,8 +73,8 @@ public class HPUI : MonoBehaviour
         heartGO.transform.SetParent(heartContainer, false);
 
         Image image = heartGO.GetComponent<Image>();
-        image.sprite = emptyHeart; // 初期状態は空
-        image.SetNativeSize();     // スプライトのサイズに合わせる（レイアウトで制御したいなら不要）
+        image.sprite = emptyHeart;
+        image.SetNativeSize();
 
         return image;
     }
