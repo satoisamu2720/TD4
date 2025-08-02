@@ -11,7 +11,7 @@ public class Approachingenemy : MonoBehaviour
     public GameObject itemPrefab;
     public GameObject arrowUIPrefab;
 
-    public bool startImmediate = false; // �� miniEnemy �Ȃ� true ��
+    public bool startImmediate = false; 
  
     public int currentHP;
     private Transform player;

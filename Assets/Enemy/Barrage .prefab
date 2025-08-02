@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8beaaebdcb9437b41a0b293d5a19f103, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Bullet: {fileID: 6774839169452580662, guid: 4c6cb210967c3fd44a6c4029f28da1c1, type: 3}
+  Bullet: {fileID: 5422635543889260074, guid: 1a42bfce4661b2a4084bb625ced78c29, type: 3}
   _Velocity_0: 5
   Degree: 60
   Angle_Sprite: 5
@@ -212,3 +212,5 @@ MonoBehaviour:
   delayBeforeFire: 1
   currentHP: 0
   invincibilityDuration: 2
+  SGSE: {fileID: 0}
+  SGRSE: {fileID: 0}
