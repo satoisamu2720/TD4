@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      GunZombie_Right1_0: -909250282048511160
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
