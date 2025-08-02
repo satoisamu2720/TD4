@@ -25,6 +25,9 @@ public class PlayerMove : MonoBehaviour
 
     public bool isMainWeapon;
 
+    [SerializeField]
+    private Vector3 weaponPlayerPos;
+
     ////移動速度
     //[SerializeField]
     //private float moveSpeed;
@@ -88,8 +91,9 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-     
-       
+        
+        AimWeaponByMouse();
+
     }
 
     private void FixedUpdate()
@@ -183,8 +187,14 @@ public class PlayerMove : MonoBehaviour
 
     public void WeaponObj(GameObject weaponObj)
     {
-        // プレイヤーの手元（weaponPos）に生成し、親子関係も結ぶ
         GameObject weapon = Instantiate(weaponObj, weaponPos.position, Quaternion.identity, weaponPos);
+
+        weapon.transform.localPosition = weaponPlayerPos;
+        SpriteRenderer sr = weapon.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.sortingOrder = 5;
+        }
 
         currentWeapon2 = weaponObj.GetComponent<Weapon>();
 
@@ -210,6 +220,33 @@ public class PlayerMove : MonoBehaviour
         ActivateCurrentWeapon();
     }
 
+    void AimWeaponByMouse()
+    {
+        if (currentWeapon == null) return;
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector3 playerPos = transform.position;
+
+        Vector2 direction = mousePos - playerPos;
+
+        bool isFacingRight = direction.x <= 0;
+
+        // 武器を左右反転
+        Vector3 weaponScale = currentWeapon.transform.localScale;
+        weaponScale.x = Mathf.Abs(weaponScale.x) * (isFacingRight ? 1 : -1);
+        currentWeapon.transform.localScale = weaponScale;
+
+        // 回転（xをAbsで右基準に固定）
+        float angle = Mathf.Atan2(direction.y, Mathf.Abs(direction.x)) * Mathf.Rad2Deg;
+
+        // 左側なら上下を反転
+        if (isFacingRight)
+        {
+            angle *= -1;
+        }
+
+        currentWeapon.transform.localRotation = Quaternion.Euler(0, 0, angle);
+    }
     //public void Animate()
     //{
     //    if (Mathf.Abs(movement.x) > 0.5f)
