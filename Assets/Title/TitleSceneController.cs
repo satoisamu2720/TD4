@@ -35,10 +35,10 @@ public class TitleSceneController : MonoBehaviour
         if (startSE != null && getStartSE != null)
         {
             startSE.PlayOneShot(getStartSE);
-            yield return new WaitForSeconds(getStartSE.length); // 銃声が鳴り終わるまで待つ
+            yield return new WaitForSeconds(1.0f); // 銃声が鳴り終わるまで待つ
+            bgmSource.Stop();
         }
 
-        bgmSource?.Stop();
 
         PlayerPrefs.DeleteKey("PlayerUserData");
         if (loadFromSave)

@@ -90,8 +90,8 @@ public class Approachingenemy : MonoBehaviour
         {
             HandleStateMachine();
             HandleArrow();
-            Invincible();
         }
+        Invincible();
     }
 
     void HandleStateMachine()

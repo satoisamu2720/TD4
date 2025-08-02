@@ -50,9 +50,12 @@ public class SplitEnemy : MonoBehaviour
             player = GameObject.FindWithTag("Player")?.transform;
             return;
         }
+        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
+        {
 
-        HandleSeparation();
-        HandleStateMachine();
+            HandleSeparation();
+            HandleStateMachine();
+        }
         HandleInvincibility();
     }
 

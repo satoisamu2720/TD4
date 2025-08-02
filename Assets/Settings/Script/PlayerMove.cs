@@ -94,11 +94,13 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
+        Invincible();
         if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
         {
+            MovePlayer();
             movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-            Invincible();
 
+        }
             //Weapon();
 
             if (movement.x > 0 || movement.y < 0 || movement.y > 0)
@@ -129,13 +131,18 @@ public class PlayerMove : MonoBehaviour
             if (StetusScript.Instance.PlayerHp <= 0)
             {
                 StetusScript.Instance.PlayerHp = 10;
-
-                SceneManager.LoadScene("GameOver");
+                if (!GameManagement.Instance.StartTutorial)
+                {
+                    SceneManager.LoadScene("GameOver");
+                }
+                else
+                {
+                    SceneManager.LoadScene("TutorialGameOver");
+                }
             }
 
             //Animate();
-            MovePlayer();
-        }
+        
     }
 
     //private void OnTriggerEnter2D(Collider2D collision)

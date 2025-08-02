@@ -57,6 +57,7 @@ public class GunText : MonoBehaviour
                         "ショットガンを拾った！",
                         "近距離でまとめて吹き飛ばそう！",
                 };
+                TutorialStepController.Instance.ProgressToNextStep();
                 break;
 
             default:

@@ -175,11 +175,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c33658e0870373040b16a0a5acba3fc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
-  rushDistance: 7
+  speed: 20
+  rushDistance: 5
   waitTime: 0.5
   rushTimeout: 1
   separationDistance: 20
-  maxHP: 2
+  maxHP: 20
   itemPrefab: {fileID: 0}
+  currentHP: 0
   invincibilityDuration: 1

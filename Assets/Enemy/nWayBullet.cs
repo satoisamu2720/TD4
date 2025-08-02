@@ -51,7 +51,7 @@ public class nWayBullet : MonoBehaviour
         sgSE = GetComponent<AudioSource>();
         sgReloadSE = GetComponent<AudioSource>();
 
-        currentHP = StetusScript.Instance.TutorialBossEnemyHp;
+        currentHP = StetusScript.Instance.Stage1BossEnemyHp;
         GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
         if (playerObj != null)
         {
@@ -78,9 +78,9 @@ public class nWayBullet : MonoBehaviour
 
     void Update()
     {
+            Invincible();
         if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
         {
-            Invincible();
             if (canFire && player != null)
             {
 
@@ -152,6 +152,10 @@ public class nWayBullet : MonoBehaviour
         GameManagement.Instance.OnEnemyKilled(this); // Å© Ç±ÇÃìGÇ™ì|ÇÍÇΩÇ±Ç∆Çí ím
         sgSE.Stop();
 
+    }
+    public void Destroy()
+    {
+        Destroy(gameObject);
     }
  
     void FireNWays()

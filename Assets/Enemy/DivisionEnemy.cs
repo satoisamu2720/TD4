@@ -71,8 +71,8 @@ public class DivisionEnemy : MonoBehaviour
 
             HandleStateMachine();
             HandleArrow();
-            HandleInvincibility();
         }
+            HandleInvincibility();
     }
 
     void HandleStateMachine()

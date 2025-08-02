@@ -129,12 +129,12 @@ public class StetusScript : MonoBehaviour
         //    PlayerSpeed = 8.0f;
         //    PlayerDashSpeed = 100.0f;
         //    PlayerDashCoolTime = 0.1f;
-        //    ArAmmo = 1000;
-        //    ArMaxAmmo = 1000;
-        //    ArBulletSpeed = 30.0f;
-        //    ArFireInterval = 0.1f;
-        //    ArReloadTime = 0.1f;
-        //    ArBalletLife = 10;
+        //    SGAmmo = 1000;
+        //    SGMaxAmmo = 1000;
+        //    SGBulletSpeed = 30.0f;
+        //    SGFireInterval = 0.1f;
+        //    SGReloadTime = 0.1f;
+        //    SGBalletLife = 10;
 
         //}
     }

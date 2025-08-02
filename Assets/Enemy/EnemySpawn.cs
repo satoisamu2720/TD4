@@ -97,6 +97,15 @@ public class EnemySpawn : MonoBehaviour
             Destroy(enemy);
         }
     }
+    public void DestroyAllBossEnemies()
+    {
+        GameObject[] bossEnemies = GameObject.FindGameObjectsWithTag("BossEnemy");
+
+        foreach (GameObject enemy in bossEnemies)
+        {
+            Destroy(enemy);
+        }
+    }
 
 
     [System.Serializable]

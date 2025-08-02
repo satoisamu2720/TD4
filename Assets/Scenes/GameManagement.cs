@@ -30,6 +30,7 @@ public class GameManagement : MonoBehaviour
     public bool StartTutorialLeveUp = true;
     public bool tutorialLeveUp = false;
     public bool tutorialLeveUpPlate = false;
+    public bool StartTutorial = false;
 
 
     private GameObject lastDeadEnemy;
@@ -61,16 +62,33 @@ public class GameManagement : MonoBehaviour
             PlayerMove.Instance.transform.position = playerSpawnStage1;
             StetusScript.Instance.Save();
             StartTutorialLeveUp = false;
+            StartTutorial = false;
             PlayerPrefs.DeleteKey("StartLoad");
 
         }
         else
         {
+            //StartTutorial = true;
+            StartTutorialLeveUp = true;
+        }
+        if (PlayerPrefs.HasKey("StartLoad") && PlayerPrefs.GetInt("StartLoad") == 2)
+        {
 
+            //TutorialStepController.Instance.ProgressToNextStep();
+            StetusScript.Instance.EnemySpeed = 8;
+            StetusScript.Instance.EnemyHp = 3;
+            StetusScript.Instance.Load();
+            StartTutorialLeveUp = false;
+            StartTutorial = false;
+            PlayerPrefs.DeleteKey("StartLoad");
+
+        }
+        else
+        {
+            //StartTutorial = true;
             StartTutorialLeveUp = true;
         }
 
-        
         levelUpPanel.SetActive(false);
     }
 
@@ -173,6 +191,7 @@ public class GameManagement : MonoBehaviour
     }
     private IEnumerator TutorialBossClear()
     {
+        isPause = true;
         ShootEnemy.Instance.Die();
         EnemySpawn.Instance.DestroyAllEnemies();
 
@@ -181,17 +200,17 @@ public class GameManagement : MonoBehaviour
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeOut());
+            isPause = false;
         }
 
         bgmSource.Stop();
         //シーン切り替え
         SceneManager.LoadScene("Title");
-        
     }
     private IEnumerator Stage1BossClear()
     {
-        
 
+        isPause = true;
         EnemySpawn.Instance.DestroyAllEnemies();
         // カメラフォーカス時間待機
         yield return new WaitForSeconds(3f);
@@ -203,6 +222,7 @@ public class GameManagement : MonoBehaviour
         PlayerMove.Instance.transform.position = playerSpawnStage2;
         StetusScript.Instance.Save();
         yield return new WaitForSeconds(2f);
+        EnemySpawn.Instance.DestroyAllBossEnemies();
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeIn());
@@ -210,7 +230,9 @@ public class GameManagement : MonoBehaviour
             {
                 UIFollowWorldObject.Instance.ShowUI(true);
             }
+            isPause = false;
         }
+        
     }
 
     public void OnEnemyKilled(nWayBullet enemy)
@@ -240,12 +262,13 @@ public class GameManagement : MonoBehaviour
     private IEnumerator Stage2BossClear()
     {
 
-        
+        isPause = true;
         // カメラフォーカス時間待機
         yield return new WaitForSeconds(3f);
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeOut());
+            isPause = false;
         }
 
         
@@ -262,7 +285,6 @@ public class GameManagement : MonoBehaviour
         //シーン切り替え
         SceneManager.LoadScene("GameClear");
 
-        
 
     }
     public void SetBgmVolume(float volume)

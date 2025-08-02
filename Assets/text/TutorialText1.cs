@@ -18,6 +18,7 @@ public class TutorialText1 : MonoBehaviour
                 "–îˆó‚Ì•ûŒü‚É‚¢‚Á‚Ä‚İ‚Ä",
                 "K‰^‚ğ‹F‚Á‚Ä‚é",
             };
+            GameManagement.Instance.StartTutorial = true;
             textBox.ShowMessages(lines);
             
         }

@@ -297,7 +297,12 @@ public class Gun : MonoBehaviour
     {
         int bulletCount = 5;             // 弾の数
         float spreadAngle = 30f;         // 扇の角度（度）
-        float baseAngle = firePoint.rotation.eulerAngles.z;
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f;
+
+        Vector2 dirToMouse = (mousePos - firePoint.position).normalized;
+        float baseAngle = Mathf.Atan2(dirToMouse.y, dirToMouse.x) * Mathf.Rad2Deg;
+
         float startAngle = baseAngle - spreadAngle / 2f;
 
         bulletLife = StetusScript.Instance.SGBalletLife;
@@ -308,17 +313,20 @@ public class Gun : MonoBehaviour
             float rad = angle * Mathf.Deg2Rad;
 
             Vector3 dir = new Vector3(Mathf.Cos(rad), Mathf.Sin(rad), 0);
+
             GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = dir * bulletSpeed;
+            rb.linearVelocity = dir * bulletSpeed; 
 
             Bullet bulletScript = bullet.GetComponent<Bullet>();
             int bulletDamage = 1;
             bulletScript.Initialize(currentWeaponID, bulletLife, bulletDamage);
         }
+    
+
     }
-    public int GetCurrentAmmo()
+public int GetCurrentAmmo()
     {
         switch (currentWeaponID)
         {
