@@ -124,20 +124,20 @@ public class StetusScript : MonoBehaviour
         //    Debug.Log("ロードされました");
         //    Load();
         //}
-        if (Input.GetKey(KeyCode.P))
-        {
-            PlayerHp = 1000;
-            PlayerSpeed = 8.0f;
-            PlayerDashSpeed = 100.0f;
-            PlayerDashCoolTime = 0.1f;
-            SGAmmo = 1000;
-            SGMaxAmmo = 1000;
-            SGBulletSpeed = 30.0f;
-            SGFireInterval = 0.1f;
-            SGReloadTime = 0.1f;
-            SGBalletLife = 10;
+        //if (Input.GetKey(KeyCode.P))
+        //{
+        //    PlayerHp = 1000;
+        //    PlayerSpeed = 8.0f;
+        //    PlayerDashSpeed = 100.0f;
+        //    PlayerDashCoolTime = 0.1f;
+        //    SGAmmo = 1000;
+        //    SGMaxAmmo = 1000;
+        //    SGBulletSpeed = 30.0f;
+        //    SGFireInterval = 0.1f;
+        //    SGReloadTime = 0.1f;
+        //    SGBalletLife = 10;
 
-        }
+        //}
     }
     public void Save()
     {

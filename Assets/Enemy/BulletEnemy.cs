@@ -95,11 +95,11 @@ public class ShootEnemy : MonoBehaviour
 
         if (x > 0.1f)
         {
-            animator.Play("enemy_Right");
+            animator.Play("zombie_Right");
         }
         else if (x < -0.1f)
         {
-            animator.Play("enemy_Left");
+            animator.Play("zombie_Left");
         }
     }
 
