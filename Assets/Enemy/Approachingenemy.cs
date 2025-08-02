@@ -11,7 +11,7 @@ public class Approachingenemy : MonoBehaviour
     public GameObject itemPrefab;
     public GameObject arrowUIPrefab;
 
-    public bool startImmediate = false; // �� miniEnemy �Ȃ� true ��
+    public bool startImmediate = false; 
  
     public int currentHP;
     private Transform player;
@@ -36,8 +36,9 @@ public class Approachingenemy : MonoBehaviour
     [SerializeField] private float rushTimeout = 1f;
 
     private bool isDead = false;
+    private float randomChoice;
 
-    float randomChoice;
+    private Animator animator;
 
     void Start()
     {
@@ -54,10 +55,10 @@ public class Approachingenemy : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
 
-       
+        animator = GetComponent<Animator>();
+
         if (startImmediate)
         {
-            // ��������Ă���Ύg���^�Ȃ���΃v���C���[�����ɓ˂�����
             moveDirection = injectedDirection ?? (player != null ? (player.position - transform.position).normalized : Vector2.down);
             startPosition = transform.position;
             state = State.Rushing;
@@ -70,8 +71,6 @@ public class Approachingenemy : MonoBehaviour
         }
     }
 
-
-
     void Update()
     {
         if (player == null)
@@ -80,13 +79,7 @@ public class Approachingenemy : MonoBehaviour
             if (player == null) return;
         }
 
-        //if(GameManagement.Instance.isPause == false)
-        //{
-        //}
-        //HandleStateMachine();
-        //HandleArrow();
-        //Invincible();
-        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
+        if (GameManagement.Instance != null && !GameManagement.Instance.isPause)
         {
             HandleStateMachine();
             HandleArrow();
@@ -149,17 +142,46 @@ public class Approachingenemy : MonoBehaviour
         }
     }
 
+    void UpdateAnimation()
+    {
+        if (animator == null) return;
+
+        if (state == State.Rushing)
+        {
+            float x = moveDirection.x;
+
+            if (x > 0.01f)
+            {
+                // 右移動アニメーション
+                animator.Play("zombie_Right");
+            }
+            else if (x < -0.01f)
+            {
+                // 左移動アニメーション
+                animator.Play("zombie_Left");
+            }
+            else
+            {
+                // 前後だけの突進時など、向き不明 → 待機アニメーション
+                animator.Play("ZombieAnimation");
+            }
+        }
+        else
+        {
+            // Idle状態のとき（突進してない） → 待機アニメーション
+            animator.Play("ZombieAnimation");
+        }
+    }
+
+
     public void TakeDamage(int damage)
     {
-        if (isDead) 
-        { 
-            return; 
-        } 
+        if (isDead) return;
+
         currentHP -= damage;
 
-        if (!isInvincible )
+        if (!isInvincible)
         {
-            
             StartInvincibility();
         }
 
@@ -232,5 +254,3 @@ public class Approachingenemy : MonoBehaviour
         }
     }
 }
-
-

@@ -102,8 +102,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 759b5f6eb2e3e3d44a00075dc67a289e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 8
-  maxHP: 3
   rushDistance: 6
   waitTime: 1
   itemPrefab: {fileID: 8442228131798896307, guid: 978a81747381cc043896e181a9f0fb69, type: 3}
@@ -145,7 +143,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.34, y: -0.5}
   m_Radius: 0.5
 --- !u!50 &4850988000904981354
 Rigidbody2D:

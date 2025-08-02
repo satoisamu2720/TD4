@@ -1,40 +1,50 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 
 public class ShootEnemy : MonoBehaviour
 {
     public static ShootEnemy Instance { get; private set; }
-    public float speed = 2f;         
-    public int maxHP = 3;            
+
+    public float speed = 2f;
+    public int maxHP = 3;
     public int currentHP;
-    public GameObject bulletPrefab;  
-    public float shootInterval = 2f; 
+    public GameObject bulletPrefab;
+    public float shootInterval = 2f;
     private float shootTimer;
 
-    public GameObject itemPrefab;    
+    public GameObject itemPrefab;
     private Transform player;
 
-    // ñ≥ìGéûä‘ÇÃí∑Ç≥
     [SerializeField]
     private float invincibilityDuration = 2f;
     private bool isInvincible = false;
-    // ñ≥ìGéûä‘ÇÃécÇËéûä‘
     private float invincibilityTimer = 0f;
 
     private SpriteRenderer spriteRenderer;
-    //Å@å≥ÇÃÉJÉâÅ[
     private Color originColor;
+    private Animator animator;
+
+    public float minDistanceFromPlayer = 3f; // üëà „Éó„É¨„Ç§„É§„Éº„Åã„Çâ„ÅÆÊúÄÂ∞èË∑ùÈõ¢
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
     void Start()
     {
         player = GameObject.FindWithTag("Player")?.transform;
         currentHP = StetusScript.Instance.TutorialBossEnemyHp;
         shootTimer = shootInterval;
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         originColor = spriteRenderer.color;
+
+        animator = GetComponent<Animator>();
     }
 
     void Update()
     {
-        if (GameManagement.Instance != null && GameManagement.Instance.isPause == false)
+        if (GameManagement.Instance != null && !GameManagement.Instance.isPause)
         {
             if (player != null)
             {
@@ -44,60 +54,70 @@ public class ShootEnemy : MonoBehaviour
                     Shoot();
                     shootTimer = shootInterval;
                 }
+
+                MoveAwayFromPlayer();  
+                UpdateAnimation();     
             }
+
             Invincible();
         }
     }
 
+    [System.Obsolete]
     void Shoot()
     {
         if (bulletPrefab != null && player != null)
         {
             GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             Vector2 direction = (player.position - transform.position).normalized;
-            bullet.GetComponent<Rigidbody2D>().linearVelocity = direction * 12f;
-
+            bullet.GetComponent<Rigidbody2D>().velocity = direction * 12f;
             Destroy(bullet, 5f);
         }
     }
 
+    void MoveAwayFromPlayer()
+    {
+        float distance = Vector2.Distance(transform.position, player.position);
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.CompareTag("Bullet")) 
-    //    {
-    //        TakeDamage(1);
-    //        Destroy(collision.gameObject);
-    //    }
-    //}
+        if (distance < minDistanceFromPlayer)
+        {
+            // „Éó„É¨„Ç§„É§„Éº„Å®ÈÄÜÊñπÂêë„Å´ÈÄÉ„Åí„Çã
+            Vector2 direction = (transform.position - player.position).normalized;
+            transform.position += (Vector3)direction * speed * Time.deltaTime;
+        }
+    }
+
+    void UpdateAnimation()
+    {
+        if (animator == null || player == null) return;
+
+        float x = player.position.x - transform.position.x;
+
+        if (x > 0.1f)
+        {
+            animator.Play("enemy_Right");
+        }
+        else if (x < -0.1f)
+        {
+            animator.Play("enemy_Left");
+        }
+    }
 
     public void TakeDamage(int damage)
     {
         if (!isInvincible)
         {
             StartInvincibility();
-
         }
         currentHP -= damage;
     }
 
-    public void Die()
-    {
-        if (itemPrefab != null)
-        {
-            Instantiate(itemPrefab, transform.position, Quaternion.identity);
-        }
-        Destroy(gameObject);
-    }
     private void StartInvincibility()
     {
         isInvincible = true;
         invincibilityTimer = invincibilityDuration;
-
     }
-    /// <summary>
-    /// ñ≥ìGéûä‘ÇÃèàóùÇ∆ì_ñ≈ÇÃèàóù
-    /// </summary>
+
     private void Invincible()
     {
         if (isInvincible)
@@ -105,7 +125,7 @@ public class ShootEnemy : MonoBehaviour
             invincibilityTimer -= Time.deltaTime;
 
             float alpha = Mathf.PingPong(Time.time * 10f, 1f);
-            spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // ê‘ì_ñ≈
+            spriteRenderer.color = new Color(1f, 0f, 0f, alpha); // Ëµ§ÁÇπÊªÖ
 
             if (invincibilityTimer <= 0f)
             {
@@ -115,9 +135,13 @@ public class ShootEnemy : MonoBehaviour
         }
     }
 
-    void Awake()
+    public void Die()
     {
-        Instance = this;
+        if (itemPrefab != null)
+        {
+            Instantiate(itemPrefab, transform.position, Quaternion.identity);
+        }
+        Destroy(gameObject);
     }
 
     void OnDestroy()
