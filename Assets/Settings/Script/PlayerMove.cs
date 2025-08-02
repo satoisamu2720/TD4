@@ -26,7 +26,7 @@ public class PlayerMove : MonoBehaviour
     public bool isMainWeapon;
 
     [SerializeField]
-    private Vector3 weaponPlayerPos;
+    public Vector3 weaponPlayerPos;
 
     ////ˆÚ“®‘¬“x
     //[SerializeField]

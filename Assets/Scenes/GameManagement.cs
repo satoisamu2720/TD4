@@ -63,6 +63,7 @@ public class GameManagement : MonoBehaviour
             StetusScript.Instance.Save();
             StartTutorialLeveUp = false;
             StartTutorial = false;
+            tutorialLeveUpPlate = true;
             PlayerPrefs.DeleteKey("StartLoad");
 
         }
@@ -78,16 +79,13 @@ public class GameManagement : MonoBehaviour
             StetusScript.Instance.EnemySpeed = 8;
             StetusScript.Instance.EnemyHp = 3;
             StetusScript.Instance.Load();
+            tutorialLeveUpPlate = true;
             StartTutorialLeveUp = false;
             StartTutorial = false;
             PlayerPrefs.DeleteKey("StartLoad");
 
         }
-        else
-        {
-            //StartTutorial = true;
-            StartTutorialLeveUp = true;
-        }
+       
 
         levelUpPanel.SetActive(false);
     }
