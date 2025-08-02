@@ -7,10 +7,15 @@ public class TriggerSpawn : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (!hasTriggered && other.CompareTag("Player"))
+        if (!GameManagement.Instance.StartTutorialLeveUp)
         {
-            enemySpawner.SpawnEnemiesManually();
-            hasTriggered = true;
+            if (!hasTriggered && other.CompareTag("Player"))
+            {
+                enemySpawner.SpawnEnemiesManually();
+                hasTriggered = true;
+            }
+
         }
+    
     }
 }

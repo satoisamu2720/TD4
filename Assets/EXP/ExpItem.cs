@@ -2,11 +2,18 @@ using UnityEngine;
 
 public class ExpItem : MonoBehaviour
 {
-    public int expAmount = 10;
+    public static ExpItem Instance { get; private set; }
+    public int expAmount = 1000;
     public bool isCollected = false;
 
     public void Collect(PlayerExp playerExp)
     {
+        if (!GameManagement.Instance.StartTutorialLeveUp) 
+        { 
+            expAmount = 250;
+            StetusScript.Instance.EnemyHp = 3;
+        }
+        
         Destroy(gameObject);         // é©ï™Çè¡Ç∑
         if (isCollected)
         {
@@ -15,9 +22,19 @@ public class ExpItem : MonoBehaviour
         playerExp.AddExp(expAmount); // åoå±ílÇâ¡éZ
         isCollected = true;
         
-        
-        
-        // Ç∑Ç≈Ç…éÊÇÁÇÍÇƒÇ¢ÇÍÇŒâΩÇ‡ÇµÇ»Ç¢
 
+    }
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }

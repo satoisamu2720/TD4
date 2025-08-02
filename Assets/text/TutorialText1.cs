@@ -10,6 +10,7 @@ public class TutorialText1 : MonoBehaviour
         if (other.CompareTag("Player")&& TextFlag)
         {
             TextFlag = false;
+
             string[] lines = {
                 "FƒL[‚Å˜b‚â•¨‚ğ’²‚×‚ç‚ê‚é",
                 "WSAD‚ÅˆÚ“®‚ª‚Å‚«‚Ä",

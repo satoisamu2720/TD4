@@ -26,6 +26,7 @@ public class StetusScript : MonoBehaviour
     public float handgunFireInterval = 0.8f;
     public float HandgunReloadTime = 1.0f;
     public int HandgunBalletLife = 1;
+    public float HandgunSize = 0.5f;
 
     [Header("アサルトライフルステータス")]
     public int ArAmmo = 30;
@@ -34,6 +35,7 @@ public class StetusScript : MonoBehaviour
     public float ArFireInterval = 1.2f;
     public float ArReloadTime = 1.5f;
     public int ArBalletLife = 1;
+    public float ArSize = 0.5f;
 
 
     [Header("ショットガンステータス")]
@@ -43,6 +45,7 @@ public class StetusScript : MonoBehaviour
     public float SGFireInterval = 1.2f;
     public float SGReloadTime = 1.5f;
     public int SGBalletLife = 1;
+    public float SGSize = 0.5f;
 
 
 
@@ -61,16 +64,19 @@ public class StetusScript : MonoBehaviour
         public int handgunAmmo;
         public int handgunBalletLife;
         public float handgunReloadTime;
+        public float handgunSize;
 
         //アサルトライフル
         public int arAmmo;
         public int arBalletLife;
         public float arReloadTime;
+        public float arSize;
 
         //ショットガン
         public int sgAmmo;
         public int sgBalletLife;
         public float sgReloadTime;
+        public float sgSize;
 
         public int bullet;
 
@@ -93,7 +99,7 @@ public class StetusScript : MonoBehaviour
     public int LevelUpPlayerHp = 2;
     public float LevelUpDashCoolTime = 0.05f;
     public float LevelUpPlayerSpeed = 1.0f; 
-    public int LevelUpGunMagazine = 1;
+    public float LevelUpBulletSize = 0.2f;
 
     void Start()
     {
@@ -107,18 +113,30 @@ public class StetusScript : MonoBehaviour
     private void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            Debug.Log("セーブされました");
-            Save();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log("ロードされました");
-            Load();
-        }
+        //if (Input.GetKeyDown(KeyCode.K))
+        //{
+        //    Debug.Log("セーブされました");
+        //    Save();
+        //}
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    Debug.Log("ロードされました");
+        //    Load();
+        //}
+        //if (Input.GetKey(KeyCode.P))
+        //{
+        //    PlayerHp = 1000;
+        //    PlayerSpeed = 8.0f;
+        //    PlayerDashSpeed = 100.0f;
+        //    PlayerDashCoolTime = 0.1f;
+        //    ArAmmo = 1000;
+        //    ArMaxAmmo = 1000;
+        //    ArBulletSpeed = 30.0f;
+        //    ArFireInterval = 0.1f;
+        //    ArReloadTime = 0.1f;
+        //    ArBalletLife = 10;
 
-        
+        //}
     }
     public void Save()
     {
@@ -133,18 +151,22 @@ public class StetusScript : MonoBehaviour
             speed = PlayerSpeed,
             dashSpeed = PlayerDashSpeed,
             dashCoolTime = PlayerDashCoolTime,
+
             //ハンドガン
             handgunAmmo = HandgunAmmo,
             handgunBalletLife = HandgunBalletLife,
             handgunReloadTime = HandgunReloadTime,
+            handgunSize = HandgunSize,
             //アサルトライフル
             arAmmo = ArAmmo,
             arBalletLife = ArBalletLife,
             arReloadTime = ArReloadTime,
+            arSize = ArSize,
             //ショットガン
             sgAmmo = SGAmmo,
             sgBalletLife = SGBalletLife,
             sgReloadTime = SGReloadTime,
+            sgSize = SGSize,
 
             mainWeaponID = PlayerMove.Instance.GetWeaponID(true),
             subWeaponID = PlayerMove.Instance.GetWeaponID(false),
@@ -178,14 +200,17 @@ public class StetusScript : MonoBehaviour
             HandgunAmmo = data.handgunAmmo;
             HandgunBalletLife = data.handgunBalletLife;
             HandgunReloadTime = data.handgunReloadTime;
+            HandgunSize = data.handgunSize;
             //アサルトライフル
             ArAmmo = data.arAmmo;
             ArBalletLife = data.arBalletLife;
             ArReloadTime = data.arReloadTime;
+            ArSize = data.arSize;
             //ショットガン
             SGAmmo = data.sgAmmo;
             SGBalletLife = data.sgBalletLife;
             SGReloadTime = data.sgReloadTime;
+            SGSize = data.sgSize;
 
             
             PlayerMove.Instance.isMainWeapon = data.mainWeapon;

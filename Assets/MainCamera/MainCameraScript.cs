@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System;
+using UnityEngine.UIElements;
 
 public class MainCameraScript : MonoBehaviour
 {
@@ -88,4 +90,24 @@ public class MainCameraScript : MonoBehaviour
         GameManagement.Instance.isPause = false;
         isFocusing = false;
     }
+    private IEnumerator FocusRoutine(Vector3 position, float duration)
+    {
+        isFocusing = true;
+        focusPosition = position;
+
+        float timer = duration;
+        while (timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+
+        isFocusing = false;
+    }
+    public void FocusOn(Vector3 worldPosition, float duration = 2f)
+    {
+        StartCoroutine(FocusRoutine(worldPosition, duration));
+    }
+
+    
 }

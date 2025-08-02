@@ -11,10 +11,11 @@ public class NextNavigation : MonoBehaviour
         {
             NextFlag = false;
             TutorialStepController.Instance.ProgressToNextStep();
-            if (UIFollowWorldObject.Instance != null)
-            {
-                UIFollowWorldObject.Instance.ShowUI(true);
-            }
+            //if (UIFollowWorldObject.Instance != null)
+            //{
+            //    UIFollowWorldObject.Instance.ShowUI(true);
+            //}
+            GameManagement.Instance.StartTutorialLeveUp = false;
 
         }
     }

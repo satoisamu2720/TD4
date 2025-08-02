@@ -65,4 +65,10 @@ public class TitleSceneController : MonoBehaviour
         if (startSE != null)
             startSE.volume = 1.0f; // 効果音は固定（必要なら調整可能）
     }
+
+    public void QuitGame()
+    {
+        Debug.Log("Quit Game");
+        Application.Quit();
+    }
 }

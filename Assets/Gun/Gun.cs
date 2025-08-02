@@ -138,7 +138,7 @@ public class Gun : MonoBehaviour
             int currentAmmo = GetCurrentAmmo();
             if (ammoText != null)
             {
-                ammoText.text = "íeêî: " + currentAmmo;
+                ammoText.text = ": " + currentAmmo;
             }
             Weapon weaponComp = playerMove.GetComponentInChildren<Weapon>();
             if (weaponComp != null)
@@ -161,8 +161,8 @@ public class Gun : MonoBehaviour
                 Vector3 direction = mousePos - transform.position;
 
 
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                transform.rotation = Quaternion.Euler(0f, 0f, angle);
+                //float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                //transform.rotation = Quaternion.Euler(0f, 0f, angle);
 
                 switch (currentWeaponID)
                 {
@@ -262,9 +262,14 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f;
+
+        Vector3 direction = (mousePos - firePoint.position).normalized;
+
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
         Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-        rb.linearVelocity = firePoint.right * bulletSpeed;
+        rb.linearVelocity = direction * bulletSpeed;
 
         Bullet bulletScript = bullet.GetComponent<Bullet>();
 

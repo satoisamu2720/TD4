@@ -6,6 +6,8 @@ public class GunText : MonoBehaviour
     public string targetWeaponID; 
 
     private bool textShown = false;
+    public EnemySpawn enemySpawner; // Inspector ‚ÅŽw’è
+    private bool hasTriggered = false;
 
     private void OnEnable()
     {
@@ -35,7 +37,9 @@ public class GunText : MonoBehaviour
                         "‚±‚ê‚Åƒ]ƒ“ƒr‚ð“|‚·‚±‚Æ‚ª‚Å‚«‚é",
                         "–îˆó‚Ì•û‚Ö‚¢‚±‚¤",
                 };
+                enemySpawner.SpawnEnemiesManually();
                 TutorialStepController.Instance.ProgressToNextStep();
+
                 break;
 
             case "ar":

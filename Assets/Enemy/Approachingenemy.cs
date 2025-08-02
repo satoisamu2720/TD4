@@ -3,14 +3,17 @@ using UnityEngine.UI;
 
 public class Approachingenemy : MonoBehaviour
 {
+    public static Approachingenemy Instance { get; private set; }
+    //public float speed = 15f;
+    //public int maxHP = 2;
     public float rushDistance = 1.5f;
     public float waitTime = 1.5f;
     public GameObject itemPrefab;
     public GameObject arrowUIPrefab;
 
-    public bool startImmediate = false;
-
-    private int currentHP;
+    public bool startImmediate = false; // �� miniEnemy �Ȃ� true ��
+ 
+    public int currentHP;
     private Transform player;
     private Vector2 moveDirection;
     private Vector2 startPosition;
@@ -238,5 +241,17 @@ public class Approachingenemy : MonoBehaviour
     public void InitializeDirection(Vector2 dir)
     {
         injectedDirection = dir.normalized;
+    }
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
     }
 }
