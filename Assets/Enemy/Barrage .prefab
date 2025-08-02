@@ -101,7 +101,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 4
   m_Sprite: {fileID: -6627986519699284813, guid: e8e6ac768338bec4e9b68f56bca07dd9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -210,7 +210,7 @@ MonoBehaviour:
   moveSpeed: 2
   itemPrefab: {fileID: 8442228131798896307, guid: 978a81747381cc043896e181a9f0fb69, type: 3}
   delayBeforeFire: 1
-  currentHP: 0
+  currentHP: 30
   invincibilityDuration: 2
-  SGSE: {fileID: 0}
-  SGRSE: {fileID: 0}
+  SGSE: {fileID: 8300000, guid: e7db0bd4c6100294c8505206030e802c, type: 3}
+  SGRSE: {fileID: 8300000, guid: 8ec1df995b2473745aa07244d3049fcc, type: 3}
