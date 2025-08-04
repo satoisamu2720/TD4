@@ -85,6 +85,7 @@ public class Approachingenemy : MonoBehaviour
             HandleArrow();
         }
         Invincible();
+        UpdateAnimation();
     }
 
     void HandleStateMachine()
@@ -150,26 +151,21 @@ public class Approachingenemy : MonoBehaviour
         {
             float x = moveDirection.x;
 
-            if (x > 0.01f)
+            if (x > 0 )
             {
-                // 右移動アニメーション
-                animator.Play("zombie_Right");
+                animator.SetBool("zombie_Right", true);
+                animator.SetBool("zombie_Left", false);
             }
-            else if (x < -0.01f)
+            else if (x < 0)
             {
-                // 左移動アニメーション
-                animator.Play("zombie_Left");
+                animator.SetBool("zombie_Right", false);
+                animator.SetBool("zombie_Left", true);
             }
             else
             {
-                // 前後だけの突進時など、向き不明 → 待機アニメーション
-                animator.Play("ZombieAnimation");
+                animator.SetBool("zombie_Right", false);
+                animator.SetBool("zombie_Left", false);
             }
-        }
-        else
-        {
-            // Idle状態のとき（突進してない） → 待機アニメーション
-            animator.Play("ZombieAnimation");
         }
     }
 
