@@ -85,6 +85,9 @@ public class StetusScript : MonoBehaviour
         public string mainWeaponID;
         public string subWeaponID;
 
+        public Vector3 mainWeaponLocalPos; 
+        public Vector3 subWeaponLocalPos;  
+
     }
 
     [Header("敵ステータス")]
@@ -169,12 +172,21 @@ public class StetusScript : MonoBehaviour
             sgReloadTime = SGReloadTime,
             sgSize = SGSize,
 
+
+
             mainWeaponID = PlayerMove.Instance.GetWeaponID(true),
             subWeaponID = PlayerMove.Instance.GetWeaponID(false),
             mainWeapon = PlayerMove.Instance.isMainWeapon,
+
+
         };
+        data.mainWeaponLocalPos = PlayerMove.Instance.GetWeaponTransform(true)?.localPosition ?? Vector3.zero;
+        data.subWeaponLocalPos = PlayerMove.Instance.GetWeaponTransform(false)?.localPosition ?? Vector3.zero;
+
+
         string json = JsonUtility.ToJson(data, true);
         Debug.Log(json);
+
 
         PlayerPrefs.SetString("PlayerUserData", json);
         PlayerPrefs.Save();
@@ -223,7 +235,14 @@ public class StetusScript : MonoBehaviour
                 if (mainPrefab != null)
                 {
                     mainPrefab.GetComponent<Weapon>().SetID(data.mainWeaponID);
-                    PlayerMove.Instance.EquipWeaponAsSlot(mainPrefab, true); // true = main
+                    PlayerMove.Instance.EquipWeaponAsSlot(mainPrefab, true); // ここで子にする＆localPositionが上書きされる
+
+                    
+                    Transform mainWpnTf = PlayerMove.Instance.GetWeaponTransform(true);
+                    if (mainWpnTf != null)
+                    {
+                        mainWpnTf.localPosition = data.mainWeaponLocalPos;
+                    }
                 }
             }
 
@@ -234,7 +253,14 @@ public class StetusScript : MonoBehaviour
                 if (subPrefab != null)
                 {
                     subPrefab.GetComponent<Weapon>().SetID(data.subWeaponID);
-                    PlayerMove.Instance.EquipWeaponAsSlot(subPrefab, false); // false = sub
+                    PlayerMove.Instance.EquipWeaponAsSlot(subPrefab, false);
+
+                    
+                    Transform subWpnTf = PlayerMove.Instance.GetWeaponTransform(false);
+                    if (subWpnTf != null)
+                    {
+                        subWpnTf.localPosition = data.subWeaponLocalPos;
+                    }
                 }
             }
 

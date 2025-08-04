@@ -33,24 +33,24 @@ public class StetusChange : MonoBehaviour
     
     void Update()
     {
-        if(Input.GetKey(KeyCode.Alpha1))
-        {
-            StetusScript.Instance.level += 1;
-            StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
-            RsumeScene();
-        }
-        if (Input.GetKey(KeyCode.Alpha2))
-        {
-            StetusScript.Instance.level += 1;
-            StetusScript.Instance.PlayerSpeed -= StetusScript.Instance.LevelUpDashCoolTime;
-            RsumeScene();
-        }
-        if (Input.GetKey(KeyCode.Alpha3))
-        {
-            StetusScript.Instance.level += 1;
-            //StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
-            RsumeScene();
-        }
+        //if(Input.GetKey(KeyCode.Alpha1))
+        //{
+        //    StetusScript.Instance.level += 1;
+        //    StetusScript.Instance.PlayerHp += StetusScript.Instance.LevelUpPlayerHp;
+        //    RsumeScene();
+        //}
+        //if (Input.GetKey(KeyCode.Alpha2))
+        //{
+        //    StetusScript.Instance.level += 1;
+        //    StetusScript.Instance.PlayerSpeed -= StetusScript.Instance.LevelUpDashCoolTime;
+        //    RsumeScene();
+        //}
+        //if (Input.GetKey(KeyCode.Alpha3))
+        //{
+        //    StetusScript.Instance.level += 1;
+        //    //StetusScript.Instance.Bullet += StetusScript.Instance.LevelUpGunMagazine;
+        //    RsumeScene();
+        //}
     }
     public void PrepareLevelUpOptions()
     {

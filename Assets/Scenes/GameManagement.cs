@@ -210,6 +210,7 @@ public class GameManagement : MonoBehaviour
 
         isPause = true;
         EnemySpawn.Instance.DestroyAllEnemies();
+        EnemySpawn.Instance.DestroyAllBossEnemies();
         // カメラフォーカス時間待機
         yield return new WaitForSeconds(3f);
         if (FadeController.Instance != null)
@@ -220,7 +221,6 @@ public class GameManagement : MonoBehaviour
         PlayerMove.Instance.transform.position = playerSpawnStage2;
         StetusScript.Instance.Save();
         yield return new WaitForSeconds(2f);
-        EnemySpawn.Instance.DestroyAllBossEnemies();
         if (FadeController.Instance != null)
         {
             yield return StartCoroutine(FadeController.Instance.FadeIn());
