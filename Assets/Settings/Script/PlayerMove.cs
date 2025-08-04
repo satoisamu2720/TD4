@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -415,6 +416,15 @@ public class PlayerMove : MonoBehaviour
 
         ActivateCurrentWeapon();
         isWeapon = true;
+    }
+
+    public Transform GetWeaponTransform(bool isMain)
+    {
+        if (isMain && mainWeapon != null)
+            return mainWeapon.transform;
+        if (!isMain && subWeapon != null)
+            return subWeapon.transform;
+        return null;
     }
 }
 
