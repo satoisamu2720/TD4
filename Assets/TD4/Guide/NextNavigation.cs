@@ -10,11 +10,12 @@ public class NextNavigation : MonoBehaviour
         if (other.CompareTag(playerTag) && NextFlag)
         {
             NextFlag = false;
+            StetusScript.Instance.Save();
             TutorialStepController.Instance.ProgressToNextStep();
-            //if (UIFollowWorldObject.Instance != null)
-            //{
-            //    UIFollowWorldObject.Instance.ShowUI(true);
-            //}
+            if (UIFollowWorldObject.Instance != null)
+            {
+                UIFollowWorldObject.Instance.ShowUI(true);
+            }
             GameManagement.Instance.StartTutorialLeveUp = false;
 
         }

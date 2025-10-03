@@ -55,4 +55,17 @@ void Start()
             arrowNavigation.SetTarget(null); // –îˆó”ñ•\Ž¦
         }
     }
+    public int GetCurrentStep()
+    {
+        return currentStep;
+    }
+
+    public void SetStep(int step)
+    {
+        currentStep = Mathf.Clamp(step, 0, tutorialTargets.Length - 1);
+        if (tutorialTargets.Length > 0)
+        {
+            arrowNavigation.SetTarget(tutorialTargets[currentStep]);
+        }
+    }
 }

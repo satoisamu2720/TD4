@@ -86,8 +86,9 @@ public class StetusScript : MonoBehaviour
         public string subWeaponID;
 
         public Vector3 mainWeaponLocalPos; 
-        public Vector3 subWeaponLocalPos;  
+        public Vector3 subWeaponLocalPos;
 
+        public int tutorialStep;
     }
 
     [Header("敵ステータス")]
@@ -117,7 +118,30 @@ public class StetusScript : MonoBehaviour
     private void Update()
     {
 
-       
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("セーブされました");
+            Save();
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log("ロードされました");
+            Load();
+        }
+        if (Input.GetKey(KeyCode.P))
+        {
+            PlayerHp = 1000;
+            PlayerSpeed = 8.0f;
+            PlayerDashSpeed = 100.0f;
+            PlayerDashCoolTime = 0.1f;
+            SGAmmo = 1000;
+            SGMaxAmmo = 1000;
+            SGBulletSpeed = 30.0f;
+            SGFireInterval = 0.1f;
+            SGReloadTime = 0.1f;
+            SGBalletLife = 10;
+
+        }
     }
     public void Save()
     {
@@ -155,11 +179,11 @@ public class StetusScript : MonoBehaviour
             subWeaponID = PlayerMove.Instance.GetWeaponID(false),
             mainWeapon = PlayerMove.Instance.isMainWeapon,
 
+            tutorialStep = TutorialStepController.Instance != null ? TutorialStepController.Instance.GetCurrentStep() : 0
 
         };
         data.mainWeaponLocalPos = PlayerMove.Instance.GetWeaponTransform(true)?.localPosition ?? Vector3.zero;
         data.subWeaponLocalPos = PlayerMove.Instance.GetWeaponTransform(false)?.localPosition ?? Vector3.zero;
-
 
         string json = JsonUtility.ToJson(data, true);
         Debug.Log(json);
@@ -202,7 +226,7 @@ public class StetusScript : MonoBehaviour
             SGReloadTime = data.sgReloadTime;
             SGSize = data.sgSize;
 
-            
+            TutorialStepController.Instance?.SetStep(data.tutorialStep);
             PlayerMove.Instance.isMainWeapon = data.mainWeapon;
 
             // メイン武器ロード
